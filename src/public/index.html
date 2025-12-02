@@ -7327,7 +7327,11 @@
 			try {
 				const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
 				if (!res.ok) throw new Error(`Update failed`);
-				await refreshNotes();
+				await refreshNotes(false);
+				const updatedNoteElement = document.querySelector(`.note[data-id='${noteId}']`);
+				if (updatedNoteElement) {
+					updatedNoteElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				}
 			} catch (error) {
 				showCustomAlert(error.message, 'error');
 				saveEditBtn.disabled = false;
