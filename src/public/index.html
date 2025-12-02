@@ -2921,7 +2921,7 @@
 <!-- Login Screen -->
 <div id='auth-container'>
 	<form id='login-form' class='auth-form'>
-		<h3>MEMOS</h3>
+		<h3>Fly Notes</h3>
 		<div id='login-error'></div>
 		<input type='text' id='username' placeholder='Username' required>
 		<input type='password' id='password' placeholder='Password' required>
@@ -3014,7 +3014,7 @@
 		<div class='container'>
 			<div id='app-container'>
 				<header class='app-header'>
-					<h3 id='header-title'>MEMOS</h3>
+					<h3 id='header-title'>Flying ...</h3>
 					<div class='header-actions'>
 						<button type='button' id='refresh-btn' class='icon-btn' title='Refresh'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'>
@@ -5840,7 +5840,7 @@
 					if (!res.ok) throw new Error(`Update failed: ${await res.text()}`);
 
 					closeFullscreenEditor();
-					await refreshNotes(); // 刷新列表以显示最新内容
+					await refreshNotes(false); // 刷新列表以显示最新内容
 				} catch (error) {
 					showCustomAlert(error.message, 'error');
 				} finally {
@@ -6529,14 +6529,18 @@
 	}
 
 	// --- 统一的入口函数，用于在状态改变后重新加载数据 ---
-	function reloadNotes() {
+	function reloadNotes(shouldScroll = true) {
 		// 任何筛选条件的改变都应该从第一页开始
 		appState.pagination.currentPage = 1;
 		appState.pagination.hasMore = true;
 		noteCounter = 1;
-		window.scrollTo({ top: 0, behavior: 'auto' });
+		if (shouldScroll) {
+			window.scrollTo({ top: 0, behavior: 'auto' });
+		}
 		fetchNotes(1);
 	}
+
+	
 
 	function createNoteElement(note) {
 		const noteElement = document.createElement('div');
@@ -7040,7 +7044,7 @@
 		}
 	});
 
-	const refreshNotes = () => {
+	const refreshNotes = (shouldScroll = true) => {
 		appState.filters.query = '';
 		appState.filters.tag = null;
 		appState.filters.date = null;
@@ -7058,7 +7062,7 @@
 			updateSidebarTabsUI();
 		}
 
-		reloadNotes();
+		reloadNotes(shouldScroll);
 		// 重新加载侧边栏数据
 		loadAndRenderTags();
 		loadAndRenderTimeline();
