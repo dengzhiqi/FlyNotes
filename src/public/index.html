@@ -7323,16 +7323,7 @@
 			try {
 				const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
 				if (!res.ok) throw new Error(`Update failed`);
-				const updatedNote = await res.json();
-				const newNoteElement = createNoteElement(updatedNote);
-				noteElement.replaceWith(newNoteElement);
-				const noteIndex = allNotesCache.findIndex(n => n.id === parseInt(noteId, 10));
-				if (noteIndex !== -1) {
-					allNotesCache[noteIndex] = updatedNote;
-				}
-				loadAndRenderTags();
-				loadAndRenderTimeline();
-				loadAndRenderStats();
+				await refreshNotes();
 			} catch (error) {
 				showCustomAlert(error.message, 'error');
 				saveEditBtn.disabled = false;
