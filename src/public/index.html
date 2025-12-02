@@ -6649,48 +6649,235 @@
 		return noteElement;
 	}
 
-	function updateNoteInPlace(note) {
-		const noteElement = document.querySelector(`.note[data-id='${note.id}']`);
-		if (!noteElement) return;
+			function updateNoteInPlace(note) {
 
-		// Update timestamp
-		const time = formatTimestamp(note.updated_at);
-		const timeElement = noteElement.querySelector('.note-meta span');
-		timeElement.title = time.absolute;
-		timeElement.textContent = time.relative;
+				const noteElement = document.querySelector(`.note[data-id='${note.id}']`);
 
-		// Update content
-		const contentElement = noteElement.querySelector('.note-content');
-		contentElement.innerHTML = postProcessMarkdownHtml(marked.parse(note.content));
-		noteElement.querySelector('.edit-textarea').value = note.content;
+				if (!noteElement) return;
 
-		// Update attachments
-		const attachmentsContainer = noteElement.querySelector('.attachments-grid');
-		if (attachmentsContainer) {
-			attachmentsContainer.innerHTML = '';
-			if (note.files && note.files.length > 0) {
-				note.files.forEach(file => {
-					const fileUrl = `/api/files/${note.id}/${file.id}`;
-					const shareButtonHTML = `
-						<button class="share-file-btn icon-btn" title="Get public link" data-note-id="${note.id}" data-file-id="${file.id}">
-								<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg>
-						</button>
-				`;
-					if (file.type?.startsWith('image/')) {
-						attachmentsContainer.innerHTML += `<div class='attachment-img'><img class='note-image-attachment' loading='lazy' src='${fileUrl}' alt='${file.name}' style='cursor: zoom-in;'></div>`;
-					} else {
-						attachmentsContainer.innerHTML += `<a href='${fileUrl}' class='attachment-link' download='${file.name}'><span class='file-name'>${file.name}</span><span class='file-size'>${formatBytes(file.size)}</span>${shareButtonHTML}</a>`;
+		
+
+				// Update timestamp
+
+				const time = formatTimestamp(note.updated_at);
+
+				const timeElement = noteElement.querySelector('.note-meta span');
+
+				timeElement.title = time.absolute;
+
+				timeElement.textContent = time.relative;
+
+		
+
+				// Update content in the hidden view mode, then update the textarea
+
+				const contentElement = noteElement.querySelector('.note-content');
+
+				const currentContentHeight = contentElement.offsetHeight; // Get current height
+
+		
+
+				// Temporarily fix height to prevent reflow during innerHTML change
+
+				contentElement.style.height = `${currentContentHeight}px`;
+
+				contentElement.style.overflow = 'hidden'; // Hide overflow during change
+
+		
+
+				contentElement.innerHTML = postProcessMarkdownHtml(marked.parse(note.content));
+
+				noteElement.querySelector('.edit-textarea').value = note.content;
+
+		
+
+				// Update attachments
+
+				const attachmentsContainer = noteElement.querySelector('.attachments-grid');
+
+				if (attachmentsContainer) {
+
+					const currentAttachmentsHeight = attachmentsContainer.offsetHeight;
+
+		
+
+					attachmentsContainer.style.height = `${currentAttachmentsHeight}px`;
+
+					attachmentsContainer.style.overflow = 'hidden';
+
+		
+
+					attachmentsContainer.innerHTML = '';
+
+					if (note.files && note.files.length > 0) {
+
+						note.files.forEach(file => {
+
+							const fileUrl = `/api/files/${note.id}/${file.id}`;
+
+							const shareButtonHTML = `
+
+								<button class="share-file-btn icon-btn" title="Get public link" data-note-id="${note.id}" data-file-id="${file.id}">
+
+										<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg>
+
+								</button>
+
+						`;
+
+							if (file.type?.startsWith('image/')) {
+
+								attachmentsContainer.innerHTML += `<div class='attachment-img'><img class='note-image-attachment' loading='lazy' src='${fileUrl}' alt='${file.name}' style='cursor: zoom-in;'></div>`;
+
+							} else {
+
+								attachmentsContainer.innerHTML += `<a href='${fileUrl}' class='attachment-link' download='${file.name}'><span class='file-name'>${file.name}</span><span class='file-size'>${formatBytes(file.size)}</span>${shareButtonHTML}</a>`;
+
+							}
+
+						});
+
 					}
-				});
+
+				}
+
+		
+
+				// Update pinned status if necessary
+
+				const pinnedIconBtn = noteElement.querySelector('.unpin-btn');
+
+				const currentIsPinned = note.is_pinned;
+
+				const oldIsPinned = pinnedIconBtn ? pinnedIconBtn.classList.contains('pinned') : false;
+
+		
+
+				if (currentIsPinned !== oldIsPinned) {
+
+					if (currentIsPinned) {
+
+						// Note became pinned, need to re-create to move it
+
+						const newNoteElement = createNoteElement(note);
+
+						const pinnedContainer = document.querySelector('.pinned-notes-container');
+
+						if (pinnedContainer) {
+
+							pinnedContainer.appendChild(newNoteElement);
+
+						} else {
+
+							// If no pinned container, create one
+
+							const mainFragment = document.createDocumentFragment();
+
+							const newPinnedContainer = document.createElement('div');
+
+							newPinnedContainer.className = 'pinned-notes-container';
+
+							const pinnedHeader = document.createElement('div');
+
+							pinnedHeader.className = 'pinned-section-header';
+
+							pinnedHeader.textContent = 'Pinned';
+
+							newPinnedContainer.appendChild(pinnedHeader);
+
+							newPinnedContainer.appendChild(newNoteElement);
+
+							mainFragment.appendChild(newPinnedContainer);
+
+							notesContainer.prepend(mainFragment); // Add to top of notes container
+
+						}
+
+						noteElement.remove(); // Remove old element
+
+					} else {
+
+						// Note became unpinned, re-create to move it to regular flow
+
+						const newNoteElement = createNoteElement(note);
+
+						// Find appropriate place to insert (e.g., based on date or just append to main flow)
+
+						// For simplicity, let's just append to the main notesContainer or find its original group
+
+						const originalNoteGroup = noteElement.closest('.date-group');
+
+						if (originalNoteGroup) {
+
+							// Try to find the correct position within its date group
+
+							let inserted = false;
+
+							const notesInGroup = originalNoteGroup.querySelectorAll('.note');
+
+							for (let i = 0; i < notesInGroup.length; i++) {
+
+								if (new Date(note.updated_at) > new Date(allNotesCache.find(n => n.id === parseInt(notesInGroup[i].dataset.id)).updated_at)) {
+
+									originalNoteGroup.insertBefore(newNoteElement, notesInGroup[i]);
+
+									inserted = true;
+
+									break;
+
+								}
+
+							}
+
+							if (!inserted) {
+
+								originalNoteGroup.querySelector('.date-group-content').appendChild(newNoteElement);
+
+							}
+
+						} else {
+
+							notesContainer.appendChild(newNoteElement); // Fallback: append to end
+
+						}
+
+						noteElement.remove(); // Remove old element
+
+					}
+
+				}
+
+		
+
+				// Exit editing mode
+
+				noteElement.classList.remove('editing', 'preview-mode', 'split-mode');
+
+				noteEditorResizeObserver.unobserve(noteElement);
+
+				delete noteElement.dataset.editMode;
+
+		
+
+				// Remove fixed heights and overflow after a short delay to allow browser to render
+
+				setTimeout(() => {
+
+					contentElement.style.height = '';
+
+					contentElement.style.overflow = '';
+
+					if (attachmentsContainer) {
+
+						attachmentsContainer.style.height = '';
+
+						attachmentsContainer.style.overflow = '';
+
+					}
+
+				}, 50); // Small delay
+
 			}
-		}
-
-
-		// Exit editing mode
-		noteElement.classList.remove('editing', 'preview-mode', 'split-mode');
-		noteEditorResizeObserver.unobserve(noteElement);
-		delete noteElement.dataset.editMode;
-	}
 
 	function renderNotes(notes) {
 		const fragment = document.createDocumentFragment();
