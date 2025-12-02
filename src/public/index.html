@@ -5836,12 +5836,14 @@
 				}
 
 				try {
+					const currentScrollY = window.scrollY; // Capture current scroll position
 					const res = await fetch(`/api/notes/${currentEditingNoteId}`, { method: 'PUT', body: formData });
 					if (!res.ok) throw new Error(`Update failed: ${await res.text()}`);
 
 					closeFullscreenEditor();
 					const updatedNote = await res.json();
 					updateNoteInPlace(updatedNote.note);
+					window.scrollTo(0, currentScrollY); // Restore scroll position
 				} catch (error) {
 					showCustomAlert(error.message, 'error');
 				} finally {
@@ -7369,10 +7371,12 @@
 			Array.from(noteElement.newFiles).forEach(file => formData.append('file', file));
 
 			try {
+				const currentScrollY = window.scrollY; // Capture current scroll position
 				const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
 				if (!res.ok) throw new Error(`Update failed`);
 				const updatedNote = await res.json();
 				updateNoteInPlace(updatedNote.note);
+				window.scrollTo(0, currentScrollY); // Restore scroll position
 			} catch (error) {
 				showCustomAlert(error.message, 'error');
 				saveEditBtn.disabled = false;
