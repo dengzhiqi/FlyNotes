@@ -62,7 +62,7 @@ async function handleApiRequest(request, env) {
 	if (request.method === 'POST' && pathname === '/api/upload/image') {
 		return handleStandaloneImageUpload(request, env);
 	}
-	const imageMatch = pathname.match(/^\/api\/images\/([a-zA-Z0-9-]+)$/);
+	const imageMatch = pathname.match(/^\/api\/images\/(.*?)$/);
 	if (imageMatch) {
 		const imageId = imageMatch[1];
 		return handleServeStandaloneImage(imageId, env);
@@ -1209,8 +1209,8 @@ async function handleStandaloneImageUpload(request, env) {
 		const fileExtension = originalFilename.split('.').pop();
 		const finalImageId = crypto.randomUUID(); // Keep UUID for uniqueness in filename
 
-		// Construct the new r2Key: YYYY/MM/YYYYMMDD-UUID.ext
-		const r2Key = `${year}/${month}/${datePrefix}-${finalImageId}.${fileExtension}`;
+		// Construct the new r2Key: uploads/YYYY/MM/YYYYMMDD-UUID.ext
+		const r2Key = `uploads/${year}/${month}/${datePrefix}-${finalImageId}.${fileExtension}`;
 
 		// 将文件流上传到 R2
 		await env.NOTES_R2_BUCKET.put(r2Key, file.stream(), {
