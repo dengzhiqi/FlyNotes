@@ -49,41 +49,7 @@ async function handleApiRequest(request, env) {
 		return handleShareFileRequest(noteId, fileId, request, env);
 	}
 
-	// --- START: 更新后的 Docs API 路由 ---
-	if (pathname.startsWith('/api/docs')) {
-		if (pathname === '/api/docs/tree' && request.method === 'GET') {
-			return handleDocsTree(request, env);
-		}
-		if (pathname === '/api/docs/node' && request.method === 'POST') {
-			return handleDocsNodeCreate(request, env);
-		}
 
-		// 匹配重命名请求
-		const renameMatch = pathname.match(/^\/api\/docs\/node\/([a-zA-Z0-9-]+)\/rename$/);
-		if (renameMatch && request.method === 'POST') {
-			const nodeId = renameMatch[1];
-			return handleDocsNodeRename(request, nodeId, env);
-		}
-
-		// 匹配所有 /api/docs/node/:id 相关的请求
-		const nodeDetailMatch = pathname.match(/^\/api\/docs\/node\/([a-zA-Z0-9-]+)$/);
-		if (nodeDetailMatch) {
-			const nodeId = nodeDetailMatch[1];
-			if (request.method === 'GET') {
-				return handleDocsNodeGet(request, nodeId, env);
-			}
-			if (request.method === 'PUT') {
-				return handleDocsNodeUpdate(request, nodeId, env);
-			}
-			if (request.method === 'DELETE') {
-				return handleDocsNodeDelete(request, nodeId, env);
-			}
-			if (request.method === 'PATCH') {
-				return handleDocsNodeMove(request, nodeId, env);
-			}
-		}
-	}
-	// --- END: 更新后的 Docs API 路由 ---
 
 	if (pathname === '/api/settings') {
 		if (request.method === 'GET') {
@@ -1233,9 +1199,18 @@ async function handleStandaloneImageUpload(request, env) {
 			return jsonResponse({ error: 'A file is required for upload.' }, 400);
 		}
 
-		const imageId = crypto.randomUUID();
-		// 我们将独立上传的图片统一放到一个 'uploads/' 目录下，与笔记附件分开
-		const r2Key = `uploads/${imageId}`;
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+		const day = now.getDate().toString().padStart(2, '0');
+		const datePrefix = `${year}${month}${day}`;
+
+		const originalFilename = file.name;
+		const fileExtension = originalFilename.split('.').pop();
+		const finalImageId = crypto.randomUUID(); // Keep UUID for uniqueness in filename
+
+		// Construct the new r2Key: YYYY/MM/YYYYMMDD-UUID.ext
+		const r2Key = `${year}/${month}/${datePrefix}-${finalImageId}.${fileExtension}`;
 
 		// 将文件流上传到 R2
 		await env.NOTES_R2_BUCKET.put(r2Key, file.stream(), {
@@ -1244,7 +1219,7 @@ async function handleStandaloneImageUpload(request, env) {
 
 		// 返回一个可用于访问此图片的内部 URL
 		// 这个 URL 对应我们下面创建的 handleServeStandaloneImage 函数的路由
-		const imageUrl = `/api/images/${imageId}`;
+		const imageUrl = `/api/images/${encodeURIComponent(r2Key)}`;
 		return jsonResponse({ success: true, url: imageUrl });
 
 	} catch (e) {
@@ -1362,7 +1337,7 @@ async function handleGetAllAttachments(request, env) {
  * @returns {Promise<Response>}
  */
 async function handleServeStandaloneImage(imageId, env) {
-	const r2Key = `uploads/${imageId}`;
+	const r2Key = decodeURIComponent(imageId);
 	const object = await env.NOTES_R2_BUCKET.get(r2Key);
 
 	if (object === null) {
@@ -1379,227 +1354,7 @@ async function handleServeStandaloneImage(imageId, env) {
 }
 
 
-/**
- * 从扁平的节点列表中构建层级树结构
- * @param {Array<object>} nodes - 从数据库查询出的节点数组
- * @param {string|null} parentId - 当前要查找的父节点ID
- * @returns {Array<object>} - 构建好的层级树数组
- */
-function buildTree(nodes, parentId = null) {
-	const tree = [];
-	nodes
-		.filter(node => node.parent_id === parentId)
-		.forEach(node => {
-			const children = buildTree(nodes, node.id);
-			if (children.length > 0) {
-				node.children = children;
-			}
-			tree.push(node);
-		});
-	return tree;
-}
 
-/**
- * GET /api/docs/tree - 获取所有文档节点并返回树状结构
- */
-async function handleDocsTree(request, env) {
-	try {
-		const stmt = env.DB.prepare("SELECT id, type, title, parent_id FROM nodes ORDER BY title ASC");
-		const { results } = await stmt.all();
-		const tree = buildTree(results, null);
-		return jsonResponse(tree);
-	} catch (e) {
-		console.error("Docs Tree Error:", e.message);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
-
-/**
- * GET /api/docs/node/:id - 获取单个文档节点的内容
- */
-async function handleDocsNodeGet(request, nodeId, env) {
-	try {
-		const stmt = env.DB.prepare("SELECT id, type, title, content FROM nodes WHERE id = ?");
-		const node = await stmt.bind(nodeId).first();
-		if (!node) {
-			return jsonResponse({ error: 'Not Found' }, 404);
-		}
-		return jsonResponse(node);
-	} catch (e) {
-		console.error(`Docs Get Node Error (id: ${nodeId}):`, e.message);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
-
-/**
- * PUT /api/docs/node/:id - 更新（保存）一个文档节点的内容
- */
-async function handleDocsNodeUpdate(request, nodeId, env) {
-	try {
-		const { content } = await request.json();
-		const now = Date.now();
-		const stmt = env.DB.prepare("UPDATE nodes SET content = ?, updated_at = ? WHERE id = ?");
-		await stmt.bind(content, now, nodeId).run();
-		return jsonResponse({ success: true, id: nodeId });
-	} catch (e) {
-		console.error(`Docs Update Node Error (id: ${nodeId}):`, e.message);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
-
-/**
- * POST /api/docs/node - 创建一个新的文档节点（文件或目录）
- */
-async function handleDocsNodeCreate(request, env) {
-	try {
-		const { type, title, parent_id = null } = await request.json();
-		if (!type || !title || !['file', 'folder'].includes(type)) {
-			return jsonResponse({ error: 'Invalid input' }, 400);
-		}
-
-		const newNode = {
-			id: crypto.randomUUID(),
-			type,
-			title,
-			content: type === 'file' ? `# ${title}` : null,
-			parent_id,
-			created_at: Date.now(),
-			updated_at: Date.now(),
-		};
-
-		const stmt = env.DB.prepare(
-			"INSERT INTO nodes (id, type, title, content, parent_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
-		);
-		await stmt.bind(...Object.values(newNode)).run();
-
-		return jsonResponse(newNode, 201);
-	} catch (e) {
-		console.error("Docs Create Node Error:", e.message);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
-
-/**
- * Recursively finds all descendant node IDs for a given parent ID.
- * @param {D1Database} db - The D1 database instance.
- * @param {string} parentId - The ID of the node to start from.
- * @returns {Promise<string[]>} A flat array of all descendant IDs.
- */
-async function getAllDescendantIds(db, parentId) {
-	let allIds = [];
-	let queue = [parentId];
-	while (queue.length > 0) {
-		const currentId = queue.shift();
-		const { results: children } = await db.prepare("SELECT id FROM nodes WHERE parent_id = ?").bind(currentId).all();
-		if (children && children.length > 0) {
-			const childIds = children.map(c => c.id);
-			allIds.push(...childIds);
-			queue.push(...childIds);
-		}
-	}
-	return allIds;
-}
-
-// DELETE and REMOVE the entire `getAllDescendantIds` function.
-
-/**
- * DELETE /api/docs/node/:id - 删除一个节点。
- * 数据库的 "ON DELETE CASCADE" 约束会自动处理所有子节点的删除。
- */
-async function handleDocsNodeDelete(request, nodeId, env) {
-	const db = env.DB;
-	try {
-		const nodeToDelete = await db.prepare("SELECT id FROM nodes WHERE id = ?").bind(nodeId).first();
-		if (!nodeToDelete) {
-			return jsonResponse({ error: "节点未找到。" }, 404);
-		}
-
-		// 只需要删除这一个节点，数据库会自动删除所有子孙节点。
-		await db.prepare("DELETE FROM nodes WHERE id = ?").bind(nodeId).run();
-
-		// 我们不再需要返回所有被删除的子节点ID，因为前端逻辑也不依赖它。
-		return jsonResponse({ success: true, deletedIds: [nodeId] });
-
-	} catch (e) {
-		console.error(`Docs Delete Node Error (id: ${nodeId}):`, e.message, e.cause);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
-
-async function handleDocsNodeMove(request, nodeId, env) {
-	const db = env.DB;
-	try {
-		const { new_parent_id } = await request.json();
-		const nodeToMove = await db.prepare("SELECT * FROM nodes WHERE id = ?").bind(nodeId).first();
-
-		// --- Validation ---
-		if (!nodeToMove) {
-			return jsonResponse({ error: "The node you are trying to move does not exist." }, 404);
-		}
-		if (nodeId === new_parent_id) {
-			return jsonResponse({ error: "Cannot move a node into itself." }, 400);
-		}
-		if (nodeToMove.parent_id === new_parent_id) {
-			return jsonResponse({ success: true, message: "Node is already in the target location." }); // No-op
-		}
-
-		if (new_parent_id !== null) {
-			const parentNode = await db.prepare("SELECT type FROM nodes WHERE id = ?").bind(new_parent_id).first();
-			if (!parentNode) {
-				return jsonResponse({ error: "Target destination does not exist." }, 404);
-			}
-			if (parentNode.type !== 'folder') {
-				return jsonResponse({ error: "Target destination must be a folder." }, 400);
-			}
-		}
-
-		let currentParentId = new_parent_id;
-		while (currentParentId !== null) {
-			if (currentParentId === nodeId) {
-				return jsonResponse({ error: "Cannot move a folder into one of its own descendants." }, 400);
-			}
-			// CRITICAL FIX: Check if the parent exists before trying to read its properties
-			const parent = await db.prepare("SELECT parent_id FROM nodes WHERE id = ?").bind(currentParentId).first();
-			if (!parent) {
-				// This prevents a crash if the chain is broken
-				break;
-			}
-			currentParentId = parent.parent_id;
-		}
-
-		// --- Update the node ---
-		const stmt = db.prepare("UPDATE nodes SET parent_id = ?, updated_at = ? WHERE id = ?");
-		await stmt.bind(new_parent_id, Date.now(), nodeId).run();
-
-		return jsonResponse({ success: true });
-	} catch (e) {
-		console.error(`Docs Move Node Error (id: ${nodeId}):`, e.message, e.cause);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
-
-/**
- * PATCH /api/docs/node/:id/rename - Renames a node.
- */
-async function handleDocsNodeRename(request, nodeId, env) {
-	const db = env.DB;
-	try {
-		const { new_title } = await request.json();
-
-		// 验证 new_title 是否存在且不为空
-		if (!new_title || typeof new_title !== 'string' || new_title.trim() === '') {
-			return jsonResponse({ error: "A valid new title is required." }, 400);
-		}
-
-		const stmt = db.prepare("UPDATE nodes SET title = ?, updated_at = ? WHERE id = ?");
-		await stmt.bind(new_title.trim(), Date.now(), nodeId).run();
-
-		return jsonResponse({ success: true, new_title: new_title.trim() });
-	} catch (e) {
-		console.error(`Docs Rename Node Error (id: ${nodeId}):`, e.message, e.cause);
-		return jsonResponse({ error: 'Database Error', message: e.message }, 500);
-	}
-}
 
 /**
  * 为文件生成一个唯一的、可公开访问的链接。
