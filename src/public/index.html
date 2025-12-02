@@ -5851,6 +5851,10 @@
 					const updatedNoteResponse = await res.json();
 					const updatedNote = updatedNoteResponse.note;
 
+					if (!updatedNote || typeof updatedNote.id === 'undefined') {
+						throw new Error('Server response missing updated note data.');
+					}
+
 					// 3. Create a *new* noteElement
 					const newNoteElement = createNoteElement(updatedNote);
 
@@ -7370,6 +7374,10 @@
 				if (!res.ok) throw new Error(`Update failed`);
 				const updatedNoteResponse = await res.json();
 				const updatedNote = updatedNoteResponse.note;
+
+				if (!updatedNote || typeof updatedNote.id === 'undefined') {
+					throw new Error('Server response missing updated note data.');
+				}
 
 				// 3. Create a *new* noteElement
 				const newNoteElement = createNoteElement(updatedNote);
