@@ -672,7 +672,7 @@ async function handleNoteDetail(request, noteId, env) {
 				if (typeof updatedNote.files === 'string') {
 					updatedNote.files = JSON.parse(updatedNote.files);
 				}
-				return jsonResponse(updatedNote);
+				return jsonResponse({ note: updatedNote });
 			}
 
 			case 'DELETE': {

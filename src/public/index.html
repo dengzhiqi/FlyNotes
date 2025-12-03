@@ -4672,13 +4672,6 @@
 	 * 检查用户登录状态，并根据结果显示合适的界面
 	 */
 	async function initializeApp() {
-		// 隐藏初始加载动画
-		const initialLoader = document.getElementById('initial-loader');
-		initialLoader.style.opacity = '0';
-		setTimeout(() => {
-			initialLoader.style.display = 'none';
-		}, 200);
-
 		try {
 			const response = await fetch('/api/notes?page=1');
 			if (response.ok) {
@@ -4710,13 +4703,6 @@
 		} catch (error) {
 			console.error('Initialization failed:', error);
 			document.body.innerHTML = 'Failed to initialize the application. Please check your connection and try again.';
-		} finally {
-			document.body.classList.remove('loading');
-			const initialLoader = document.getElementById('initial-loader');
-			initialLoader.style.opacity = '0';
-			setTimeout(() => {
-				initialLoader.style.display = 'none';
-			}, 200);
 		}
 	}
 
@@ -7886,15 +7872,33 @@
 		}, true);
 	}
 
-	// document.addEventListener('DOMContentLoaded', () => {
-		initializeApp();
+	async function start() {
+		document.body.classList.add('loading');
+		
+		await loadSettings();
+		
 		initializeTheme();
 		initializeThemeColor();
+		initializeSettings();
+		
+		await initializeApp();
+		
 		const editorResizeObserver = new ResizeObserver(() => {
 			handleEditorLayout();
 			syncMainEditorLayout();
 		});
 		editorResizeObserver.observe(noteForm);
 		handleEditorLayout();
+
+		// Finally, hide loader
+		document.body.classList.remove('loading');
+		const initialLoader = document.getElementById('initial-loader');
+		initialLoader.style.opacity = '0';
+		setTimeout(() => {
+			initialLoader.style.display = 'none';
+		}, 500);
+	}
+
+	start();
 	// });
 </script>
