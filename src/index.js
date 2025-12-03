@@ -676,16 +676,58 @@ async function handleNoteDetail(request, noteId, env) {
 			}
 
 			case 'DELETE': {
-				// 删除 R2 中的文件
+				const keysToDelete = [];
+				// 1. 从 `files` 数组中获取文件key (非图片附件)
 				if (existingNote.files && existingNote.files.length > 0) {
-					const r2KeysToDelete = existingNote.files
-						.filter(file => file.id)
-						.map(file => `${id}/${file.id}`);
-					if (r2KeysToDelete.length > 0) {
-						await env.NOTES_R2_BUCKET.delete(r2KeysToDelete);
-					}
+					existingNote.files.forEach(file => {
+						if (file.id) {
+							keysToDelete.push(`${id}/${file.id}`);
+						}
+					});
 				}
-				// 从数据库中删除笔记
+				// 2. 从 `pics`, `videos` 字段和正文中收集所有内部URL
+				const urls = new Set();
+				// 从 pics 字段添加
+				try {
+					const pics = JSON.parse(existingNote.pics || '[]');
+					pics.forEach(url => urls.add(url));
+				} catch (e) { console.error(`Error parsing pics for note ${id}:`, e); }
+
+				// 从 videos 字段添加
+				try {
+					const videos = JSON.parse(existingNote.videos || '[]');
+					videos.forEach(url => urls.add(url));
+				} catch (e) { console.error(`Error parsing videos for note ${id}:`, e); }
+
+				// 从正文内容中通过正则匹配添加
+				const contentRegex = /(\/api\/(?:files|images)\/[^")\s]+)/g;
+				const contentMatches = [...(existingNote.content || '').matchAll(contentRegex)];
+				contentMatches.forEach(match => urls.add(match[1]));
+
+				// 3. 将URL转换为R2的Object Key
+				urls.forEach(url => {
+					let key = null;
+					if (url.startsWith('/api/files/')) {
+						key = url.substring('/api/files/'.length);
+					} else if (url.startsWith('/api/images/')) {
+						key = url.substring('/api/images/'.length);
+					}
+					// 忽略外部链接或无法解析的链接
+					if (key) {
+						// 对于 `/api/files/NOTE_ID/FILE_ID` 格式，key已经是 `NOTE_ID/FILE_ID`
+						// 对于 `/api/images/uploads/...` 格式，key是 `uploads/...`
+						// 两者都不需要 noteId 前缀
+						keysToDelete.push(decodeURIComponent(key));
+					}
+				});
+
+				// 4. 从R2批量删除所有收集到的、去重后的文件
+				if (keysToDelete.length > 0) {
+					const uniqueKeys = [...new Set(keysToDelete)];
+					await env.NOTES_R2_BUCKET.delete(uniqueKeys);
+				}
+				
+				// 5. 从数据库中删除笔记
 				await db.prepare("DELETE FROM notes WHERE id = ?").bind(id).run();
 				return new Response(null, { status: 204 });
 			}
