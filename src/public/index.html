@@ -5848,7 +5848,9 @@
 					// 2. Perform save operation
 					const res = await fetch(`/api/notes/${currentEditingNoteId}`, { method: 'PUT', body: formData });
 					if (!res.ok) throw new Error(`Update failed: ${await res.text()}`);
-					const updatedNote = await res.json();
+					const updatedNoteResponse = await res.json();
+					const updatedNote = updatedNoteResponse.note;
+
 
 					if (!updatedNote || typeof updatedNote.id === 'undefined') {
 						throw new Error('Server response missing updated note data.');
@@ -7374,7 +7376,8 @@
 				// 2. Perform save operation
 				const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
 				if (!res.ok) throw new Error(`Update failed`);
-				const updatedNote = await res.json(); // FIX 1: The response is the note itself.
+				const updatedNoteResponse = await res.json();
+				const updatedNote = updatedNoteResponse.note;
 
 				if (!updatedNote || typeof updatedNote.id === 'undefined') {
 					throw new Error('Server response missing updated note data.');
@@ -7386,7 +7389,7 @@
 				// 4. Replace old with new
 				if (oldNoteElement.parentNode) {
 					oldNoteElement.parentNode.replaceChild(newNoteElement, oldNoteElement);
-					// FIX 2: If in waterfall mode, observe the new element to fix layout bug.
+					// If in waterfall mode, observe the new element to fix layout bug.
 					if (appState.isWaterfall) {
 						waterfallObserver.observe(newNoteElement);
 					}
