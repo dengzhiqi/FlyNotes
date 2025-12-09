@@ -5641,6 +5641,7 @@
 		document.body.style.userSelect = 'none';
 		window.addEventListener('mousemove', handleDrag);
 		window.addEventListener('mouseup', stopDrag);
+		window.addEventListener('blur', stopDrag);
 	});
 
 	function handleDrag(e) {
@@ -5672,6 +5673,7 @@
 		// 解绑事件
 		window.removeEventListener('mousemove', handleDrag);
 		window.removeEventListener('mouseup', stopDrag);
+		window.removeEventListener('blur', stopDrag);
 	}
 
 	editorToolbar.addEventListener('click', e => {
