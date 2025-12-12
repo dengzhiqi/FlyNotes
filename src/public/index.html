@@ -3796,15 +3796,60 @@
 		}
 		const tempDiv = document.createElement('div');
 		tempDiv.innerHTML = html;
-		const walker = document.createTreeWalker(tempDiv, NodeFilter.SHOW_TEXT);
-		let currentNode;
-		const nodesToProcess = [];
 
-		while (currentNode = walker.nextNode()) {
-			if (currentNode.parentElement.tagName !== 'A' && currentNode.nodeValue.includes('#')) {
-				nodesToProcess.push(currentNode);
+		// 1. Gather all text nodes
+		const walker = document.createTreeWalker(tempDiv, NodeFilter.SHOW_TEXT);
+		const allTextNodes = [];
+		let node;
+		while (node = walker.nextNode()) {
+			allTextNodes.push(node);
+		}
+
+		// 2. Find the last non-empty text node
+		let lastTextNode = null;
+		for (let i = allTextNodes.length - 1; i >= 0; i--) {
+			if (allTextNodes[i].nodeValue.trim() !== '') {
+				lastTextNode = allTextNodes[i];
+				break;
 			}
 		}
+
+		// If no text or only whitespace, nothing to highlight
+		if (!lastTextNode) return html;
+
+		// 3. Identify the "last line" context
+		// Find the closest block-level ancestor of the last text node
+		const blockTags = new Set(['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'UL', 'OL', 'LI', 'BLOCKQUOTE', 'PRE', 'HR', 'TABLE', 'SECTION', 'ARTICLE', 'ASIDE', 'MAIN', 'FOOTER', 'HEADER', 'NAV', 'ADDRESS', 'DD', 'DT', 'FIELDSET', 'FIGCAPTION', 'FIGURE']);
+		let blockParent = lastTextNode.parentElement;
+		while (blockParent && blockParent !== tempDiv && !blockTags.has(blockParent.tagName)) {
+			blockParent = blockParent.parentElement;
+		}
+		if (!blockParent) blockParent = tempDiv;
+
+		// Check for <br> within this block to find the actual last line start
+		const brs = blockParent.getElementsByTagName('br');
+		const lastBr = brs.length > 0 ? brs[brs.length - 1] : null;
+
+		// 4. Filter text nodes that belong to this last line
+		const nodesToProcess = [];
+		for (const textNode of allTextNodes) {
+			// Must be within the identified block parent
+			if (!blockParent.contains(textNode)) continue;
+
+			// If there is a <br>, the node must follow it
+			if (lastBr) {
+				const position = lastBr.compareDocumentPosition(textNode);
+				if (!(position & Node.DOCUMENT_POSITION_FOLLOWING)) {
+					continue;
+				}
+			}
+
+			// Must not be inside an existing link, and must contain '#'
+			if (textNode.parentElement.tagName !== 'A' && textNode.nodeValue.includes('#')) {
+				nodesToProcess.push(textNode);
+			}
+		}
+
 		const tagRegex = /(#[\p{L}\p{N}_-]+)/gu;
 		nodesToProcess.forEach(node => {
 			const parent = node.parentElement;
