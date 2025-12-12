@@ -1433,14 +1433,16 @@ async function processNoteTags(db, noteId, content) {
 
 		// 如果没有非空行 (即内容为空或只有空行)，则直接添加 "#null"
 		if (lastActualLineIndex === -1) {
-			currentContentLines = ["#null"]; // 替换或设为新数组
+			currentContentLines = ["", "#null"]; // Empty line then #null
 		} else {
-			// 如果最后一行不是空白行，则在其后添加一个空行
-			if (currentContentLines[currentContentLines.length - 1].trim() !== '') {
-				currentContentLines.push('');
-			}
-			// 在当前最后一行（现在是空行或原来就是空行）上追加 "#null"
-			currentContentLines[currentContentLines.length - 1] += " #null";
+			// Ensure we are appending after the last actual content
+			// Remove any trailing empty lines after the last content for a clean state
+			currentContentLines = currentContentLines.slice(0, lastActualLineIndex + 1);
+			
+			// Add an empty line
+			currentContentLines.push('');
+			// Add the #null on a new line
+			currentContentLines.push('#null');
 		}
 		
 		const newContent = currentContentLines.join('\n');
