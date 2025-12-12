@@ -82,6 +82,10 @@ async function handleApiRequest(request, env) {
 	if (request.method === 'POST' && pathname === '/api/tags/rename') {
 		return handleRenameTag(request, env);
 	}
+	if (request.method === 'DELETE' && pathname.match(/^\/api\/tags\/([^\/]+)$/)) {
+		const tagName = pathname.match(/^\/api\/tags\/([^\/]+)$/)[1];
+		return handleDeleteTag(tagName, request, env);
+	}
 	const fileMatch = pathname.match(/^\/api\/files\/([^\/]+)\/([^\/]+)$/);
 	if (fileMatch) {
 		const [, noteId, fileId] = fileMatch;
@@ -337,7 +341,6 @@ async function handleTagsList(request, env) {
             FROM tags t
             LEFT JOIN note_tags nt ON t.id = nt.tag_id
             GROUP BY t.id, t.name
-            HAVING count > 0 -- 只返回被使用过的标签
             ORDER BY count DESC, t.name ASC
         `);
 		const { results } = await stmt.all();
@@ -499,6 +502,38 @@ async function handleRenameTag(request, env) {
 		return jsonResponse({ success: true });
 	} catch (e) {
 		console.error("Rename Tag Error:", e.message);
+		return jsonResponse({ error: 'Server Error: ' + e.message }, 500);
+	}
+}
+
+/**
+ * 删除标签 (仅当标签下无笔记时)
+ */
+async function handleDeleteTag(tagName, request, env) {
+	const session = await isSessionAuthenticated(request, env);
+	if (!session) return jsonResponse({ error: 'Unauthorized' }, 401);
+
+	try {
+		const db = env.DB;
+		
+		// 1. Check if the tag exists and has notes
+		const tag = await db.prepare("SELECT id FROM tags WHERE name = ?").bind(tagName).first();
+		if (!tag) {
+			return jsonResponse({ error: 'Tag not found' }, 404);
+		}
+
+		const notesCount = await db.prepare("SELECT COUNT(*) as count FROM note_tags WHERE tag_id = ?").bind(tag.id).first();
+		
+		if (notesCount.count > 0) {
+			return jsonResponse({ error: 'Cannot delete tag with associated notes' }, 400);
+		}
+
+		// 2. Delete the tag
+		await db.prepare("DELETE FROM tags WHERE id = ?").bind(tag.id).run();
+
+		return jsonResponse({ success: true });
+	} catch (e) {
+		console.error("Delete Tag Error:", e.message);
 		return jsonResponse({ error: 'Server Error: ' + e.message }, 500);
 	}
 }

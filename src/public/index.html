@@ -5042,13 +5042,54 @@
 				renameBtn.title = 'Rename Tag';
 				renameBtn.onclick = () => handleRenameTagClick(tag.name);
 				
+				const actionsDiv = document.createElement('div');
+				actionsDiv.appendChild(renameBtn);
+
+				if (tag.count === 0) {
+					const deleteBtn = document.createElement('button');
+					deleteBtn.innerHTML = `
+						<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor">
+							<path d="M0 0h24v24H0V0z" fill="none"/>
+							<path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+						</svg>
+					`;
+					deleteBtn.className = 'icon-btn';
+					deleteBtn.title = 'Delete Tag';
+					deleteBtn.style.color = 'var(--error-color, #ff4444)';
+					deleteBtn.onclick = () => handleDeleteTagClick(tag.name);
+					actionsDiv.appendChild(deleteBtn);
+				}
+				
 				li.appendChild(nameSpan);
-				li.appendChild(renameBtn);
+				li.appendChild(actionsDiv);
 				listContainer.appendChild(li);
 			});
 		} catch (error) {
 			console.error('Error loading tags for settings:', error);
 			listContainer.innerHTML = '<li style="padding: 10px; text-align: center; color: red;">Error loading tags.</li>';
+		}
+	}
+
+	async function handleDeleteTagClick(tagName) {
+		if (!confirm(`Are you sure you want to delete tag #${tagName}? This cannot be undone.`)) {
+			return;
+		}
+
+		try {
+			const response = await fetch(`/api/tags/${encodeURIComponent(tagName)}`, {
+				method: 'DELETE'
+			});
+
+			if (!response.ok) {
+				const err = await response.json();
+				throw new Error(err.error || 'Failed to delete tag');
+			}
+			
+			await loadSettingsTags(); 
+			loadAndRenderTags(); // Update sidebar
+			alert('Tag deleted successfully.');
+		} catch (error) {
+			alert(`Error: ${error.message}`);
 		}
 	}
 
@@ -5080,7 +5121,7 @@
 			
 			await loadSettingsTags(); 
 			loadAndRenderTags(); 
-			renderTimeline(); 
+			loadAndRenderTimeline(); 
 			alert('Tag renamed successfully.');
 		} catch (error) {
 			alert(`Error: ${error.message}`);
