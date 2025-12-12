@@ -1414,6 +1414,27 @@ async function processNoteTags(db, noteId, content) {
 	const uniqueTags = [...new Set(allTags)];
 
 	const statements = [];
+
+	// --- 6. 如果没有找到任何标签，自动添加 #null ---
+	if (uniqueTags.length === 0) {
+		// 添加到标签列表
+		uniqueTags.push('null');
+		
+		// 更新内容：追加 #null
+		// 注意：我们直接追加到 content 末尾。
+		// 由于 extraction 逻辑只看最后一行，如果最后一行非空，追加 " #null" 后它仍在最后一行。
+		// 如果最后一行是空，追加 " #null" 后它变成了最后一行。
+		// 这样符合提取逻辑。
+		
+		const newContent = content + " #null";
+		
+		// 更新数据库中的 content
+		// 注意：这里的 content 更新是一个 side-effect。
+		// 如果是 handleNoteDetail 调用的，它刚刚更新了 content。我们这里再次更新。
+		// 这可能会导致极短时间内的数据不一致（如果客户端没有重新获取），但对于自动打标这是必须的。
+		statements.push(db.prepare("UPDATE notes SET content = ? WHERE id = ?").bind(newContent, noteId));
+	}
+
 	statements.push(db.prepare("DELETE FROM note_tags WHERE note_id = ?").bind(noteId));
 
 	if (uniqueTags.length > 0) {
