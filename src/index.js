@@ -1420,18 +1420,31 @@ async function processNoteTags(db, noteId, content) {
 		// 添加到标签列表
 		uniqueTags.push('null');
 		
-		// 更新内容：追加 #null
-		// 注意：我们直接追加到 content 末尾。
-		// 由于 extraction 逻辑只看最后一行，如果最后一行非空，追加 " #null" 后它仍在最后一行。
-		// 如果最后一行是空，追加 " #null" 后它变成了最后一行。
-		// 这样符合提取逻辑。
+		let currentContentLines = content.split(/\r?\n/);
 		
-		const newContent = content + " #null";
+		// 找到最后一个非空行的索引
+		let lastActualLineIndex = -1;
+		for (let i = currentContentLines.length - 1; i >= 0; i--) {
+			if (currentContentLines[i].trim() !== '') {
+				lastActualLineIndex = i;
+				break;
+			}
+		}
+
+		// 如果没有非空行 (即内容为空或只有空行)，则直接添加 "#null"
+		if (lastActualLineIndex === -1) {
+			currentContentLines = ["#null"]; // 替换或设为新数组
+		} else {
+			// 如果最后一行不是空白行，则在其后添加一个空行
+			if (currentContentLines[currentContentLines.length - 1].trim() !== '') {
+				currentContentLines.push('');
+			}
+			// 在当前最后一行（现在是空行或原来就是空行）上追加 "#null"
+			currentContentLines[currentContentLines.length - 1] += " #null";
+		}
 		
-		// 更新数据库中的 content
-		// 注意：这里的 content 更新是一个 side-effect。
-		// 如果是 handleNoteDetail 调用的，它刚刚更新了 content。我们这里再次更新。
-		// 这可能会导致极短时间内的数据不一致（如果客户端没有重新获取），但对于自动打标这是必须的。
+		const newContent = currentContentLines.join('\n');
+		
 		statements.push(db.prepare("UPDATE notes SET content = ? WHERE id = ?").bind(newContent, noteId));
 	}
 
