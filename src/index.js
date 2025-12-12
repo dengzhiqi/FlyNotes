@@ -1188,12 +1188,23 @@ function extractImageUrls(content) {
  */
 async function processNoteTags(db, noteId, content) {
 	const plainTextContent = content.replace(/<[^>]*>/g, '');
+	
+	// Get lines and find the last non-empty line
+	const lines = plainTextContent.split(/\r?\n/);
+	let targetLine = '';
+	for (let i = lines.length - 1; i >= 0; i--) {
+		if (lines[i].trim() !== '') {
+			targetLine = lines[i];
+			break;
+		}
+	}
+
 	// 1. 定义两个正则表达式：一个用于标签，一个用于 URL
 	const tagRegex = /#([\p{L}\p{N}_-]+)/gu;
 	const urlRegex = /(https?:\/\/[^\s"']*[^\s"'.?,!])/g;
 
 	// 2. 将内容分割成“普通文本”和“链接文本”的交替数组
-	const segments = plainTextContent.split(urlRegex);
+	const segments = targetLine.split(urlRegex);
 	let allTags = [];
 
 	// 3. 遍历所有片段
