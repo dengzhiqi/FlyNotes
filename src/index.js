@@ -79,6 +79,9 @@ async function handleApiRequest(request, env) {
 	if (pathname === '/api/tags') {
 		return handleTagsList(request, env);
 	}
+	if (request.method === 'POST' && pathname === '/api/tags/rename') {
+		return handleRenameTag(request, env);
+	}
 	const fileMatch = pathname.match(/^\/api\/files\/([^\/]+)\/([^\/]+)$/);
 	if (fileMatch) {
 		const [, noteId, fileId] = fileMatch;
@@ -342,6 +345,161 @@ async function handleTagsList(request, env) {
 	} catch (e) {
 		console.error("Tags List Error:", e.message);
 		return jsonResponse({ error: 'Database Error' }, 500);
+	}
+}
+
+/**
+ * 重命名标签
+ */
+async function handleRenameTag(request, env) {
+	const session = await isSessionAuthenticated(request, env);
+	if (!session) return jsonResponse({ error: 'Unauthorized' }, 401);
+
+	try {
+		const { oldName, newName } = await request.json();
+		if (!oldName || !newName) {
+			return jsonResponse({ error: 'Old and new names are required' }, 400);
+		}
+		if (oldName === newName) {
+			return jsonResponse({ success: true });
+		}
+
+		const db = env.DB;
+		const notesWithTag = await db.prepare(`
+			SELECT n.id, n.content 
+			FROM notes n 
+			JOIN note_tags nt ON n.id = nt.note_id 
+			JOIN tags t ON nt.tag_id = t.id 
+			WHERE t.name = ?
+		`).bind(oldName).all();
+
+		const updateStatements = [];
+
+		// 1. Update Note Content
+		if (notesWithTag.results && notesWithTag.results.length > 0) {
+			for (const note of notesWithTag.results) {
+				const content = note.content;
+				const plainTextContent = content.replace(/<[^>]*>/g, '');
+				const lines = plainTextContent.split(/\r?\n/);
+				
+				let lastNonEmptyIndex = -1;
+				for (let i = lines.length - 1; i >= 0; i--) {
+					if (lines[i].trim() !== '') {
+						lastNonEmptyIndex = i;
+						break;
+					}
+				}
+
+				if (lastNonEmptyIndex !== -1) {
+					// Reconstruct content to locate the exact substring for the last line
+					// Note: This is tricky because split/join might lose specific newline chars (\r\n vs \n).
+					// Safer approach: Find the offset of the last line in the original content if possible,
+					// OR just operate on the extracted line and carefully reconstruct.
+					// Given the storage format, we can try to locate the last line content.
+					
+					// Simplified approach: Re-split original content using the same logic as extraction
+					// We need to be careful about preserving other parts of the note.
+					
+					// Let's operate on the segments logic used in processNoteTags for consistency
+					// But we need to MODIFY the content string.
+					
+					// Strategy:
+					// 1. Find the last line text.
+					// 2. Perform replacement on that text.
+					// 3. Re-assemble the note.
+					
+					// However, 'lines' came from 'plainTextContent' (stripped HTML).
+					// 'note.content' might contain HTML? (Though typical notes here seem to be markdown/text stored directly, 
+					// but processNoteTags strips HTML. Let's assume content is mostly text for the tagging part).
+					// processNoteTags uses: const plainTextContent = content.replace(/<[^>]*>/g, '');
+					
+					// If the note content is pure text (Markdown), we can split directly.
+					// If it contains HTML, we shouldn't be touching tags inside HTML tags anyway.
+					// For safety, let's assume we are editing the raw stored content.
+					
+					const originalLines = content.split(/\r?\n/);
+					// We need to find the index corresponding to 'lastNonEmptyIndex' of plain text.
+					// If there is HTML, line counts might mismatch if HTML spans lines.
+					// Assuming the storage format is primarily Markdown where newlines are real newlines.
+					
+					let targetLineIndex = -1;
+					// Walk backwards
+					for (let i = originalLines.length - 1; i >= 0; i--) {
+						const lineStrip = originalLines[i].replace(/<[^>]*>/g, '');
+						if (lineStrip.trim() !== '') {
+							targetLineIndex = i;
+							break;
+						}
+					}
+					
+					if (targetLineIndex !== -1) {
+						let targetLine = originalLines[targetLineIndex];
+						const tagRegex = /#([\p{L}\p{N}_-]+)/gu;
+						
+						// Replace logic: 
+						// We want to replace #oldName with #newName ONLY if it matches exactly
+						const newTargetLine = targetLine.replace(tagRegex, (match, tagName) => {
+							if (tagName.toLowerCase() === oldName.toLowerCase()) {
+								return `#${newName}`;
+							}
+							return match;
+						});
+						
+						if (newTargetLine !== targetLine) {
+							originalLines[targetLineIndex] = newTargetLine;
+							const newContent = originalLines.join('\n'); // Assuming \n join is safe
+							updateStatements.push(
+								db.prepare("UPDATE notes SET content = ? WHERE id = ?").bind(newContent, note.id)
+							);
+							// Note: We also need to re-process tags for this note to update the 'note_tags' table
+							// But we can do that via DB manipulation for efficiency, or call processNoteTags.
+							// Since we are renaming, simply updating the 'tags' table might be enough IF the content wasn't stored.
+							// But since content IS stored, we must update content.
+							// And since we update content, 'note_tags' needs to be consistent.
+						}
+					}
+				}
+			}
+		}
+
+		// 2. Update Tags Table
+		// Check if newName already exists
+		const existingNewTag = await db.prepare("SELECT id FROM tags WHERE name = ?").bind(newName).first();
+		const oldTag = await db.prepare("SELECT id FROM tags WHERE name = ?").bind(oldName).first();
+
+		if (!oldTag) {
+			// Tag doesn't exist in DB (maybe only in text?), nothing to do for DB tables, 
+			// but we processed content above.
+		} else {
+			if (existingNewTag) {
+				// Merge: Move all links from oldTag to existingNewTag
+				updateStatements.push(
+					db.prepare("UPDATE OR IGNORE note_tags SET tag_id = ? WHERE tag_id = ?").bind(existingNewTag.id, oldTag.id)
+				);
+				// Delete remaining old links (duplicates that were ignored)
+				updateStatements.push(
+					db.prepare("DELETE FROM note_tags WHERE tag_id = ?").bind(oldTag.id)
+				);
+				// Delete old tag
+				updateStatements.push(
+					db.prepare("DELETE FROM tags WHERE id = ?").bind(oldTag.id)
+				);
+			} else {
+				// Rename: Just update the name
+				updateStatements.push(
+					db.prepare("UPDATE tags SET name = ? WHERE id = ?").bind(newName, oldTag.id)
+				);
+			}
+		}
+
+		if (updateStatements.length > 0) {
+			await db.batch(updateStatements);
+		}
+
+		return jsonResponse({ success: true });
+	} catch (e) {
+		console.error("Rename Tag Error:", e.message);
+		return jsonResponse({ error: 'Server Error: ' + e.message }, 500);
 	}
 }
 

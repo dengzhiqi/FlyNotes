@@ -3372,16 +3372,26 @@
 					<label for='toggle-right-sidebar'>Show Right Sidebar</label>
 					<input type='checkbox' id='toggle-right-sidebar' class='toggle-switch'>
 				</div>
-				<div class='setting-item'>
-					<label for='toggle-date-grouping'>Enable Date Grouping</label>
-					<input type='checkbox' id='toggle-date-grouping' class='toggle-switch'>
-				</div>
-			</div>
-
-			<div class='setting-group'>
-				<h4>Background</h4>
-				<div class='setting-item'>
-					<label for='bg-image-url'>Image URL</label>
+				                <div class='setting-item'>
+				                    <label for='toggle-date-grouping'>Enable Date Grouping</label>
+				                    <input type='checkbox' id='toggle-date-grouping' class='toggle-switch'>
+				                </div>
+				            </div>
+				            
+				            <div class='setting-group'>
+				                <h4>Tags Management</h4>
+				                <div class='setting-item' style='display: block;'>
+				                    <div id='settings-tags-list-container' style='max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; padding: 5px;'>
+				                        <ul id='settings-tags-list' style='list-style: none; padding: 0; margin: 0;'>
+				                            <!-- Tags will be loaded here -->
+				                        </ul>
+				                    </div>
+				                </div>
+				            </div>
+				
+				            <div class='setting-group'>
+				                <h4>Data & Storage</h4>
+				                <div class='setting-item'>					<label for='bg-image-url'>Image URL</label>
 					<input type='text' id='bg-image-url' placeholder='Enter image URL...'>
 				</div>
 				<div class='setting-item'>
@@ -4991,6 +5001,93 @@
 	}
 
 	/**
+	 * Settings: Tag Management
+	 */
+	async function loadSettingsTags() {
+		const listContainer = document.getElementById('settings-tags-list');
+		if (!listContainer) return;
+		listContainer.innerHTML = '<li style="padding: 10px; text-align: center;">Loading tags...</li>';
+		
+		try {
+			const response = await fetch('/api/tags');
+			if (!response.ok) throw new Error('Failed to fetch tags');
+			const tags = await response.json();
+			
+			listContainer.innerHTML = '';
+			if (tags.length === 0) {
+				listContainer.innerHTML = '<li style="padding: 10px; text-align: center; color: var(--text-secondary);">No tags found.</li>';
+				return;
+			}
+			
+			tags.forEach(tag => {
+				const li = document.createElement('li');
+				li.style.display = 'flex';
+				li.style.justifyContent = 'space-between';
+				li.style.alignItems = 'center';
+				li.style.padding = '8px';
+				li.style.borderBottom = '1px solid var(--border-color)';
+				
+				const nameSpan = document.createElement('span');
+				nameSpan.textContent = `#${tag.name} (${tag.count})`;
+				nameSpan.style.color = 'var(--text-primary)';
+				
+				const renameBtn = document.createElement('button');
+				renameBtn.innerHTML = `
+					<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor">
+						<path d="M0 0h24v24H0V0z" fill="none"/>
+						<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+					</svg>
+				`;
+				renameBtn.className = 'icon-btn';
+				renameBtn.title = 'Rename Tag';
+				renameBtn.onclick = () => handleRenameTagClick(tag.name);
+				
+				li.appendChild(nameSpan);
+				li.appendChild(renameBtn);
+				listContainer.appendChild(li);
+			});
+		} catch (error) {
+			console.error('Error loading tags for settings:', error);
+			listContainer.innerHTML = '<li style="padding: 10px; text-align: center; color: red;">Error loading tags.</li>';
+		}
+	}
+
+	async function handleRenameTagClick(oldName) {
+		const newName = prompt(`Rename tag #${oldName} to:`, oldName);
+		if (!newName || newName === oldName || newName.trim() === '') return;
+		
+		const cleanNewName = newName.trim().replace(/^#/, '');
+		if (!/^[\p{L}\p{N}_-]+$/u.test(cleanNewName)) {
+			alert('Invalid tag name. Only letters, numbers, underscores, and hyphens are allowed.');
+			return;
+		}
+
+		if (!confirm(`Are you sure you want to rename #${oldName} to #${cleanNewName}? This will update all matching notes.`)) {
+			return;
+		}
+
+		try {
+			const response = await fetch('/api/tags/rename', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ oldName, newName: cleanNewName })
+			});
+
+			if (!response.ok) {
+				const err = await response.json();
+				throw new Error(err.error || 'Failed to rename tag');
+			}
+			
+			await loadSettingsTags(); 
+			loadAndRenderTags(); 
+			renderTimeline(); 
+			alert('Tag renamed successfully.');
+		} catch (error) {
+			alert(`Error: ${error.message}`);
+		}
+	}
+
+	/**
 	 * 根据当前加载的设置，应用所有UI效果
 	 */
 	async function applySettings() {
@@ -5252,6 +5349,7 @@
 		if (settingsBtn) {
 			settingsBtn.addEventListener('click', () => {
 				updateSettingsModalControls();
+				loadSettingsTags(); // Load tags
 				settingsModalOverlay.classList.add('visible');
 				settingsModalOverlay.querySelector('.custom-modal-box').classList.add('active');
 			});
