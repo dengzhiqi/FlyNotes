@@ -6296,6 +6296,7 @@
 
 	function autoResizeTextarea(textarea) {
 		requestAnimationFrame(() => {
+			const savedWindowScrollY = window.scrollY;
 			// 1. 保存当前的滚动位置。这对于长文本非常重要，
 			//    可以防止在调整高度时页面发生不必要的跳动。
 			const savedScrollTop = textarea.scrollTop;
@@ -6307,6 +6308,9 @@
 			}
 			// 4. 恢复之前保存的滚动位置，确保用户视口保持稳定。
 			textarea.scrollTop = savedScrollTop;
+			if (window.scrollY !== savedWindowScrollY) {
+				window.scrollTo(window.scrollX, savedWindowScrollY);
+			}
 		});
 	}
 
