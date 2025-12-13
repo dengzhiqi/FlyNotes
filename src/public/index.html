@@ -3105,6 +3105,9 @@
 						</div>
 						<!-- 右侧工具组 -->
 						<div class='toolbar-group-right'>
+							<button type='button' id='clear-editor-btn' class='icon-btn' title='Clear Editor'>
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+							</button>
 							<button type='button' id='enter-fullscreen-btn' class='icon-btn' title='Fullscreen Editor'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'>
 									<path d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'></path>
@@ -6631,11 +6634,55 @@
 	tagDropdownList.addEventListener('click', (e) => {
 		if (e.target && e.target.nodeName === 'LI' && e.target.dataset.tagName) {
 			const tagName = e.target.dataset.tagName;
-			// 在光标处插入 "#标签名 " (注意末尾的空格，方便继续输入)
-			insertTextAtCursor(noteInput, `#${tagName} `);
+			
+			// 1. 获取当前文本内容
+			let currentContent = noteInput.value;
+			
+			// 2. 检查末尾是否已经有换行符
+			// 我们希望目标格式是: "Content\n\n#tag "
+			
+			if (currentContent.length > 0) {
+				// 移除末尾的空白字符（如果需要更严格控制，可以只移除换行）
+				// 但通常追加标签时，我们希望它在“最”下面，所以可以先 trimEnd 一下，再追加两个换行
+				currentContent = currentContent.trimEnd();
+				currentContent += '\n\n';
+			}
+			
+			// 3. 追加标签
+			const tagText = `#${tagName} `;
+			noteInput.value = currentContent + tagText;
+			
+			// 4. 更新 UI
+			noteInput.focus();
+			// 将光标移动到最后
+			noteInput.selectionStart = noteInput.selectionEnd = noteInput.value.length;
+			
+			// 触发 input 事件以更新预览和高度
+			noteInput.dispatchEvent(new Event('input', { bubbles: true }));
+			
 			closeTagDropdown();
 		}
 	});
+
+	// --- 清空编辑器按钮 ---
+	const clearEditorBtn = document.getElementById('clear-editor-btn');
+	if (clearEditorBtn) {
+		clearEditorBtn.addEventListener('click', async () => {
+			// 简单的确认，避免误触
+			// const confirmed = confirm('Clear editor content?');
+			// if (!confirmed) return;
+			
+			// 清空文本
+			noteInput.value = '';
+			// 清空文件 (如果需要清空文件，取消下面注释)
+			// noteFile.value = ''; 
+			// updateMainFileDisplay();
+
+			// 触发 input 更新 UI (预览和高度)
+			noteInput.dispatchEvent(new Event('input', { bubbles: true }));
+			noteInput.focus();
+		});
+	}
 
 
 	loginForm.addEventListener('submit', async e => {
