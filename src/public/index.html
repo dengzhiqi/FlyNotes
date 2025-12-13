@@ -6527,39 +6527,43 @@
 	}
 
 	function autoResizeTextarea(textarea) {
+		// 保存当前的滚动位置
+		const savedWindowScrollY = window.scrollY;
+		const savedWindowScrollX = window.scrollX;
+		const savedTextareaScrollTop = textarea.scrollTop;
+
+		// 临时禁用页面滚动
+		const originalOverflow = document.body.style.overflow;
+		const originalPosition = document.body.style.position;
+		document.body.style.overflow = 'hidden';
+		document.body.style.position = 'fixed';
+		document.body.style.top = `- ${savedWindowScrollY} px`;
+		document.body.style.left = `- ${savedWindowScrollX} px`;
+		document.body.style.width = '100%';
+
+		// 使用 requestAnimationFrame 确保在下一帧执行
 		requestAnimationFrame(() => {
-			// 保存当前窗口的滚动位置
-			const savedWindowScrollY = window.scrollY;
-			const savedWindowScrollX = window.scrollX;
-
-			// 保存 textarea 相对于视口的位置
-			const textareaRect = textarea.getBoundingClientRect();
-			const textareaTopBeforeResize = textareaRect.top;
-
-			// 保存 textarea 内部的滚动位置
-			const savedScrollTop = textarea.scrollTop;
-
-			// 重置高度以计算正确的 scrollHeight
+			// 调整 textarea 高度
 			textarea.style.height = 'auto';
 			if (textarea.scrollHeight !== 0) {
-				textarea.style.height = `${textarea.scrollHeight + 2}px`;
+				textarea.style.height = `${textarea.scrollHeight + 2} px`;
 			}
 
-			// 恢复 textarea 内部的滚动位置
-			textarea.scrollTop = savedScrollTop;
+			// 恢复 textarea 内部滚动位置
+			textarea.scrollTop = savedTextareaScrollTop;
 
-			// 计算 textarea 调整大小后的位置变化
-			const textareaRectAfter = textarea.getBoundingClientRect();
-			const textareaTopAfterResize = textareaRectAfter.top;
+			// 使用另一个 requestAnimationFrame 确保恢复在渲染后执行
+			requestAnimationFrame(() => {
+				// 恢复页面滚动
+				document.body.style.overflow = originalOverflow;
+				document.body.style.position = originalPosition;
+				document.body.style.top = '';
+				document.body.style.left = '';
+				document.body.style.width = '';
 
-			// 如果 textarea 的位置发生了变化,调整窗口滚动以保持 textarea 在相同的视觉位置
-			const topDiff = textareaTopAfterResize - textareaTopBeforeResize;
-			if (topDiff !== 0) {
-				window.scrollTo(savedWindowScrollX, savedWindowScrollY + topDiff);
-			} else if (window.scrollY !== savedWindowScrollY || window.scrollX !== savedWindowScrollX) {
-				// 如果滚动位置发生了其他变化,恢复原始位置
+				// 恢复窗口滚动位置
 				window.scrollTo(savedWindowScrollX, savedWindowScrollY);
-			}
+			});
 		});
 	}
 
@@ -6656,18 +6660,18 @@
 			const selectedText = textarea.value.substring(start, end);
 	
 			let code = '```';
-			const textBefore = `${code}\n`;
-			const textAfter = `\n${code}`;
-	
-			// 使用 setRangeText 来插入文本并能更好地控制光标
-			textarea.setRangeText(textBefore + selectedText + textAfter, start, end);
-	
-			textarea.focus();
-			textarea.selectionStart = start + textBefore.length;
-			textarea.selectionEnd = start + textBefore.length + selectedText.length;
-			// 手动触发 input 事件，以便实时预览能够更新
-			textarea.dispatchEvent(new Event('input', { bubbles: true }));
-		});*/
+		const textBefore = `${code}\n`;
+		const textAfter = `\n${code}`;
+
+		// 使用 setRangeText 来插入文本并能更好地控制光标
+		textarea.setRangeText(textBefore + selectedText + textAfter, start, end);
+
+		textarea.focus();
+		textarea.selectionStart = start + textBefore.length;
+		textarea.selectionEnd = start + textBefore.length + selectedText.length;
+		// 手动触发 input 事件，以便实时预览能够更新
+		textarea.dispatchEvent(new Event('input', { bubbles: true }));
+	});*/
 
 	/**
 	 * 应用一个主题色，并更新所有相关的UI
