@@ -6526,24 +6526,47 @@
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
+	// --- Auto Resize with Ghost Element (Prevents Jumping) ---
 	function autoResizeTextarea(textarea) {
-		// 保存当前的滚动位置
-		const savedWindowScrollY = window.scrollY;
-		const savedWindowScrollX = window.scrollX;
-		const savedTextareaScrollTop = textarea.scrollTop;
-
-		// 调整 textarea 高度
-		textarea.style.height = 'auto';
-		const newHeight = textarea.scrollHeight;
-		if (newHeight !== 0) {
-			textarea.style.height = `${newHeight + 2}px`;
+		// 1. Create or retrieve the mirror element
+		let mirror = document.getElementById('textarea-mirror');
+		if (!mirror) {
+			mirror = document.createElement('div');
+			mirror.id = 'textarea-mirror';
+			// Essential styles to make the mirror behave exactly like the textarea
+			mirror.style.position = 'absolute';
+			mirror.style.top = '0';
+			mirror.style.left = '-9999px';
+			mirror.style.overflow = 'hidden';
+			mirror.style.visibility = 'hidden'; // Hide it
+			mirror.style.whiteSpace = 'pre-wrap'; // Important for wrapping
+			mirror.style.wordWrap = 'break-word'; // Important for wrapping
+			document.body.appendChild(mirror);
 		}
 
-		// 恢复 textarea 内部滚动位置
-		textarea.scrollTop = savedTextareaScrollTop;
+		// 2. Copy relevant styles from textarea to mirror
+		const computedStyle = window.getComputedStyle(textarea);
+		const stylesToCopy = [
+			'width', 'paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight',
+			'borderTopWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRightWidth',
+			'fontFamily', 'fontSize', 'lineHeight', 'letterSpacing', 'boxSizing'
+		];
+		stylesToCopy.forEach(prop => {
+			mirror.style[prop] = computedStyle[prop];
+		});
 
-		// 立即恢复窗口滚动位置，抵消 height='auto' 可能导致的页面跳动
-		window.scrollTo(savedWindowScrollX, savedWindowScrollY);
+		// 3. set content
+		// Append a non-breaking space or newline to handle trailing newlines correctly
+		mirror.textContent = textarea.value + '\n';
+
+		// 4. Measure and apply height
+		// We add a small buffer (e.g. 2px) to prevent scrollbars from appearing due to sub-pixel rendering
+		const newHeight = mirror.offsetHeight;
+
+		// Only set if changed to avoid unnecessary reflows, but ensure min-height behavior
+		if (newHeight > 0) {
+			textarea.style.height = `${newHeight}px`;
+		}
 	}
 
 	let load = false;
