@@ -6532,17 +6532,6 @@
 		const savedWindowScrollX = window.scrollX;
 		const savedTextareaScrollTop = textarea.scrollTop;
 
-		// 创建一个滚动事件监听器来阻止任何滚动
-		let isResizing = true;
-		const preventScroll = (e) => {
-			if (isResizing) {
-				window.scrollTo(savedWindowScrollX, savedWindowScrollY);
-			}
-		};
-
-		// 添加滚动监听器
-		window.addEventListener('scroll', preventScroll, { passive: false });
-
 		// 调整 textarea 高度
 		textarea.style.height = 'auto';
 		const newHeight = textarea.scrollHeight;
@@ -6553,20 +6542,8 @@
 		// 恢复 textarea 内部滚动位置
 		textarea.scrollTop = savedTextareaScrollTop;
 
-		// 强制恢复窗口滚动位置
+		// 立即恢复窗口滚动位置，抵消 height='auto' 可能导致的页面跳动
 		window.scrollTo(savedWindowScrollX, savedWindowScrollY);
-
-		// 使用多个 requestAnimationFrame 确保在所有渲染完成后才移除监听器
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				requestAnimationFrame(() => {
-					isResizing = false;
-					window.removeEventListener('scroll', preventScroll);
-					// 最后再次确保滚动位置正确
-					window.scrollTo(savedWindowScrollX, savedWindowScrollY);
-				});
-			});
-		});
 	}
 
 	let load = false;
