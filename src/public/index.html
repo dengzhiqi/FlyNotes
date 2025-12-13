@@ -6294,24 +6294,44 @@
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
+	let ghostTextarea;
+
 	function autoResizeTextarea(textarea) {
-		requestAnimationFrame(() => {
-			const savedWindowScrollY = window.scrollY;
-			// 1. 保存当前的滚动位置。这对于长文本非常重要，
-			//    可以防止在调整高度时页面发生不必要的跳动。
-			const savedScrollTop = textarea.scrollTop;
-			// 2. 先将高度重置为'auto'，让浏览器计算出内容所需的最小高度。
-			//    这是获取正确 scrollHeight 的关键步骤。
-			textarea.style.height = 'auto';
-			if (textarea.scrollHeight !== 0) {
-				textarea.style.height = `${textarea.scrollHeight + 2}px`;
-			}
-			// 4. 恢复之前保存的滚动位置，确保用户视口保持稳定。
-			textarea.scrollTop = savedScrollTop;
-			if (window.scrollY !== savedWindowScrollY) {
-				window.scrollTo(window.scrollX, savedWindowScrollY);
-			}
+		if (!ghostTextarea) {
+			ghostTextarea = document.createElement('div');
+			ghostTextarea.style.position = 'absolute';
+			ghostTextarea.style.top = '0';
+			ghostTextarea.style.left = '-9999px';
+			ghostTextarea.style.visibility = 'hidden';
+			ghostTextarea.style.overflow = 'hidden';
+			ghostTextarea.style.whiteSpace = 'pre-wrap';
+			ghostTextarea.style.wordWrap = 'break-word';
+			document.body.appendChild(ghostTextarea);
+		}
+
+		const style = window.getComputedStyle(textarea);
+		[
+			'box-sizing', 'width', 'padding-top', 'padding-bottom',
+			'padding-left', 'padding-right', 'border-top-width', 'border-bottom-width',
+			'border-left-width', 'border-right-width', 'font-family', 'font-size',
+			'font-weight', 'font-style', 'letter-spacing', 'line-height',
+			'text-transform', 'word-spacing', 'text-indent'
+		].forEach(prop => {
+			ghostTextarea.style[prop] = style.getPropertyValue(prop);
 		});
+
+		ghostTextarea.textContent = textarea.value;
+		if (textarea.value.slice(-1) === '\n') {
+			ghostTextarea.textContent += '\u200b';
+		}
+
+		const newHeight = ghostTextarea.scrollHeight;
+		// box-sizing: border-box is usually used, so scrollHeight (padding + content) 
+		// plus borders might be needed if not included. 
+		// However, standard scrollHeight logic usually suffices with a small buffer.
+		if (textarea.style.height !== `${newHeight + 2}px`) {
+			textarea.style.height = `${newHeight + 2}px`;
+		}
 	}
 
 	let load = false;
