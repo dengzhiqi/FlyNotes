@@ -6532,39 +6532,38 @@
 		const savedWindowScrollX = window.scrollX;
 		const savedTextareaScrollTop = textarea.scrollTop;
 
-		// 临时禁用页面滚动
-		const originalOverflow = document.body.style.overflow;
-		const originalPosition = document.body.style.position;
+		// 临时禁用滚动,但不使用 position:fixed (会影响高度计算)
+		const originalOverflow = document.documentElement.style.overflow;
+		const originalBodyOverflow = document.body.style.overflow;
+		document.documentElement.style.overflow = 'hidden';
 		document.body.style.overflow = 'hidden';
-		document.body.style.position = 'fixed';
-		document.body.style.top = `- ${savedWindowScrollY} px`;
-		document.body.style.left = `- ${savedWindowScrollX} px`;
-		document.body.style.width = '100%';
 
-		// 使用 requestAnimationFrame 确保在下一帧执行
-		requestAnimationFrame(() => {
-			// 调整 textarea 高度
-			textarea.style.height = 'auto';
-			if (textarea.scrollHeight !== 0) {
-				textarea.style.height = `${textarea.scrollHeight + 2} px`;
-			}
+		// 调整 textarea 高度
+		textarea.style.height = 'auto';
+		const newHeight = textarea.scrollHeight;
+		if (newHeight !== 0) {
+			textarea.style.height = `${newHeight + 2}px`;
+		}
 
-			// 恢复 textarea 内部滚动位置
-			textarea.scrollTop = savedTextareaScrollTop;
+		// 恢复 textarea 内部滚动位置
+		textarea.scrollTop = savedTextareaScrollTop;
 
-			// 使用另一个 requestAnimationFrame 确保恢复在渲染后执行
+		// 使用 setTimeout 而不是 requestAnimationFrame,确保在浏览器尝试滚动之后恢复
+		setTimeout(() => {
+			// 恢复滚动能力
+			document.documentElement.style.overflow = originalOverflow;
+			document.body.style.overflow = originalBodyOverflow;
+
+			// 强制恢复窗口滚动位置
+			window.scrollTo(savedWindowScrollX, savedWindowScrollY);
+
+			// 再次确保滚动位置正确
 			requestAnimationFrame(() => {
-				// 恢复页面滚动
-				document.body.style.overflow = originalOverflow;
-				document.body.style.position = originalPosition;
-				document.body.style.top = '';
-				document.body.style.left = '';
-				document.body.style.width = '';
-
-				// 恢复窗口滚动位置
-				window.scrollTo(savedWindowScrollX, savedWindowScrollY);
+				if (window.scrollY !== savedWindowScrollY || window.scrollX !== savedWindowScrollX) {
+					window.scrollTo(savedWindowScrollX, savedWindowScrollY);
+				}
 			});
-		});
+		}, 0);
 	}
 
 	let load = false;
