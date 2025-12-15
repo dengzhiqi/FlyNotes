@@ -1,5 +1,5 @@
 const NOTES_PER_PAGE = 10;
-const SESSION_DURATION_SECONDS = 30*86400; // Session 有效期: 30 天
+const SESSION_DURATION_SECONDS = 30 * 86400; // Session 有效期: 30 天
 const SESSION_COOKIE = '__session';
 export default {
 	async fetch(request, env, ctx) {
@@ -384,7 +384,7 @@ async function handleRenameTag(request, env) {
 				const content = note.content;
 				const plainTextContent = content.replace(/<[^>]*>/g, '');
 				const lines = plainTextContent.split(/\r?\n/);
-				
+
 				let lastNonEmptyIndex = -1;
 				for (let i = lines.length - 1; i >= 0; i--) {
 					if (lines[i].trim() !== '') {
@@ -399,32 +399,32 @@ async function handleRenameTag(request, env) {
 					// Safer approach: Find the offset of the last line in the original content if possible,
 					// OR just operate on the extracted line and carefully reconstruct.
 					// Given the storage format, we can try to locate the last line content.
-					
+
 					// Simplified approach: Re-split original content using the same logic as extraction
 					// We need to be careful about preserving other parts of the note.
-					
+
 					// Let's operate on the segments logic used in processNoteTags for consistency
 					// But we need to MODIFY the content string.
-					
+
 					// Strategy:
 					// 1. Find the last line text.
 					// 2. Perform replacement on that text.
 					// 3. Re-assemble the note.
-					
+
 					// However, 'lines' came from 'plainTextContent' (stripped HTML).
 					// 'note.content' might contain HTML? (Though typical notes here seem to be markdown/text stored directly, 
 					// but processNoteTags strips HTML. Let's assume content is mostly text for the tagging part).
 					// processNoteTags uses: const plainTextContent = content.replace(/<[^>]*>/g, '');
-					
+
 					// If the note content is pure text (Markdown), we can split directly.
 					// If it contains HTML, we shouldn't be touching tags inside HTML tags anyway.
 					// For safety, let's assume we are editing the raw stored content.
-					
+
 					const originalLines = content.split(/\r?\n/);
 					// We need to find the index corresponding to 'lastNonEmptyIndex' of plain text.
 					// If there is HTML, line counts might mismatch if HTML spans lines.
 					// Assuming the storage format is primarily Markdown where newlines are real newlines.
-					
+
 					let targetLineIndex = -1;
 					// Walk backwards
 					for (let i = originalLines.length - 1; i >= 0; i--) {
@@ -434,11 +434,11 @@ async function handleRenameTag(request, env) {
 							break;
 						}
 					}
-					
+
 					if (targetLineIndex !== -1) {
 						let targetLine = originalLines[targetLineIndex];
 						const tagRegex = /#([\p{L}\p{N}_-]+)/gu;
-						
+
 						// Replace logic: 
 						// We want to replace #oldName with #newName ONLY if it matches exactly
 						const newTargetLine = targetLine.replace(tagRegex, (match, tagName) => {
@@ -447,7 +447,7 @@ async function handleRenameTag(request, env) {
 							}
 							return match;
 						});
-						
+
 						if (newTargetLine !== targetLine) {
 							originalLines[targetLineIndex] = newTargetLine;
 							const newContent = originalLines.join('\n'); // Assuming \n join is safe
@@ -515,7 +515,7 @@ async function handleDeleteTag(tagName, request, env) {
 
 	try {
 		const db = env.DB;
-		
+
 		// 1. Check if the tag exists and has notes
 		const tag = await db.prepare("SELECT id FROM tags WHERE name = ?").bind(tagName).first();
 		if (!tag) {
@@ -523,7 +523,7 @@ async function handleDeleteTag(tagName, request, env) {
 		}
 
 		const notesCount = await db.prepare("SELECT COUNT(*) as count FROM note_tags WHERE tag_id = ?").bind(tag.id).first();
-		
+
 		if (notesCount.count > 0) {
 			return jsonResponse({ error: 'Cannot delete tag with associated notes' }, 400);
 		}
@@ -801,7 +801,7 @@ async function handleNoteDetail(request, noteId, env) {
 			if (typeof existingNote.files === 'string') {
 				existingNote.files = JSON.parse(existingNote.files);
 			}
-		} catch(e) {
+		} catch (e) {
 			existingNote.files = [];
 		}
 
@@ -919,7 +919,7 @@ async function handleNoteDetail(request, noteId, env) {
 					const uniqueKeys = [...new Set(keysToDelete)];
 					await env.NOTES_R2_BUCKET.delete(uniqueKeys);
 				}
-				
+
 				// 5. 从数据库中删除笔记
 				await db.prepare("DELETE FROM notes WHERE id = ?").bind(id).run();
 				return new Response(null, { status: 204 });
@@ -1023,12 +1023,12 @@ function telegramEntitiesToMarkdown(text, entities = []) {
 		const priority = tagPriority[type] || 100;
 		let startTag = '', endTag = '';
 		switch (type) {
-			case 'bold':          startTag = '**'; endTag = '**'; break;
-			case 'italic':        startTag = '_';  endTag = '_';  break;
-			case 'underline':     startTag = '__'; endTag = '__'; break;
+			case 'bold': startTag = '**'; endTag = '**'; break;
+			case 'italic': startTag = '_'; endTag = '_'; break;
+			case 'underline': startTag = '__'; endTag = '__'; break;
 			case 'strikethrough': startTag = '~~'; endTag = '~~'; break;
-			case 'spoiler':       startTag = '||'; endTag = '||'; break;
-			case 'code':          startTag = '`';  endTag = '`';  break;
+			case 'spoiler': startTag = '||'; endTag = '||'; break;
+			case 'code': startTag = '`'; endTag = '`'; break;
 			case 'text_link':
 				startTag = '[';
 				const encodedUrl = url.replace(/\(/g, '%28').replace(/\)/g, '%29');
@@ -1381,7 +1381,7 @@ function extractImageUrls(content) {
  */
 async function processNoteTags(db, noteId, content) {
 	const plainTextContent = content.replace(/<[^>]*>/g, '');
-	
+
 	// Get lines and find the last non-empty line
 	const lines = plainTextContent.split(/\r?\n/);
 	let targetLine = '';
@@ -1419,9 +1419,9 @@ async function processNoteTags(db, noteId, content) {
 	if (uniqueTags.length === 0) {
 		// 添加到标签列表
 		uniqueTags.push('null');
-		
+
 		let currentContentLines = content.split(/\r?\n/);
-		
+
 		// 找到最后一个非空行的索引
 		let lastActualLineIndex = -1;
 		for (let i = currentContentLines.length - 1; i >= 0; i--) {
@@ -1438,15 +1438,15 @@ async function processNoteTags(db, noteId, content) {
 			// Ensure we are appending after the last actual content
 			// Remove any trailing empty lines after the last content for a clean state
 			currentContentLines = currentContentLines.slice(0, lastActualLineIndex + 1);
-			
+
 			// Add an empty line
 			currentContentLines.push('');
 			// Add the #null on a new line
 			currentContentLines.push('#null');
 		}
-		
+
 		const newContent = currentContentLines.join('\n');
-		
+
 		statements.push(db.prepare("UPDATE notes SET content = ? WHERE id = ?").bind(newContent, noteId));
 	}
 
@@ -1501,7 +1501,7 @@ async function handleStandaloneImageUpload(request, env) {
 
 		// 返回一个可用于访问此图片的内部 URL
 		// 这个 URL 对应我们下面创建的 handleServeStandaloneImage 函数的路由
-		const imageUrl = `/api/images/${encodeURIComponent(r2Key)}`;
+		const imageUrl = `/api/images/${r2Key}`;
 		return jsonResponse({ success: true, url: imageUrl });
 
 	} catch (e) {
@@ -1660,7 +1660,7 @@ async function handleShareFileRequest(noteId, fileId, request, env) {
 			if (typeof note.files === 'string') {
 				files = JSON.parse(note.files);
 			}
-		} catch(e) { /* ignore */ }
+		} catch (e) { /* ignore */ }
 
 		const fileIndex = files.findIndex(f => f.id === fileId);
 		if (fileIndex === -1) {
