@@ -1558,7 +1558,7 @@ async function handleGetAllAttachments(request, env) {
 	const db = env.DB;
 	const url = new URL(request.url);
 	const page = parseInt(url.searchParams.get('page') || '1');
-	const limit = 20; // 每次加载20条附件
+	const limit = 40; // 每次加载40条附件
 	const offset = (page - 1) * limit;
 
 	try {
