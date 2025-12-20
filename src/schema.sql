@@ -12,6 +12,7 @@ CREATE TABLE notes (
   is_pinned BOOLEAN DEFAULT 0,
   is_favorited INTEGER DEFAULT 0 NOT NULL,
   is_archived INTEGER DEFAULT 0 NOT NULL,
+  is_collapsed INTEGER DEFAULT 0 NOT NULL,
   pics TEXT,
   videos TEXT
 );

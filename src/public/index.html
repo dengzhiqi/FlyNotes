@@ -780,6 +780,47 @@
 		margin-bottom: 1rem;
 	}
 
+	/* Collapsed note styles */
+	.note.collapsed .note-content.view-mode {
+		max-height: 600px;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.note.collapsed .note-content.view-mode::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 80px;
+		background: linear-gradient(to bottom, transparent, var(--surface-color));
+		pointer-events: none;
+	}
+
+	.expand-note-btn {
+		display: none;
+		width: 100%;
+		text-align: center;
+		padding: 0.5rem;
+		background: none;
+		border: none;
+		color: var(--primary-color);
+		cursor: pointer;
+		font-size: 0.9rem;
+		margin-top: -0.5rem;
+	}
+
+	.expand-note-btn:hover {
+		text-decoration: underline;
+		background: none;
+		transform: none;
+	}
+
+	.note.collapsed .expand-note-btn {
+		display: block;
+	}
+
 	.note-content a {
 		color: var(--primary-color);
 		text-decoration: none;
@@ -3446,6 +3487,13 @@
 					d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L8 13.5l1.41-1.41L11 13.67V10h2v3.67l1.59-1.58L16 13.5l-4 4zM5.12 5l.83-1h12.1l.83 1H5.12z" />
 			</svg>
 		</button>
+		<button class='icon-btn' data-action='collapse' title='Collapse'>
+			<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+				<path d="M0 0h24v24H0V0z" fill="none" />
+				<path
+					d="M4 8h3V5H5v1H4v2zm0 4h2V9H4v3zm0-8h3c0-1.1-.9-2-2-2H4v2zm2 12H5v-1H4v2h2c1.1 0 2-.9 2-2h-2v1zm12-12h2v2h-2V4zm0 4h2v3h-2V8zm-8 12v-8h6v8H8zm8 0c1.1 0 2-.9 2-2h-2v2zm-8-16h6v2H8V4zM4 20c0 1.1.9 2 2 2v-2H4z" />
+			</svg>
+		</button>
 		<button class='icon-btn btn-danger' data-action='delete' title='Delete Note'>
 			<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='currentColor'>
 				<path d='M0 0h24v24H0V0z' fill='none' />
@@ -4371,6 +4419,7 @@
 		const favoriteBtn = notePopoverMenu.querySelector('[data-action="favorite"]');
 		const pinBtn = notePopoverMenu.querySelector('[data-action="pin"]');
 		const archiveBtn = notePopoverMenu.querySelector('[data-action="archive"], [data-action="unarchive"]');
+		const collapseBtn = notePopoverMenu.querySelector('[data-action="collapse"]');
 
 		if (appState.baseMode === 'archive') {
 			archiveBtn.classList.add('unarchive-mode');
@@ -4393,6 +4442,13 @@
 				pinBtn.classList.toggle('pinned', noteData.is_pinned);
 				pinBtn.title = noteData.is_pinned ? 'Unpin' : 'Pin';
 			}
+		}
+
+		// Update collapse button state
+		if (noteData && collapseBtn) {
+			const isCollapsed = noteData.is_collapsed;
+			collapseBtn.classList.toggle('collapsed', isCollapsed);
+			collapseBtn.title = isCollapsed ? 'Expand' : 'Collapse';
 		}
 
 		const btnRect = targetButton.getBoundingClientRect();
@@ -4495,6 +4551,32 @@
 					const noteInCache = allNotesCache.find(n => n.id === parseInt(noteId));
 					if (noteInCache) noteInCache.is_archived = isArchiving;
 
+				} catch (error) {
+					showCustomAlert(error.message, 'error');
+				} finally {
+					actionButton.disabled = false;
+				}
+				break;
+			}
+			case 'collapse': {
+				if (!noteElement) return;
+				const isCurrentlyCollapsed = actionButton.classList.contains('collapsed');
+				const newCollapseState = !isCurrentlyCollapsed;
+				actionButton.disabled = true;
+				const formData = new FormData();
+				formData.append('isCollapsed', newCollapseState.toString());
+				try {
+					const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
+					if (!res.ok) throw new Error('Failed to update collapse status.');
+
+					// Update UI
+					noteElement.classList.toggle('collapsed', newCollapseState);
+					actionButton.classList.toggle('collapsed', newCollapseState);
+					actionButton.title = newCollapseState ? 'Expand' : 'Collapse';
+
+					// Update cache
+					const noteInCache = allNotesCache.find(n => n.id === parseInt(noteId));
+					if (noteInCache) noteInCache.is_collapsed = newCollapseState;
 				} catch (error) {
 					showCustomAlert(error.message, 'error');
 				} finally {
@@ -6637,7 +6719,7 @@
 			const start = textarea.selectionStart;
 			const end = textarea.selectionEnd;
 			const selectedText = textarea.value.substring(start, end);
-	
+
 			let code = '```';
 		const textBefore = `${code}\n`;
 		const textAfter = `\n${code}`;
@@ -6904,7 +6986,7 @@
 			// 清空文本
 			noteInput.value = '';
 			// 清空文件 (如果需要清空文件，取消下面注释)
-			// noteFile.value = ''; 
+			// noteFile.value = '';
 			// updateMainFileDisplay();
 
 			// 触发 input 更新 UI (预览和高度)
@@ -7135,7 +7217,19 @@
 		noteElement.querySelector('.note-content').innerHTML = postProcessMarkdownHtml(marked.parse(note.content));
 
 		noteElement.querySelector('.edit-textarea').value = note.content;
-
+		// Add collapsed class if note is collapsed
+		if (note.is_collapsed) {
+			noteElement.classList.add('collapsed');
+		}
+		// Add expand button after note-content
+		const noteContentDiv = noteElement.querySelector('.note-content.view-mode');
+		if (noteContentDiv) {
+			const expandBtn = document.createElement('button');
+			expandBtn.className = 'expand-note-btn';
+			expandBtn.textContent = 'Show more...';
+			expandBtn.dataset.noteId = noteId;
+			noteContentDiv.parentNode.insertBefore(expandBtn, noteContentDiv.nextSibling);
+		}
 		return noteElement;
 	}
 
@@ -7613,6 +7707,31 @@
 	// --- Event Delegation for Notes Container (Corrected for SVG Icons) ---
 	notesContainer.addEventListener('click', async e => {
 		const target = e.target;
+
+		const expandBtn = target.closest('.expand-note-btn');
+		if (expandBtn) {
+			const noteElement = expandBtn.closest('.note');
+			if (noteElement) {
+				const noteId = noteElement.dataset.id;
+				const formData = new FormData();
+				formData.append('isCollapsed', 'false');
+				try {
+					const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
+					if (!res.ok) throw new Error('Failed to expand note.');
+
+					// Update UI
+					noteElement.classList.remove('collapsed');
+
+					// Update cache
+					const noteInCache = allNotesCache.find(n => n.id === parseInt(noteId));
+					if (noteInCache) noteInCache.is_collapsed = 0;
+				} catch (error) {
+					showCustomAlert(error.message, 'error');
+				}
+			}
+			return;
+		}
+
 		const shareBtn = target.closest('.share-file-btn');
 		if (shareBtn) {
 			e.preventDefault();

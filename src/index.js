@@ -860,6 +860,11 @@ async function handleNoteDetail(request, noteId, env) {
 					const stmt = db.prepare("UPDATE notes SET is_archived = ? WHERE id = ?");
 					await stmt.bind(isArchived, id).run();
 				}
+				if (formData.has('isCollapsed')) {
+					const isCollapsed = formData.get('isCollapsed') === 'true' ? 1 : 0;
+					const stmt = db.prepare("UPDATE notes SET is_collapsed = ? WHERE id = ?");
+					await stmt.bind(isCollapsed, id).run();
+				}
 
 				const updatedNote = await db.prepare("SELECT * FROM notes WHERE id = ?").bind(id).first();
 				if (typeof updatedNote.files === 'string') {
