@@ -3397,6 +3397,9 @@
 					<div id="attachments-content" class="loading-state">
 						<div class="spinner"></div>
 					</div>
+					<div id="attachments-pagination"
+						style="display: none; justify-content: center; align-items: center; gap: 1rem; padding: 1rem; border-top: 1px solid var(--border-color);">
+					</div>
 				</div>
 
 			</div>
@@ -5940,14 +5943,11 @@
 
 	// Update pagination controls
 	function updateAttachmentsPagination() {
-		let paginationDiv = document.getElementById('attachments-pagination');
-		if (!paginationDiv) {
-			paginationDiv = document.createElement('div');
-			paginationDiv.id = 'attachments-pagination';
-			paginationDiv.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 1rem; border-top: 1px solid var(--border-color); background: var(--surface-color);';
-			// Insert after attachmentsContent
-			attachmentsContent.parentNode.insertBefore(paginationDiv, attachmentsContent.nextSibling);
-		}
+		const paginationDiv = document.getElementById('attachments-pagination');
+		if (!paginationDiv) return;
+
+		// Ensure it's visible
+		paginationDiv.style.display = 'flex';
 
 		const currentPage = appState.attachments.currentPage;
 		const hasMore = appState.attachments.hasMore;
