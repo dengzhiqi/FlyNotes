@@ -5908,7 +5908,7 @@
 
 		const grid = document.createElement('div');
 		grid.className = 'attachments-grid';
-		grid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; padding: 1rem;';
+		grid.style.cssText = 'display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; padding: 1rem;';
 
 		filtered.forEach(att => {
 			const item = document.createElement('div');
@@ -5944,8 +5944,9 @@
 		if (!paginationDiv) {
 			paginationDiv = document.createElement('div');
 			paginationDiv.id = 'attachments-pagination';
-			paginationDiv.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 1rem; border-top: 1px solid var(--border-color);';
-			attachmentsViewer.appendChild(paginationDiv);
+			paginationDiv.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 1rem; border-top: 1px solid var(--border-color); background: var(--surface-color);';
+			// Insert after attachmentsContent
+			attachmentsContent.parentNode.insertBefore(paginationDiv, attachmentsContent.nextSibling);
 		}
 
 		const currentPage = appState.attachments.currentPage;
