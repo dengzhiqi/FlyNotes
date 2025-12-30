@@ -7787,19 +7787,169 @@
 			const tempDiv = document.createElement('div');
 			tempDiv.innerHTML = pastedHtml;
 
+			/**
+			 * Detect elements with block-like display styles (block, flex, grid, etc.)
+			 * and convert them to standard block elements (divs) so Turndown respects the line breaks.
+			 * This fixes issues where content relies on CSS for line breaks but uses inline tags (span, img).
+			 */
+			function convertStyledBlocks(node) {
+				if (node.nodeType === Node.ELEMENT_NODE) {
+					const display = node.style.display || '';
+					const isBlockStyle = ['block', 'flex', 'grid', 'table', 'table-row', 'list-item'].some(d => display.includes(d));
+					// Tags that are already blocks don't need conversion.
+					// We also exclude 'A' (anchors) and 'CODE'/'SPAN' (explicitly inline) to prevent breaking their semantic meaning,
+					// even if they happen to have block styling in the source.
+					const isBlockTag = /^(DIV|P|H[1-6]|UL|OL|LI|TABLE|TR|TBODY|THEAD|TFOOT|SECTION|ARTICLE|ASIDE|HEADER|FOOTER|BLOCKQUOTE|PRE|A|CODE|SPAN)$/i.test(node.nodeName);
+
+					if (isBlockStyle && !isBlockTag) {
+						if (node.nodeName === 'IMG') {
+							// Check if it's an inline emoji-like image
+							const src = node.getAttribute('src') || '';
+							const isEmoji = (node.classList && node.classList.contains('emoji')) ||
+								(src && src.includes('emoji')) ||
+								(node.width > 0 && node.width <= 32) ||
+								(node.height > 0 && node.height <= 32);
+
+							if (isEmoji) {
+								// HEURISTIC: Block-styled emoji.
+								// If it is followed by text, it acts as a "Bullet" (starts a line).
+								// If it is NOT followed by text, it acts as a "Trailer" (inline end of sentence), even if styled as block.
+								const nextNode = node.nextSibling;
+								const hasFollowingText = nextNode && nextNode.textContent && nextNode.textContent.trim().length > 0;
+
+								if (hasFollowingText) {
+									// It's a bullet. We need to ensure it's on a new line.
+									// But if the previous sibling is ALREADY a newline (text node ending in \n), preserveNewlines will handle it.
+									// We only force a <br> if there is NO preceding newline.
+									let prevIsNewline = false;
+									if (node.previousSibling && node.previousSibling.nodeType === Node.TEXT_NODE) {
+										if (/\r?\n\s*$/.test(node.previousSibling.nodeValue)) {
+											prevIsNewline = true;
+										}
+									}
+
+									if (!prevIsNewline) {
+										const br = document.createElement('br');
+										node.parentNode.insertBefore(br, node);
+									}
+								}
+								// If NO following text, we do nothing (treat as inline).
+							} else {
+								// For large images, wrap in a proper block container
+								const wrapper = document.createElement('div');
+								node.parentNode.insertBefore(wrapper, node);
+								wrapper.appendChild(node);
+							}
+							// Don't recurse into img (void element)
+							return;
+						} else {
+							// Convert other elements (e.g. span) to div
+							const div = document.createElement('div');
+							// Copy all attributes
+							Array.from(node.attributes).forEach(attr => {
+								div.setAttribute(attr.name, attr.value);
+							});
+							// Move all children
+							while (node.firstChild) {
+								div.appendChild(node.firstChild);
+							}
+							node.parentNode.replaceChild(div, node);
+							// Recurse into the new div to check its children
+							convertStyledBlocks(div);
+							return;
+						}
+					}
+					// Recurse for children
+					Array.from(node.children).forEach(convertStyledBlocks);
+				}
+			}
+
 			function preserveNewlines(node) {
 				if (node.nodeType === Node.TEXT_NODE) {
 					// 如果文本包含换行符，且不在 pre/code 标签内 (Turndown 会自己处理这些)
-					if (node.nodeValue.includes('\n')) {
+					if (/\r?\n/.test(node.nodeValue)) {
 						const parent = node.parentNode;
 						if (parent && /^(PRE|CODE|TABLE|THEAD|TBODY|TR|TH|TD|STYLE|SCRIPT)$/i.test(parent.nodeName)) {
 							return;
 						}
 
 						const frag = document.createDocumentFragment();
-						const parts = node.nodeValue.split('\n');
+						const parts = node.nodeValue.split(/\r?\n/);
+
+						// Helper to check if a node is (or contains) an emoji
+						function isEmojiNode(n) {
+							if (!n || n.nodeType !== Node.ELEMENT_NODE) return false;
+							if (n.nodeName === 'IMG') {
+								const src = n.getAttribute('src') || '';
+								return (n.classList && n.classList.contains('emoji')) ||
+									(src && src.includes('emoji')) ||
+									(n.width > 0 && n.width <= 32) ||
+									(n.height > 0 && n.height <= 32);
+							}
+							// Check first child (for wrapped emojis)
+							if (n.firstChild) return isEmojiNode(n.firstChild);
+							return false;
+						}
+
+						// Check if the next visible sibling is an inline emoji
+						let nextIsEmoji = false;
+						let nextNode = null;
+						let sibling = node.nextSibling;
+						while (sibling) {
+							if (isEmojiNode(sibling)) {
+								nextIsEmoji = true;
+								nextNode = sibling;
+								break;
+							}
+							// Iterate past empty/whitespace text nodes
+							if (sibling.nodeType === Node.TEXT_NODE && !sibling.nodeValue.trim()) {
+								sibling = sibling.nextSibling;
+								continue;
+							}
+							// Found a non-empty text node or other element
+							break;
+						}
+
+						// Key Check: Is this emoji acting as a "Bullet"?
+						// It is a bullet if it has following text content.
+						// If it is a bullet, we DO NOT suppress the newline (we want the line break).
+						// If it is NOT a bullet (it's a trailer), we SUPPRESS the newline (glue it).
+						let nextIsBullet = false;
+						if (nextIsEmoji && nextNode) {
+							// Check after the emoji
+							let after = nextNode.nextSibling;
+							// Find first meaningful content after the emoji
+							while (after) {
+								if (after.nodeType === Node.TEXT_NODE && after.nodeValue.trim().length > 0) {
+									nextIsBullet = true;
+									break;
+								}
+								if (after.nodeType === Node.ELEMENT_NODE && !/^(BR)$/i.test(after.nodeName)) {
+									nextIsBullet = true; // Followed by element
+									break;
+								}
+								after = after.nextSibling;
+							}
+						}
+
 						parts.forEach((part, index) => {
-							if (index > 0) frag.appendChild(document.createElement('br'));
+							// Logic: Suppress <br> ONLY if:
+							// 1. It is a trailing newline (end of text node).
+							// 2. Next element is an emoji.
+							// 3. That emoji is NOT a bullet (i.e. it is a trailer/end-of-line emoji).
+							const isLast = index === parts.length - 1;
+							const isTrailingNewline = index > 0 && isLast && part === '';
+
+							const shouldSuppress = isTrailingNewline && nextIsEmoji && !nextIsBullet;
+
+							if (shouldSuppress) {
+								// If suppressing, strip trailing spaces from the previous part so it glues perfectly.
+								part = part.trimEnd();
+							}
+
+							if (index > 0 && !shouldSuppress) {
+								frag.appendChild(document.createElement('br'));
+							}
 							if (part) frag.appendChild(document.createTextNode(part));
 						});
 						parent.replaceChild(frag, node);
@@ -7813,7 +7963,11 @@
 				}
 			}
 
+			// 1. First, convert visual blocks to semantic blocks
+			convertStyledBlocks(tempDiv);
+			// 2. Then, preserve text newlines
 			preserveNewlines(tempDiv);
+
 			const processedHtml = tempDiv.innerHTML;
 
 			let markdown = turndownService.turndown(processedHtml);
