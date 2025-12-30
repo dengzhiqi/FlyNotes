@@ -1190,6 +1190,26 @@
 		border-color: #282c34;
 	}
 
+	.note-content img,
+	.edit-preview img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 4px;
+		display: block;
+		margin: 0.5rem 0;
+	}
+
+	.note-content img.inline-img,
+	.edit-preview img.inline-img {
+		display: inline-block;
+		margin: 0 4px;
+		/* 使用 1.25em 确保稍大于文字，垂直居中 */
+		height: 1.25em;
+		width: auto;
+		vertical-align: text-bottom;
+		border-radius: 0;
+	}
+
 	.note-content,
 	.edit-preview {
 		white-space: normal;
@@ -7707,6 +7727,32 @@
 				// 使用 '  \n' 表示 Markdown 硬换行 (Hard Break)，
 				// 这样虽然换行了，但不会产生段落间距 (即不会有空行)。
 				return '  \n';
+			}
+		});
+
+		// 新增：识别行内图片 (Emoji 等)，保留为 HTML <img> 标签并添加 class
+		turndownService.addRule('imgRule', {
+			filter: 'img',
+			replacement: function (content, node) {
+				const src = node.getAttribute('src');
+				const alt = node.getAttribute('alt') || '';
+
+				// 判断是否为行内图片 (Emoji)：
+				// 1. 包含 'emoji' 类名 (Twitter/X 等常用)
+				// 2. 或者宽度/高度很小 (< 32px)
+				const isEmoji = (node.classList && node.classList.contains('emoji')) ||
+					(node.width > 0 && node.width <= 32) ||
+					(node.height > 0 && node.height <= 32);
+
+				if (isEmoji) {
+					// 只有对于行内图片，我们返回 HTML，这样带有 class
+					return `<img src="${src}" alt="${alt}" class="inline-img" />`;
+				}
+
+				// 对于大图，使用标准 Markdown 格式，它会受到我们之前添加的 .note-content img 样式影响 (max-width: 100%)
+				// 如果图片是在段落内，Turndown 会自动处理。
+				// 注意：如果图片是独立的，最好确保它前后有换行，但标准 Markdown image 语法通常足够。
+				return src ? `![${alt}](${src})` : '';
 			}
 		});
 	}
