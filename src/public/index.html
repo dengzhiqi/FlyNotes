@@ -7689,13 +7689,28 @@
 		});
 		turndownService.addRule('lineBreakRule', {
 			filter: ['div', 'p'],
-			replacement: function (content) {
-				// 如果内容不为空，则在内容后添加一个换行符。
-				// 这将保留从代码编辑器复制时的换行，但不会添加额外的空行。
-				return content.trim() ? content + '\n' : '';
+			replacement: function (content, node) {
+				// 如果在链接内部，不要添加额外的换行符，但要保留内容并加一个空格以防粘连
+				if (node.closest('a')) {
+					return content + ' ';
+				}
+				// 如果内容不为空，则在内容后添加两个换行符 (标准 Markdown段落)。
+				// 这将保留从代码编辑器复制时的换行，且正确区分段落。
+				return content.trim() ? content + '\n\n' : '';
+			}
+		});
+
+		// 新增：显式处理 <br> 标签，确保推文中的换行被保留
+		turndownService.addRule('brRule', {
+			filter: 'br',
+			replacement: function () {
+				// 使用 '  \n' 表示 Markdown 硬换行 (Hard Break)，
+				// 这样虽然换行了，但不会产生段落间距 (即不会有空行)。
+				return '  \n';
 			}
 		});
 	}
+
 
 	// 2. 粘贴事件处理函数
 	function handleSmartPaste(event) {
@@ -7717,7 +7732,58 @@
 
 			// 阻止浏览器默认的、会丢失格式的粘贴行为
 			event.preventDefault();
-			const markdown = turndownService.turndown(pastedHtml);
+
+			// 预处理 HTML：保留文本节点中的换行符
+			// 许多网站 (如 X/Twitter) 使用 white-space: pre-wrap，复制的 HTML 包含换行符但没有 <br>
+			// Turndown 默认会忽略这些换行符，所以我们需要先将它们转换为 <br>
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = pastedHtml;
+
+			function preserveNewlines(node) {
+				if (node.nodeType === Node.TEXT_NODE) {
+					// 如果文本包含换行符，且不在 pre/code 标签内 (Turndown 会自己处理这些)
+					if (node.nodeValue.includes('\n')) {
+						const parent = node.parentNode;
+						if (parent && /^(PRE|CODE|TABLE|THEAD|TBODY|TR|TH|TD|STYLE|SCRIPT)$/i.test(parent.nodeName)) {
+							return;
+						}
+
+						const frag = document.createDocumentFragment();
+						const parts = node.nodeValue.split('\n');
+						parts.forEach((part, index) => {
+							if (index > 0) frag.appendChild(document.createElement('br'));
+							if (part) frag.appendChild(document.createTextNode(part));
+						});
+						parent.replaceChild(frag, node);
+					}
+				} else if (node.nodeType === Node.ELEMENT_NODE) {
+					// 递归处理，但跳过 pre/code 等
+					if (!/^(PRE|CODE|STYLE|SCRIPT)$/i.test(node.nodeName)) {
+						// 需要将子节点转换为数组，因为遍历过程中可能会修改 DOM 结构
+						Array.from(node.childNodes).forEach(preserveNewlines);
+					}
+				}
+			}
+
+			preserveNewlines(tempDiv);
+			const processedHtml = tempDiv.innerHTML;
+
+			let markdown = turndownService.turndown(processedHtml);
+
+			// 修复 1: 将转义的下划线 \_ 替换回 _，以正确显示用户名等
+			markdown = markdown.replace(/\\_/g, '_');
+
+			// 修复 2: 移除链接文本中的换行符和多余空格
+			// 针对 X (Twitter) 帖子，[Title\n](url) -> [Title](url)
+			markdown = markdown.replace(/\[([\s\S]*?)\]\(([^)]+)\)/g, (match, text, url) => {
+				// 将所有空白字符（包括换行）替换为单个空格，然后去除首尾空格
+				const cleanText = text.replace(/\s+/g, ' ').trim();
+				return `[${cleanText}](${url})`;
+			});
+
+			// 修复 3: 去除首尾空白字符
+			markdown = markdown.trim();
+
 			// 将转换后的 Markdown 插入到当前光标所在的位置
 			insertTextAtCursor(textarea, markdown);
 		}
