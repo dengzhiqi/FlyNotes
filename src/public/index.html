@@ -7740,21 +7740,28 @@
 				}
 				// 检查是否为元素节点
 				if (node.nodeType === Node.ELEMENT_NODE) {
+					// 检查内联样式中的font-weight（粘贴的HTML通常保留内联样式）
+					const inlineFontWeight = node.style.fontWeight;
+					if (inlineFontWeight) {
+						const weight = parseInt(inlineFontWeight);
+						// font-weight >= 600 或 'bold' 被认为是加粗
+						if (weight >= 600 || inlineFontWeight === 'bold' || inlineFontWeight === 'bolder') {
+							return true;
+						}
+					}
+
+					// 也检查计算样式作为后备（某些情况下可能有用）
 					try {
-						// 获取计算后的样式
 						const style = window.getComputedStyle(node);
 						const fontWeight = style.fontWeight;
-						// font-weight >= 600 或 'bold' 被认为是加粗
-						// 同时确保节点有文本内容且不是块级元素（避免影响布局）
 						if (fontWeight && (parseInt(fontWeight) >= 600 || fontWeight === 'bold')) {
-							// 只处理包含文本的span等内联元素
+							// 只处理包含文本的内联元素
 							const hasText = node.textContent && node.textContent.trim().length > 0;
 							const isInline = style.display === 'inline' || style.display === 'inline-block';
 							return hasText && isInline;
 						}
 					} catch (e) {
-						// 如果获取样式失败，忽略此节点
-						return false;
+						// 如果获取样式失败，忽略
 					}
 				}
 				return false;
