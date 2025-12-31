@@ -7891,34 +7891,38 @@
 							return false;
 						}
 
-						// Check if the next visible sibling is an inline emoji
-						let nextIsEmoji = false;
-						let nextNode = null;
+						// Check if the next visible siblings are inline emojis
+						// We need to check ALL consecutive emojis, not just the first one
+						let emojiSequence = [];
 						let sibling = node.nextSibling;
+
+						// Collect all consecutive emojis (skipping whitespace text nodes)
 						while (sibling) {
 							if (isEmojiNode(sibling)) {
-								nextIsEmoji = true;
-								nextNode = sibling;
-								break;
+								emojiSequence.push(sibling);
+								sibling = sibling.nextSibling;
+								continue;
 							}
-							// Iterate past empty/whitespace text nodes
+							// Skip empty/whitespace text nodes
 							if (sibling.nodeType === Node.TEXT_NODE && !sibling.nodeValue.trim()) {
 								sibling = sibling.nextSibling;
 								continue;
 							}
-							// Found a non-empty text node or other element
+							// Found a non-empty text node or other element, stop collecting
 							break;
 						}
 
-						// Key Check: Is this emoji acting as a "Bullet"?
-						// It is a bullet if it has following text content.
-						// If it is a bullet, we DO NOT suppress the newline (we want the line break).
-						// If it is NOT a bullet (it's a trailer), we SUPPRESS the newline (glue it).
+						// Key Check: Are these emojis acting as "Bullets" or "Trailers"?
+						// They are bullets if there is following text content after the ENTIRE sequence.
+						// If they are bullets, we DO NOT suppress the newline (we want the line break).
+						// If they are NOT bullets (they're trailers), we SUPPRESS the newline (glue them).
 						let nextIsBullet = false;
-						if (nextIsEmoji && nextNode) {
-							// Check after the emoji
-							let after = nextNode.nextSibling;
-							// Find first meaningful content after the emoji
+						if (emojiSequence.length > 0) {
+							// Check what comes after the LAST emoji in the sequence
+							let lastEmoji = emojiSequence[emojiSequence.length - 1];
+							let after = lastEmoji.nextSibling;
+
+							// Find first meaningful content after the last emoji
 							while (after) {
 								if (after.nodeType === Node.TEXT_NODE && after.nodeValue.trim().length > 0) {
 									nextIsBullet = true;
@@ -7931,6 +7935,8 @@
 								after = after.nextSibling;
 							}
 						}
+
+						const nextIsEmoji = emojiSequence.length > 0;
 
 						parts.forEach((part, index) => {
 							// Logic: Suppress <br> ONLY if:
