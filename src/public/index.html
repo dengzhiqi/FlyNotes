@@ -7746,7 +7746,11 @@
 						const weight = parseInt(inlineFontWeight);
 						// font-weight >= 600 或 'bold' 被认为是加粗
 						if (weight >= 600 || inlineFontWeight === 'bold' || inlineFontWeight === 'bolder') {
-							return true;
+							// 也要检查display属性，确保是内联元素
+							const inlineDisplay = node.style.display;
+							if (!inlineDisplay || inlineDisplay === 'inline' || inlineDisplay === 'inline-block') {
+								return true;
+							}
 						}
 					}
 
