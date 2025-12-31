@@ -7685,7 +7685,8 @@
 			headingStyle: 'atx',      // 标题样式使用 '#' (e.g., ## My Heading)
 			codeBlockStyle: 'fenced',
 			bulletListMarker: '-',    // 无序列表使用 '-'
-			emDelimiter: '*'          // 斜体使用 '*'
+			emDelimiter: '*',         // 斜体使用 '*'
+			strongDelimiter: '**'     // 加粗使用 '**'
 		})
 		: null;
 	if (turndownService) {
@@ -7727,6 +7728,40 @@
 				// 使用 '  \n' 表示 Markdown 硬换行 (Hard Break)，
 				// 这样虽然换行了，但不会产生段落间距 (即不会有空行)。
 				return '  \n';
+			}
+		});
+
+		// 新增：处理通过CSS font-weight实现的加粗文本（如Twitter/X）
+		turndownService.addRule('cssBoldRule', {
+			filter: function (node) {
+				// 跳过已经是strong/b标签的元素，避免重复处理
+				if (node.nodeName === 'STRONG' || node.nodeName === 'B') {
+					return false;
+				}
+				// 检查是否为元素节点
+				if (node.nodeType === Node.ELEMENT_NODE) {
+					try {
+						// 获取计算后的样式
+						const style = window.getComputedStyle(node);
+						const fontWeight = style.fontWeight;
+						// font-weight >= 600 或 'bold' 被认为是加粗
+						// 同时确保节点有文本内容且不是块级元素（避免影响布局）
+						if (fontWeight && (parseInt(fontWeight) >= 600 || fontWeight === 'bold')) {
+							// 只处理包含文本的span等内联元素
+							const hasText = node.textContent && node.textContent.trim().length > 0;
+							const isInline = style.display === 'inline' || style.display === 'inline-block';
+							return hasText && isInline;
+						}
+					} catch (e) {
+						// 如果获取样式失败，忽略此节点
+						return false;
+					}
+				}
+				return false;
+			},
+			replacement: function (content) {
+				// 将内容包裹在 ** 中表示加粗
+				return content ? `**${content}**` : '';
 			}
 		});
 
