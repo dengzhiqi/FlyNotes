@@ -7715,9 +7715,9 @@
 				if (node.closest('a')) {
 					return content + ' ';
 				}
-				// 如果内容不为空，则在内容后添加两个换行符 (标准 Markdown段落)。
-				// 这将保留从代码编辑器复制时的换行，且正确区分段落。
-				return content.trim() ? content + '\n\n' : '';
+				// 如果内容不为空，则在内容后添加一个换行符。
+				// 这将保留段落结构，但不会产生额外的空行。
+				return content.trim() ? content + '\n' : '';
 			}
 		});
 
@@ -7819,10 +7819,12 @@
 		const pastedText = clipboardData.getData('text/plain');
 
 		// 关键条件：
-		// 1. 剪贴板中必须明确包含 HTML 内容。
-		// 2. 如果 HTML 内容和纯文本内容完全一样（例如从 VS Code 等纯文本编辑器复制），
-		//    则不进行转换，直接使用浏览器默认的粘贴行为。
-		if (pastedHtml && pastedHtml.length > 0 && pastedHtml !== pastedText) {
+		// 1. 如果有 HTML 内容且与纯文本不同，进行 HTML 转 Markdown 处理
+		// 2. 如果只有纯文本，检查是否包含空白行，如果有则手动处理以保留空白行
+		const hasHtml = pastedHtml && pastedHtml.length > 0 && pastedHtml !== pastedText;
+		const hasBlankLines = pastedText && /\n\s*\n/.test(pastedText);
+
+		if (hasHtml) {
 
 			// 阻止浏览器默认的、会丢失格式的粘贴行为
 			event.preventDefault();
@@ -7985,14 +7987,37 @@
 						const nextIsEmoji = emojiSequence.length > 0;
 
 						parts.forEach((part, index) => {
-							// Logic: Suppress <br> ONLY if:
-							// 1. It is a trailing newline (end of text node).
-							// 2. Next element is an emoji.
-							// 3. That emoji is NOT a bullet (i.e. it is a trailer/end-of-line emoji).
+							// Logic: Suppress <br> in several cases:
+							// 1. Trailing newline before emoji trailers (not bullets)
+							// 2. Newlines between short text segments (like Twitter name/handle: "Latte\n@0xbisc")
 							const isLast = index === parts.length - 1;
 							const isTrailingNewline = index > 0 && isLast && part === '';
 
-							const shouldSuppress = isTrailingNewline && nextIsEmoji && !nextIsBullet;
+							// Case 1: Emoji trailer suppression
+							let shouldSuppressEmoji = isTrailingNewline && nextIsEmoji && !nextIsBullet;
+
+							// Case 2: Short text segment suppression (Twitter name/handle pattern)
+							// Check if this is an empty part (newline) between two short text segments
+							let shouldSuppressShortText = false;
+							if (index > 0 && part.trim() === '') {
+								const prevPart = parts[index - 1];
+								// Check if there's a next part (not at the end)
+								const nextPart = index < parts.length - 1 ? parts[index + 1] : null;
+
+								// Check if both surrounding parts are short (likely name/handle)
+								// Typical pattern: "Name\n@handle" or "Name\nhandle"
+								const prevIsShort = prevPart && prevPart.trim().length > 0 && prevPart.trim().length < 50;
+								const nextIsShort = nextPart && nextPart.trim().length > 0 && nextPart.trim().length < 50;
+
+								// Additional check: next part starts with @ (Twitter handle) or is very short
+								const nextLooksLikeHandle = nextPart && (nextPart.trim().startsWith('@') || nextPart.trim().length < 20);
+
+								if (prevIsShort && nextIsShort && nextLooksLikeHandle) {
+									shouldSuppressShortText = true;
+								}
+							}
+
+							const shouldSuppress = shouldSuppressEmoji || shouldSuppressShortText;
 
 							if (shouldSuppress) {
 								// If suppressing, strip trailing spaces from the previous part so it glues perfectly.
@@ -8040,6 +8065,18 @@
 
 			// 将转换后的 Markdown 插入到当前光标所在的位置
 			insertTextAtCursor(textarea, markdown);
+		} else if (hasBlankLines) {
+			// 处理纯文本中的空白行：将连续的换行符转换为 Markdown 硬换行（两个空格 + 换行）
+			event.preventDefault();
+
+			// 将空白行（连续换行）转换为 Markdown 格式
+			// 单个换行保持不变，空白行用两个空格+换行来表示
+			let processedText = pastedText;
+
+			// 将连续的空行（\n\n）转换为 Markdown 段落分隔（保留）
+			// 不需要特殊处理，Markdown 本身支持空行
+
+			insertTextAtCursor(textarea, processedText);
 		}
 		// 如果不满足以上条件，则不执行任何操作，让浏览器执行默认的纯文本粘贴。
 	}
