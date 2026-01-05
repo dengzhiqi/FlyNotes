@@ -4888,12 +4888,7 @@
 	});
 
 	// --- 为附件内容区添加无限滚动和图片预览的事件委托 ---
-	attachmentsContent.addEventListener('scroll', () => {
-		// 无限滚动逻辑
-		if (attachmentsContent.scrollTop + attachmentsContent.clientHeight >= attachmentsContent.scrollHeight - 100) {
-			fetchAllAttachments();
-		}
-	});
+
 
 	attachmentsContent.addEventListener('click', async e => {
 		const imageLink = e.target.closest('a[data-previewable="true"]');
@@ -8519,8 +8514,14 @@
 
 	// --- Infinite Scroll & Initial Load ---
 	window.addEventListener('scroll', () => {
-		if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100 && appState.pagination.hasMore && !appState.pagination.isLoading) {
-			fetchNotes(appState.pagination.currentPage + 1);
+		if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
+			if (appState.baseMode === 'attachments') {
+				if (attachmentsState.hasMore && !attachmentsState.isLoading) {
+					fetchAllAttachments();
+				}
+			} else if (appState.pagination.hasMore && !appState.pagination.isLoading) {
+				fetchNotes(appState.pagination.currentPage + 1);
+			}
 		}
 	});
 
