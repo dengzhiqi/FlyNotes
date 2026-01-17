@@ -8,6 +8,7 @@
 	<title>Fly Notes</title>
 	<script src='https://unpkg.com/turndown@7.2.1/dist/turndown.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 	<link id='hljs-light-theme' rel='stylesheet'
 		href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'>
 	<link id='hljs-dark-theme' rel='stylesheet'
@@ -9032,6 +9033,22 @@
 		color: var(--text-color);
 		width: 100%;
 	}
+
+	.export-image-btn {
+		padding: 0.6rem 1rem;
+		background: transparent;
+		color: #28a745;
+		border: 1px solid #28a745;
+		border-radius: 4px;
+		cursor: pointer;
+		font-weight: 500;
+		margin-top: 0.5rem;
+		align-self: flex-start;
+	}
+
+	.export-image-btn:hover {
+		background: rgba(40, 167, 69, 0.1);
+	}
 </style>
 
 <div class="share-modal-overlay" id="share-modal-overlay">
@@ -9062,6 +9079,7 @@
 				</select>
 			</div>
 
+			<button class="share-btn export-image-btn" onclick="exportNoteAsImage()">📷 导出为图片</button>
 			<button class="share-delete-btn" onclick="deleteShare()">Stop Sharing</button>
 		</div>
 	</div>
@@ -9167,6 +9185,84 @@
 		btn.innerText = 'Copied!';
 		setTimeout(() => btn.innerText = originalText, 2000);
 	}
+
+	// Export Note as Image
+	async function exportNoteAsImage() {
+		if (!currentSharingNoteId) return;
+
+		const noteElement = document.querySelector(`.note[data-id="${currentSharingNoteId}"]`);
+		if (!noteElement) {
+			showCustomAlert('找不到笔记元素', 'error');
+			return;
+		}
+
+		const exportBtn = document.querySelector('.export-image-btn');
+		const originalText = exportBtn.textContent;
+		exportBtn.textContent = '正在生成图片...';
+		exportBtn.disabled = true;
+
+		try {
+			// 克隆笔记元素
+			const clone = noteElement.cloneNode(true);
+
+			// 移除操作按钮
+			const actions = clone.querySelector('.note-actions');
+			if (actions) actions.remove();
+
+			// 临时添加到页面用于渲染
+			clone.style.position = 'absolute';
+			clone.style.left = '-9999px';
+			clone.style.width = noteElement.offsetWidth + 'px';
+			clone.style.zIndex = '-1';
+			document.body.appendChild(clone);
+
+			// 等待图片加载
+			const images = clone.querySelectorAll('img');
+			await Promise.all(Array.from(images).map(img => {
+				if (img.complete) return Promise.resolve();
+				return new Promise(resolve => {
+					img.onload = resolve;
+					img.onerror = resolve;
+					setTimeout(resolve, 3000); // 超时保护
+				});
+			}));
+
+			// 使用 html2canvas 生成图片
+			const canvas = await html2canvas(clone, {
+				backgroundColor: getComputedStyle(noteElement).backgroundColor,
+				scale: 2,
+				logging: false,
+				useCORS: true,
+				allowTaint: true,
+				imageTimeout: 0,
+				removeContainer: false
+			});
+
+			// 移除临时元素
+			document.body.removeChild(clone);
+
+			// 转换为 Blob 并下载
+			canvas.toBlob((blob) => {
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `note-${currentSharingNoteId}-${Date.now()}.png`;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(url);
+			});
+
+			// 导出成功，不显示提示
+		} catch (error) {
+			console.error('Export error:', error);
+			showCustomAlert('导出失败：' + error.message, 'error');
+		} finally {
+			exportBtn.textContent = originalText;
+			exportBtn.disabled = false;
+		}
+	}
 </script>
 </body>
+
 </html>
