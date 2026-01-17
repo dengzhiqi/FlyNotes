@@ -9111,43 +9111,28 @@
 		}
 
 		modal.classList.add('active');
-		input.value = 'Checking...';
-		createBtn.disabled = true;
 
-		// 检查是否已有分享链接
-		try {
-			const response = await fetch(`/api/notes/${noteId}/share`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ expiresIn: parseInt(select.value) })
-			});
+		// 检查 localStorage 中是否有已缓存的分享链接
+		const cachedLink = localStorage.getItem(`share_link_${noteId}`);
 
-			if (response.ok) {
-				const data = await response.json();
-				// 已有分享链接，显示并设置为复制模式
-				input.value = data.url;
-				createBtn.textContent = 'Copy Again';
-				createBtn.onclick = () => {
-					input.select();
-					document.execCommand('copy');
-					createBtn.textContent = 'Copied!';
-					setTimeout(() => createBtn.textContent = 'Copy Again', 1500);
-				};
-			} else {
-				// 没有分享链接，设置为创建模式
-				input.value = '';
-				createBtn.textContent = 'Create Share Link';
-				createBtn.onclick = createAndCopyShareLink;
-			}
-		} catch (e) {
-			console.error('Check share error:', e);
-			// 出错时设置为创建模式
+		if (cachedLink) {
+			// 已有分享链接，显示并设置为复制模式
+			input.value = cachedLink;
+			createBtn.textContent = 'Copy Again';
+			createBtn.onclick = () => {
+				input.select();
+				document.execCommand('copy');
+				createBtn.textContent = 'Copied!';
+				setTimeout(() => createBtn.textContent = 'Copy Again', 1500);
+			};
+		} else {
+			// 没有分享链接，设置为创建模式
 			input.value = '';
 			createBtn.textContent = 'Create Share Link';
 			createBtn.onclick = createAndCopyShareLink;
-		} finally {
-			createBtn.disabled = false;
 		}
+
+		createBtn.disabled = false;
 	}
 
 	// Close Share Dialog
@@ -9206,6 +9191,8 @@
 			});
 
 			if (response.ok) {
+				// 清除 localStorage 中的缓存
+				localStorage.removeItem(`share_link_${currentSharingNoteId}`);
 				closeShareDialog();
 			} else {
 				input.value = 'Error deleting share';
@@ -9230,6 +9217,9 @@
 
 			// 自动复制到剪贴板
 			if (input.value && !input.value.includes('Error')) {
+				// 缓存分享链接到 localStorage
+				localStorage.setItem(`share_link_${currentSharingNoteId}`, input.value);
+
 				input.select();
 				document.execCommand('copy');
 				btn.textContent = 'Copied!';
