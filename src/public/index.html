@@ -9018,7 +9018,10 @@
 		cursor: pointer;
 		font-weight: 500;
 		margin-top: 0.5rem;
+		margin-left: 0.5rem;
 		align-self: flex-start;
+		min-width: 120px;
+		/* 与导出按钮保持一致的最小宽度 */
 	}
 
 	.share-delete-btn:hover {
@@ -9044,6 +9047,8 @@
 		font-weight: 500;
 		margin-top: 0.5rem;
 		align-self: flex-start;
+		min-width: 120px;
+		/* 设置最小宽度确保按钮长度一致 */
 	}
 
 	.export-image-btn:hover {
@@ -9065,8 +9070,10 @@
 			<div class="share-field">
 				<label>Display Link</label>
 				<div class="share-input-group">
-					<input type="text" class="share-input" id="share-link-input" readonly>
-					<button class="share-btn" onclick="copyShareLink()">Copy</button>
+					<input type="text" class="share-input" id="share-link-input" readonly
+						placeholder="Click 'Create Share Link' to generate">
+					<button class="share-btn" id="create-share-btn" onclick="createAndCopyShareLink()">Create Share
+						Link</button>
 				</div>
 			</div>
 
@@ -9103,9 +9110,15 @@
 		}
 
 		modal.classList.add('active');
-		input.value = 'Generating...';
+		input.value = ''; // 初始为空
 
-		await generateShareLink();
+		// 重置按钮状态
+		const createBtn = document.getElementById('create-share-btn');
+		createBtn.textContent = 'Create Share Link';
+		createBtn.onclick = createAndCopyShareLink;
+		createBtn.disabled = false;
+
+		// 不自动生成链接
 	}
 
 	// Close Share Dialog
@@ -9174,16 +9187,41 @@
 		}
 	}
 
-	// Copy Link
-	function copyShareLink() {
+	// Create and Copy Share Link
+	async function createAndCopyShareLink() {
+		const btn = document.getElementById('create-share-btn');
 		const input = document.getElementById('share-link-input');
-		input.select();
-		document.execCommand('copy');
+		const originalText = btn.textContent;
 
-		const btn = input.nextElementSibling;
-		const originalText = btn.innerText;
-		btn.innerText = 'Copied!';
-		setTimeout(() => btn.innerText = originalText, 2000);
+		btn.textContent = 'Creating...';
+		btn.disabled = true;
+
+		try {
+			await generateShareLink();
+
+			// 自动复制到剪贴板
+			if (input.value && !input.value.includes('Error')) {
+				input.select();
+				document.execCommand('copy');
+				btn.textContent = 'Copied!';
+				setTimeout(() => {
+					btn.textContent = 'Copy Again';
+					btn.onclick = () => {
+						input.select();
+						document.execCommand('copy');
+						btn.textContent = 'Copied!';
+						setTimeout(() => btn.textContent = 'Copy Again', 1500);
+					};
+				}, 1500);
+			} else {
+				btn.textContent = originalText;
+			}
+		} catch (error) {
+			console.error('Create share error:', error);
+			btn.textContent = originalText;
+		} finally {
+			btn.disabled = false;
+		}
 	}
 
 	// Export Note as Image
