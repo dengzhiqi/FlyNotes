@@ -9102,6 +9102,7 @@
 		const modal = document.getElementById('share-modal-overlay');
 		const input = document.getElementById('share-link-input');
 		const select = document.getElementById('share-expiration-select');
+		const createBtn = document.getElementById('create-share-btn');
 
 		// Restore last expiration
 		const lastExpires = localStorage.getItem(STORAGE_KEY_EXPIRATION);
@@ -9110,15 +9111,43 @@
 		}
 
 		modal.classList.add('active');
-		input.value = ''; // 初始为空
+		input.value = 'Checking...';
+		createBtn.disabled = true;
 
-		// 重置按钮状态
-		const createBtn = document.getElementById('create-share-btn');
-		createBtn.textContent = 'Create Share Link';
-		createBtn.onclick = createAndCopyShareLink;
-		createBtn.disabled = false;
+		// 检查是否已有分享链接
+		try {
+			const response = await fetch(`/api/notes/${noteId}/share`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ expiresIn: parseInt(select.value) })
+			});
 
-		// 不自动生成链接
+			if (response.ok) {
+				const data = await response.json();
+				// 已有分享链接，显示并设置为复制模式
+				input.value = data.url;
+				createBtn.textContent = 'Copy Again';
+				createBtn.onclick = () => {
+					input.select();
+					document.execCommand('copy');
+					createBtn.textContent = 'Copied!';
+					setTimeout(() => createBtn.textContent = 'Copy Again', 1500);
+				};
+			} else {
+				// 没有分享链接，设置为创建模式
+				input.value = '';
+				createBtn.textContent = 'Create Share Link';
+				createBtn.onclick = createAndCopyShareLink;
+			}
+		} catch (e) {
+			console.error('Check share error:', e);
+			// 出错时设置为创建模式
+			input.value = '';
+			createBtn.textContent = 'Create Share Link';
+			createBtn.onclick = createAndCopyShareLink;
+		} finally {
+			createBtn.disabled = false;
+		}
 	}
 
 	// Close Share Dialog
