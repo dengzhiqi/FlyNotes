@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang='en'>
 
 <head>
@@ -348,7 +348,7 @@
 		display: none;
 	}
 
-	/* 当父容器有 .app-visible 类时，才显示侧边栏 */
+	/* 褰撶埗瀹瑰櫒鏈?.app-visible 绫绘椂锛屾墠鏄剧ず渚ц竟鏍?*/
 	#app-layout-container.app-visible #left-sidebar,
 	#app-layout-container.app-visible #right-sidebar {
 		display: block;
@@ -368,7 +368,7 @@
 		}
 	}
 
-	/* 响应式设计：在小屏幕上隐藏侧边栏 */
+	/* 鍝嶅簲寮忚璁★細鍦ㄥ皬灞忓箷涓婇殣钘忎晶杈规爮 */
 	@media (max-width: 1250px) {
 		#app-layout-container {
 			grid-template-columns: 1fr !important;
@@ -376,10 +376,10 @@
 
 		#left-sidebar {
 			display: none !important;
-			/* 隐藏侧边栏 */
+			/* 闅愯棌渚ц竟鏍?*/
 		}
 
-		/* 在宽屏模式下，如果右侧栏存在，则中间栏依然受限 */
+		/* 鍦ㄥ灞忔ā寮忎笅锛屽鏋滃彸渚ф爮瀛樺湪锛屽垯涓棿鏍忎緷鐒跺彈闄?*/
 		#app-layout-container.full-width-mode #main-content-area .container {
 			max-width: 85%;
 			max-width: 1400px !important;
@@ -389,7 +389,7 @@
 	@media (max-width: 1150px) {
 		#right-sidebar {
 			display: none !important;
-			/* 隐藏侧边栏 */
+			/* 闅愯棌渚ц竟鏍?*/
 		}
 
 		#wide-mode-toggle-btn {
@@ -997,7 +997,7 @@
 		height: 14px;
 		border: 2px solid rgba(255, 255, 255, 0.3);
 		border-top-color: #ffffff;
-		/* 在主色背景上使用纯白 */
+		/* 鍦ㄤ富鑹茶儗鏅笂浣跨敤绾櫧 */
 		border-radius: 50%;
 		animation: spin 1s linear infinite;
 	}
@@ -1203,7 +1203,7 @@
 	.edit-preview img.inline-img {
 		display: inline-block;
 		margin: 0 4px;
-		/* 使用 1.25em 确保稍大于文字，垂直居中 */
+		/* 浣跨敤 1.25em 纭繚绋嶅ぇ浜庢枃瀛楋紝鍨傜洿灞呬腑 */
 		height: 1.25em;
 		width: auto;
 		vertical-align: text-bottom;
@@ -2412,7 +2412,7 @@
 		max-width: 1000px;
 	}
 
-	/* --- 全屏编辑器视图切换按钮的激活状态 --- */
+	/* --- 鍏ㄥ睆缂栬緫鍣ㄨ鍥惧垏鎹㈡寜閽殑婵€娲荤姸鎬?--- */
 	.toolbar-right .icon-btn.active {
 		color: var(--primary-color);
 		background-color: rgba(54, 124, 255, 0.1);
@@ -2420,7 +2420,7 @@
 
 	body[data-theme='dark'] .toolbar-right .icon-btn.active {
 		background-color: rgba(66, 153, 225, 0.15);
-		/* 适配深色模式 */
+		/* 閫傞厤娣辫壊妯″紡 */
 	}
 
 	.toolbar-selector {
@@ -2598,7 +2598,7 @@
 		opacity: 1 !important;
 	}
 
-	/* --- 日历组件样式 --- */
+	/* --- 鏃ュ巻缁勪欢鏍峰紡 --- */
 	#calendar-wrapper {
 		padding: 0.5rem;
 	}
@@ -3084,7 +3084,7 @@
 
 	.attachment-img,
 	.attachment-link {
-		/* 为内部绝对定位的按钮提供参照物 */
+		/* 涓哄唴閮ㄧ粷瀵瑰畾浣嶇殑鎸夐挳鎻愪緵鍙傜収鐗?*/
 		position: relative;
 	}
 
@@ -3096,7 +3096,7 @@
 		background-color: rgba(0, 0, 0, 0.4);
 		color: white;
 		opacity: 0;
-		/* 默认隐藏 */
+		/* 榛樿闅愯棌 */
 		visibility: hidden;
 		transform: scale(0.8);
 		transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
@@ -3106,7 +3106,7 @@
 		background-color: rgba(0, 0, 0, 0.6);
 	}
 
-	/* 当鼠标悬停在父容器上时显示按钮 */
+	/* 褰撻紶鏍囨偓鍋滃湪鐖跺鍣ㄤ笂鏃舵樉绀烘寜閽?*/
 	.attachment-img:hover .share-file-btn,
 	.attachment-link:hover .share-file-btn {
 		opacity: 1;
@@ -3154,12 +3154,12 @@
 			<button type='submit' id='login-btn'>Login</button>
 		</form>
 	</div>
-	<!-- 一个包裹三栏的容器 -->
+	<!-- 涓€涓寘瑁逛笁鏍忕殑瀹瑰櫒 -->
 	<div id='app-layout-container'>
 
-		<!-- 左侧栏 -->
+		<!-- 宸︿晶鏍?-->
 		<aside id='left-sidebar'>
-			<!-- --- 全局搜索框 --- -->
+			<!-- --- 鍏ㄥ眬鎼滅储妗?--- -->
 			<div class='sidebar-search-container'>
 				<svg class='search-icon' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'>
 					<path
@@ -3176,7 +3176,7 @@
 				</button>
 			</div>
 
-			<!-- --- 统计卡片 --- -->
+			<!-- --- 缁熻鍗＄墖 --- -->
 			<div id='stats-card' class='sidebar-content'>
 				<div class='stat-item'>
 					<span id='stats-days' class='stat-value'>--</span>
@@ -3237,7 +3237,7 @@
 			</div>
 		</aside>
 
-		<!-- 中间主内容区 -->
+		<!-- 涓棿涓诲唴瀹瑰尯 -->
 		<main id='main-content-area'>
 			<div class='container'>
 				<div id='app-container'>
@@ -3317,7 +3317,7 @@
 						</div>
 
 						<div class='form-actions'>
-							<!-- 左侧工具组 -->
+							<!-- 宸︿晶宸ュ叿缁?-->
 							<div class='toolbar-group-left'>
 								<button type='button' id='insert-tag-btn' class='icon-btn' title='Insert tag (#)'>
 									<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'
@@ -3361,7 +3361,7 @@
 								<input type='file' id='note-file' multiple style='display:none;'>
 
 							</div>
-							<!-- 右侧工具组 -->
+							<!-- 鍙充晶宸ュ叿缁?-->
 							<div class='toolbar-group-right'>
 								<button type='button' id='clear-editor-btn' class='icon-btn' title='Clear Editor'>
 									<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
@@ -3414,15 +3414,15 @@
 					<div id='scroll-loader' class='loading-indicator' style='display: none;'>Loading more...</div>
 				</div>
 
-				<!-- 附件浏览页面容器 -->
+				<!-- 闄勪欢娴忚椤甸潰瀹瑰櫒 -->
 				<div id="attachments-viewer" style="display: none;">
 					<header class="attachments-header">
 						<h3>Files</h3>
 						<div class="attachments-tabs">
-							<button class="tab-btn active" data-filter="all">✨ All</button>
-							<button class="tab-btn" data-filter="image">🏞️ Images</button>
-							<button class="tab-btn" data-filter="video">🎬 Videos</button>
-							<button class="tab-btn" data-filter="file">📄 Files</button>
+							<button class="tab-btn active" data-filter="all">鉁?All</button>
+							<button class="tab-btn" data-filter="image">馃彏锔?Images</button>
+							<button class="tab-btn" data-filter="video">馃幀 Videos</button>
+							<button class="tab-btn" data-filter="file">馃搫 Files</button>
 						</div>
 					</header>
 					<div id="attachments-content" class="loading-state">
@@ -3560,7 +3560,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 图片预览模态框 -->
+	<!-- 鍥剧墖棰勮妯℃€佹 -->
 	<div id='image-preview-modal' class='image-preview-modal'>
 		<span class='image-preview-close'>&times;</span>
 		<img class='image-preview-content' id='modal-image'>
@@ -3572,7 +3572,7 @@
 		<div id='video-preview-caption'></div>
 	</div>
 
-	<!-- 全屏编辑模态框 -->
+	<!-- 鍏ㄥ睆缂栬緫妯℃€佹 -->
 	<div id='fullscreen-editor-overlay' class='custom-modal-overlay'>
 		<div id='fullscreen-editor-box' class='custom-modal-box'>
 			<header id='editor-toolbar'>
@@ -3632,14 +3632,14 @@
 			</header>
 			<div id='editor-content-area'>
 				<textarea id='fs-editor-textarea'></textarea>
-				<!-- --- 可拖拽的分割条 --- -->
+				<!-- --- 鍙嫋鎷界殑鍒嗗壊鏉?--- -->
 				<div id='fs-editor-divider'></div>
 				<div id='fs-preview-pane' class='note-content'></div>
 			</div>
 		</div>
 	</div>
 
-	<!-- 返回顶部 -->
+	<!-- 杩斿洖椤堕儴 -->
 	<button id='back-to-top-btn' title='Back to top'>
 		<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='#FFFFFF'>
 			<path d='M0 0h24v24H0V0z' fill='none' />
@@ -3830,7 +3830,7 @@
 </html>
 
 <script>
-	// --- 配置 marked.js ---
+	// --- 閰嶇疆 marked.js ---
 	const renderer = new marked.Renderer();
 	const originalTableRenderer = renderer.table.bind(renderer);
 	const originalLinkRenderer = renderer.link.bind(renderer);
@@ -3888,13 +3888,13 @@
 	};
 	marked.setOptions({
 		renderer: renderer,
-		breaks: true, // 将换行符渲染为 <br>
-		gfm: true,    // 启用 GitHub Flavored Markdown
+		breaks: true, // 灏嗘崲琛岀娓叉煋涓?<br>
+		gfm: true,    // 鍚敤 GitHub Flavored Markdown
 		tables: true
 	});
 
 	const calendarWrapper = document.getElementById('calendar-wrapper');
-	const calendarTooltip = document.getElementById('calendar-tooltip'); // 【新增】
+	const calendarTooltip = document.getElementById('calendar-tooltip'); // 銆愭柊澧炪€?
 	let notesDataByDate = new Map();
 	let calendarInstance = null;
 
@@ -3916,12 +3916,12 @@
 			const header = document.createElement('div');
 			header.className = 'calendar-header';
 			header.innerHTML = `
-                <button id='calendar-prev' class='calendar-nav-btn' title='Previous month'>◄</button>
+                <button id='calendar-prev' class='calendar-nav-btn' title='Previous month'>鈼?/button>
                 <span id='calendar-month-year'>${this.currentDate.toLocaleString('en-US', {
 				month: 'long',
 				year: 'numeric'
 			})}</span>
-                <button id='calendar-next' class='calendar-nav-btn' title='Next month'>►</button>
+                <button id='calendar-next' class='calendar-nav-btn' title='Next month'>鈻?/button>
             `;
 			this.container.appendChild(header);
 			const nextMonthBtn = document.getElementById('calendar-next');
@@ -4236,7 +4236,7 @@
 		}
 	}
 
-	// --- 使用事件委托为所有复制按钮添加点击事件 ---
+	// --- 浣跨敤浜嬩欢濮旀墭涓烘墍鏈夊鍒舵寜閽坊鍔犵偣鍑讳簨浠?---
 	document.body.addEventListener('click', async (event) => {
 		const copyButton = event.target.closest('.copy-code-btn');
 		if (copyButton) {
@@ -4260,7 +4260,7 @@
 			}
 		}
 	});
-	// --- 全局设置管理 ---
+	// --- 鍏ㄥ眬璁剧疆绠＄悊 ---
 	const defaultSettings = {
 		showSearchBar: true, showStatsCard: true, showCalendar: true, showTags: true,
 		showTimeline: true, showRightSidebar: true, hideEditorInWaterfall: false,
@@ -4296,7 +4296,7 @@
 			showCustomAlert(`Error saving settings: ${error.message}`, 'error');
 		}
 	}
-	// --- 全局应用状态 ---
+	// --- 鍏ㄥ眬搴旂敤鐘舵€?---
 	const appState = {
 		baseMode: 'home',
 		isWaterfall: false,
@@ -4393,15 +4393,15 @@
 	const toggleCalendar = document.getElementById('toggle-calendar');
 	const toggleEditorInWaterfall = document.getElementById('toggle-editor-in-waterfall');
 
-	// 设置弹框相关元素
+	// 璁剧疆寮规鐩稿叧鍏冪礌
 	const settingsModalOverlay = document.getElementById('settings-modal-overlay');
 	const closeSettingsBtn = document.getElementById('close-settings-btn');
-	// 可见性开关
+	// 鍙鎬у紑鍏?
 	const toggleSearchBar = document.getElementById('toggle-search-bar');
 	const toggleStatsCard = document.getElementById('toggle-stats-card');
 	const toggleTags = document.getElementById('toggle-tags');
 	const toggleTimeline = document.getElementById('toggle-timeline');
-	// 背景设置
+	// 鑳屾櫙璁剧疆
 	const bgImageUrl = document.getElementById('bg-image-url');
 	const bgImageUpload = document.getElementById('bg-image-upload');
 	const bgBlurSlider = document.getElementById('bg-blur-slider');
@@ -4413,18 +4413,18 @@
 	const surfaceHexColorInput = document.getElementById('surface-hex-color-input');
 	const surfaceOpacitySlider = document.getElementById('surface-opacity-slider');
 	const restoreSurfaceBtn = document.getElementById('restore-surface-defaults-btn');
-	// 瀑布流设置
+	// 鐎戝竷娴佽缃?
 	const waterfallWidthSlider = document.getElementById('waterfall-width-slider');
 	const waterfallWidthValue = document.getElementById('waterfall-width-value');
 	const toggleTelegramProxy = document.getElementById('toggle-telegram-proxy');
 
-	// 需要被控制显隐的左侧栏卡片
+	// 闇€瑕佽鎺у埗鏄鹃殣鐨勫乏渚ф爮鍗＄墖
 	const searchStatsContainer = document.querySelector('.sidebar-search-container');
 	const statsCard = document.getElementById('stats-card');
 	const tagsSectionWrapper = document.getElementById('tags-section-wrapper');
 	const timelineSectionWrapper = document.getElementById('timeline-section-wrapper');
 
-	// --- 富文本编辑相关元素 ---
+	// --- 瀵屾枃鏈紪杈戠浉鍏冲厓绱?---
 	const fsFontsizeSelector = document.getElementById('fs-fontsize-selector');
 	const fsFontcolorBtn = document.getElementById('fs-fontcolor-btn');
 	const fsColorPickerWrapper = document.getElementById('fs-color-picker-wrapper');
@@ -4453,10 +4453,10 @@
 	let waterfallPopoverHideTimer = null;
 	let activePopoverNoteId = null;
 
-	// --- 显示笔记操作菜单 ---
+	// --- 鏄剧ず绗旇鎿嶄綔鑿滃崟 ---
 	function showNotePopover(targetButton, noteId) {
-		clearTimeout(popoverHoverTimer); // 清除可能存在的隐藏计时器
-		// 如果菜单已经为同一个按钮显示，则不执行任何操作
+		clearTimeout(popoverHoverTimer); // 娓呴櫎鍙兘瀛樺湪鐨勯殣钘忚鏃跺櫒
+		// 濡傛灉鑿滃崟宸茬粡涓哄悓涓€涓寜閽樉绀猴紝鍒欎笉鎵ц浠讳綍鎿嶄綔
 		if (notePopoverMenu.classList.contains('visible') && activePopoverNoteId === noteId) {
 			return;
 		}
@@ -4504,15 +4504,15 @@
 		notePopoverMenu.classList.add('visible');
 	}
 
-	// --- 隐藏笔记操作菜单 ---
+	// --- 闅愯棌绗旇鎿嶄綔鑿滃崟 ---
 	function hideNotePopover() {
 		popoverHoverTimer = setTimeout(() => {
 			notePopoverMenu.classList.remove('visible');
 			activePopoverNoteId = null;
-		}, 200); // 延迟200毫秒隐藏，防止鼠标意外移出
+		}, 200); // 寤惰繜200姣闅愯棌锛岄槻姝㈤紶鏍囨剰澶栫Щ鍑?
 	}
 
-	// --- 为菜单本身添加悬停逻辑，防止鼠标移入菜单时它消失 ---
+	// --- 涓鸿彍鍗曟湰韬坊鍔犳偓鍋滈€昏緫锛岄槻姝㈤紶鏍囩Щ鍏ヨ彍鍗曟椂瀹冩秷澶?---
 	notePopoverMenu.addEventListener('mouseenter', () => {
 		clearTimeout(popoverHoverTimer);
 	});
@@ -4521,7 +4521,7 @@
 		hideNotePopover();
 	});
 
-	// --- 处理菜单项的点击事件 ---
+	// --- 澶勭悊鑿滃崟椤圭殑鐐瑰嚮浜嬩欢 ---
 	notePopoverMenu.addEventListener('click', async (e) => {
 		const actionButton = e.target.closest('.icon-btn');
 		if (!actionButton) return;
@@ -4586,7 +4586,7 @@
 					const res = await fetch(`/api/notes/${noteId}`, { method: 'PUT', body: formData });
 					if (!res.ok) throw new Error(`Failed to ${action} note.`);
 
-					// 操作成功后，直接从当前视图移除卡片
+					// 鎿嶄綔鎴愬姛鍚庯紝鐩存帴浠庡綋鍓嶈鍥剧Щ闄ゅ崱鐗?
 					if (noteElement) {
 						noteElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 						noteElement.style.opacity = '0';
@@ -4594,7 +4594,7 @@
 						setTimeout(() => noteElement.remove(), 300);
 					}
 
-					// 更新缓存
+					// 鏇存柊缂撳瓨
 					const noteInCache = allNotesCache.find(n => n.id === parseInt(noteId));
 					if (noteInCache) noteInCache.is_archived = isArchiving;
 
@@ -4632,36 +4632,7 @@
 				break;
 			}
 			case 'share': {
-				const originalIcon = actionButton.innerHTML;
-				const successIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
-				actionButton.disabled = true;
-				actionButton.innerHTML = '<span style="font-size:12px">...</span>';
-
-				try {
-					const res = await fetch(`/api/notes/${noteId}/share`, { method: 'POST' });
-					if (!res.ok) {
-						let errorMsg = 'Failed to share note.';
-						try { errorMsg = (await res.json()).error || errorMsg; } catch (e) { }
-						throw new Error(errorMsg);
-					}
-					const data = await res.json();
-					await navigator.clipboard.writeText(data.url);
-
-					actionButton.innerHTML = successIcon;
-					actionButton.classList.add('copied');
-					actionButton.title = 'Link Copied!';
-
-					setTimeout(() => {
-						actionButton.innerHTML = originalIcon;
-						actionButton.classList.remove('copied');
-						actionButton.title = 'Share';
-						actionButton.disabled = false;
-					}, 2000);
-				} catch (error) {
-					showCustomAlert(error.message, 'error');
-					actionButton.innerHTML = originalIcon;
-					actionButton.disabled = false;
-				}
+				openShareDialog(noteId);
 				break;
 			}
 			case 'delete': {
@@ -4697,7 +4668,7 @@
 		themeColorPopover.classList.remove('visible');
 	}
 
-	// 点击“更多”按钮
+	// 鐐瑰嚮鈥滄洿澶氣€濇寜閽?
 	moreActionsBtn.addEventListener('click', () => {
 		isMenuPinned = !isMenuPinned;
 		moreMenuPopover.classList.toggle('visible', isMenuPinned);
@@ -4706,7 +4677,7 @@
 		}
 	});
 
-	// 悬停显示
+	// 鎮仠鏄剧ず
 	moreActionsContainer.addEventListener('mouseenter', () => {
 		clearTimeout(hideMenuTimeout);
 		if (!moreMenuPopover.classList.contains('visible')) {
@@ -4714,11 +4685,11 @@
 		}
 	});
 
-	// 离开隐藏
+	// 绂诲紑闅愯棌
 	moreActionsContainer.addEventListener('mouseleave', () => {
 		if (!isMenuPinned) {
 			hideMenuTimeout = setTimeout(() => {
-				// 如果颜色选择器也开着，则不自动隐藏，让用户可以操作
+				// 濡傛灉棰滆壊閫夋嫨鍣ㄤ篃寮€鐫€锛屽垯涓嶈嚜鍔ㄩ殣钘忥紝璁╃敤鎴峰彲浠ユ搷浣?
 				if (!themeColorPopover.classList.contains('visible')) {
 					moreMenuPopover.classList.remove('visible');
 				}
@@ -4726,7 +4697,7 @@
 		}
 	});
 
-	// 点击菜单内的“主题颜色”按钮
+	// 鐐瑰嚮鑿滃崟鍐呯殑鈥滀富棰橀鑹测€濇寜閽?
 	themeColorBtn.addEventListener('click', (e) => {
 		e.stopPropagation();
 		if (themeColorPopover.classList.contains('visible')) {
@@ -4736,7 +4707,7 @@
 		}
 	});
 
-	// 全局点击事件，用于关闭所有弹窗
+	// 鍏ㄥ眬鐐瑰嚮浜嬩欢锛岀敤浜庡叧闂墍鏈夊脊绐?
 	document.addEventListener('click', (e) => {
 		if (!moreActionsContainer.contains(e.target)) {
 			if (isMenuPinned) {
@@ -4760,7 +4731,7 @@
 		}
 	});
 
-	// 窗口大小改变或滚动时，隐藏浮动窗口，避免错位
+	// 绐楀彛澶у皬鏀瑰彉鎴栨粴鍔ㄦ椂锛岄殣钘忔诞鍔ㄧ獥鍙ｏ紝閬垮厤閿欎綅
 	window.addEventListener('resize', () => {
 		hideColorPopover();
 		if (isMenuPinned) {
@@ -4773,13 +4744,13 @@
 	const attachmentsState = {
 		allData: [],
 		currentFilter: 'all',
-		isLoaded: false, // 这个现在表示是否已加载过第一页
+		isLoaded: false, // 杩欎釜鐜板湪琛ㄧず鏄惁宸插姞杞借繃绗竴椤?
 		isLoading: false,
 		currentPage: 1,
 		hasMore: true,
 	};
 	/**
-	 * @param {boolean} isInitialLoad - 是否是首次加载或切换筛选器
+	 * @param {boolean} isInitialLoad - 鏄惁鏄娆″姞杞芥垨鍒囨崲绛涢€夊櫒
 	 */
 	async function fetchAllAttachments(isInitialLoad = false) {
 		if (attachmentsState.isLoading || (!attachmentsState.hasMore && !isInitialLoad)) return;
@@ -4802,11 +4773,11 @@
 			const response = await fetch(`/api/attachments?page=${attachmentsState.currentPage}`);
 			if (!response.ok) throw new Error('Failed to fetch attachments');
 			const data = await response.json();
-			// 追加新数据
+			// 杩藉姞鏂版暟鎹?
 			attachmentsState.allData.push(...data.attachments);
 			attachmentsState.hasMore = data.hasMore;
 			attachmentsState.isLoaded = true;
-			// 渲染新获取的数据
+			// 娓叉煋鏂拌幏鍙栫殑鏁版嵁
 			renderAttachments(data.attachments, isInitialLoad);
 			attachmentsState.currentPage++;
 		} catch (error) {
@@ -4856,7 +4827,7 @@
 			}
 		}
 
-		// 只将新获取的数据项添加到对应的网格中
+		// 鍙皢鏂拌幏鍙栫殑鏁版嵁椤规坊鍔犲埌瀵瑰簲鐨勭綉鏍间腑
 		filteredData.forEach(item => {
 			const date = new Date(item.timestamp);
 			const monthKey = date.toLocaleString('en-US', { year: 'numeric', month: 'long' });
@@ -4886,7 +4857,7 @@
 				itemContainer.style.cursor = 'pointer';
 				itemContainer.innerHTML = `
         <video src="${item.url}" class="preview" preload="metadata" muted style="object-fit: contain; background: #000; pointer-events: none;"></video>
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255,255,255,0.7); pointer-events: none;">▶</div>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255,255,255,0.7); pointer-events: none;">鈻?/div>
     `;
 				gridEl.appendChild(itemContainer);
 			} else { // type === 'file'
@@ -4894,7 +4865,7 @@
 				itemLink.className = 'attachment-item attachment-item-file';
 				itemLink.download = item.name;
 				itemLink.innerHTML = `
-                    <div class="file-icon">📄</div>
+                    <div class="file-icon">馃搫</div>
                     <div class="file-info">
                         <div class="name">${item.name}</div>
                         <div class="size">${formatBytes(item.size)}</div>
@@ -4915,7 +4886,7 @@
 		await fetchAllAttachments(true);
 	}
 
-	// --- 附件页面的子选项卡事件监听器 ---
+	// --- 闄勪欢椤甸潰鐨勫瓙閫夐」鍗′簨浠剁洃鍚櫒 ---
 	attachmentsTabs.addEventListener('click', (e) => {
 		const tabBtn = e.target.closest('.tab-btn');
 		if (!tabBtn || tabBtn.classList.contains('active')) return;
@@ -4927,7 +4898,7 @@
 		fetchAllAttachments(true);
 	});
 
-	// --- 为附件内容区添加无限滚动和图片预览的事件委托 ---
+	// --- 涓洪檮浠跺唴瀹瑰尯娣诲姞鏃犻檺婊氬姩鍜屽浘鐗囬瑙堢殑浜嬩欢濮旀墭 ---
 
 
 	attachmentsContent.addEventListener('click', async e => {
@@ -4985,20 +4956,20 @@
 		}
 	});
 
-	// 处理右键预览文本文件的事件
+	// 澶勭悊鍙抽敭棰勮鏂囨湰鏂囦欢鐨勪簨浠?
 	attachmentsContent.addEventListener('contextmenu', e => {
-		// 这里的目标是整个可下载的文件卡片
+		// 杩欓噷鐨勭洰鏍囨槸鏁翠釜鍙笅杞界殑鏂囦欢鍗＄墖
 		const link = e.target.closest('.attachment-item-file');
 		if (!link || !link.download) return;
 
-		// 复用已有的全局变量 textFileExtensions
+		// 澶嶇敤宸叉湁鐨勫叏灞€鍙橀噺 textFileExtensions
 		if (textFileExtensions.includes(link.download.split('.').pop().toLowerCase())) {
 			e.preventDefault();
 			window.open(`${link.href}?preview=true`, '_blank');
 		}
 	});
 	/**
-	 * 从附件视图切换回主页视图
+	 * 浠庨檮浠惰鍥惧垏鎹㈠洖涓婚〉瑙嗗浘
 	 */
 	function hideAttachmentsViewer() {
 		attachmentsViewer.style.display = 'none';
@@ -5006,10 +4977,10 @@
 		appLayoutContainer.classList.remove('attachments-mode');
 	}
 
-	// --- 右侧栏按钮的点击事件 ---
+	// --- 鍙充晶鏍忔寜閽殑鐐瑰嚮浜嬩欢 ---
 	homeTabBtn.addEventListener('click', () => {
 		if (appState.baseMode === 'home') return;
-		hideAttachmentsViewer(); // 从附件页返回
+		hideAttachmentsViewer(); // 浠庨檮浠堕〉杩斿洖
 		appState.baseMode = 'home';
 		updateSidebarTabsUI();
 		updateEditorVisibility();
@@ -5018,7 +4989,7 @@
 
 	favoritesTabBtn.addEventListener('click', () => {
 		if (appState.baseMode === 'favorites') return;
-		hideAttachmentsViewer(); // 从附件页返回
+		hideAttachmentsViewer(); // 浠庨檮浠堕〉杩斿洖
 		appState.baseMode = 'favorites';
 		updateSidebarTabsUI();
 		updateEditorVisibility();
@@ -5030,7 +5001,7 @@
 		hideAttachmentsViewer();
 		appState.baseMode = 'archive';
 		updateSidebarTabsUI();
-		updateEditorVisibility(); // 编辑器在归档页不显示
+		updateEditorVisibility(); // 缂栬緫鍣ㄥ湪褰掓。椤典笉鏄剧ず
 		reloadNotes();
 	});
 
@@ -5039,7 +5010,7 @@
 		showAttachmentsViewer();
 	});
 
-	// --- 为附件页面的子选项卡添加事件委托 ---
+	// --- 涓洪檮浠堕〉闈㈢殑瀛愰€夐」鍗℃坊鍔犱簨浠跺鎵?---
 	attachmentsTabs.addEventListener('click', (e) => {
 		const tabBtn = e.target.closest('.tab-btn');
 		if (!tabBtn || tabBtn.classList.contains('active')) return;
@@ -5058,76 +5029,76 @@
 		}
 	}
 
-	// --- START: 全屏编辑器同步滚动逻辑 ---
+	// --- START: 鍏ㄥ睆缂栬緫鍣ㄥ悓姝ユ粴鍔ㄩ€昏緫 ---
 
 	/**
-	 * 处理编辑器和预览区之间的同步滚动。
-	 * @param {HTMLElement} source - 触发滚动的元素 (textarea 或 preview div)。
-	 * @param {HTMLElement} target - 需要被同步滚动的元素。
+	 * 澶勭悊缂栬緫鍣ㄥ拰棰勮鍖轰箣闂寸殑鍚屾婊氬姩銆?
+	 * @param {HTMLElement} source - 瑙﹀彂婊氬姩鐨勫厓绱?(textarea 鎴?preview div)銆?
+	 * @param {HTMLElement} target - 闇€瑕佽鍚屾婊氬姩鐨勫厓绱犮€?
 	 */
 	function handleSyncScroll(source, target) {
-		// 如果目标元素正在被程序化同步滚动，则重置标志并立即返回，以防止无限循环。
+		// 濡傛灉鐩爣鍏冪礌姝ｅ湪琚▼搴忓寲鍚屾婊氬姩锛屽垯閲嶇疆鏍囧織骞剁珛鍗宠繑鍥烇紝浠ラ槻姝㈡棤闄愬惊鐜€?
 		if (source._isSyncingScroll) {
-			source._isSyncingScroll = false; // 重置标志
+			source._isSyncingScroll = false; // 閲嶇疆鏍囧織
 			return;
 		}
 
-		// 计算源元素可滚动的总高度。
+		// 璁＄畻婧愬厓绱犲彲婊氬姩鐨勬€婚珮搴︺€?
 		const sourceScrollableHeight = source.scrollHeight - source.clientHeight;
-		// 如果源元素不可滚动（例如内容很短），则无需同步。
+		// 濡傛灉婧愬厓绱犱笉鍙粴鍔紙渚嬪鍐呭寰堢煭锛夛紝鍒欐棤闇€鍚屾銆?
 		if (sourceScrollableHeight <= 0) {
 			return;
 		}
 
-		// 计算当前滚动的百分比。
+		// 璁＄畻褰撳墠婊氬姩鐨勭櫨鍒嗘瘮銆?
 		const scrollPercentage = source.scrollTop / sourceScrollableHeight;
 
-		// 计算目标元素可滚动的总高度。
+		// 璁＄畻鐩爣鍏冪礌鍙粴鍔ㄧ殑鎬婚珮搴︺€?
 		const targetScrollableHeight = target.scrollHeight - target.clientHeight;
 
-		// 在设置目标元素的 scrollTop 之前，先在其上设置一个标志。
-		// 这样，当目标元素的 'scroll' 事件被触发时，我们可以识别出这是由程序控制的，而不是用户操作。
+		// 鍦ㄨ缃洰鏍囧厓绱犵殑 scrollTop 涔嬪墠锛屽厛鍦ㄥ叾涓婅缃竴涓爣蹇椼€?
+		// 杩欐牱锛屽綋鐩爣鍏冪礌鐨?'scroll' 浜嬩欢琚Е鍙戞椂锛屾垜浠彲浠ヨ瘑鍒嚭杩欐槸鐢辩▼搴忔帶鍒剁殑锛岃€屼笉鏄敤鎴锋搷浣溿€?
 		target._isSyncingScroll = true;
 
-		// 根据百分比设置目标元素的滚动位置。
+		// 鏍规嵁鐧惧垎姣旇缃洰鏍囧厓绱犵殑婊氬姩浣嶇疆銆?
 		target.scrollTop = scrollPercentage * targetScrollableHeight;
 	}
 
-	// 为全屏编辑器的文本区添加滚动事件监听
+	// 涓哄叏灞忕紪杈戝櫒鐨勬枃鏈尯娣诲姞婊氬姩浜嬩欢鐩戝惉
 	fsEditorTextarea.addEventListener('scroll', () => {
-		// 确保只在分栏（split）模式下同步滚动
+		// 纭繚鍙湪鍒嗘爮锛坰plit锛夋ā寮忎笅鍚屾婊氬姩
 		if (editorContentArea.dataset.viewMode === 'split') {
 			handleSyncScroll(fsEditorTextarea, fsPreviewPane);
 		}
 	});
 
-	// 为全屏编辑器的预览区添加滚动事件监听
+	// 涓哄叏灞忕紪杈戝櫒鐨勯瑙堝尯娣诲姞婊氬姩浜嬩欢鐩戝惉
 	fsPreviewPane.addEventListener('scroll', () => {
-		// 确保只在分栏（split）模式下同步滚动
+		// 纭繚鍙湪鍒嗘爮锛坰plit锛夋ā寮忎笅鍚屾婊氬姩
 		if (editorContentArea.dataset.viewMode === 'split') {
 			handleSyncScroll(fsPreviewPane, fsEditorTextarea);
 		}
 	});
 
-	// --- END: 全屏编辑器同步滚动逻辑 ---
+	// --- END: 鍏ㄥ睆缂栬緫鍣ㄥ悓姝ユ粴鍔ㄩ€昏緫 ---
 
 	/**
-	 * 应用启动器
-	 * 检查用户登录状态，并根据结果显示合适的界面
+	 * 搴旂敤鍚姩鍣?
+	 * 妫€鏌ョ敤鎴风櫥褰曠姸鎬侊紝骞舵牴鎹粨鏋滄樉绀哄悎閫傜殑鐣岄潰
 	 */
 	async function initializeApp() {
 		try {
 			const response = await fetch('/api/notes?page=1');
 			if (response.ok) {
 				const data = await response.json();
-				// 显示应用主界面
+				// 鏄剧ず搴旂敤涓荤晫闈?
 				showAppScreen();
 				allNotesCache = data.notes;
 				renderNotes(data.notes);
 				appState.pagination.hasMore = data.hasMore;
 				appState.pagination.currentPage = 1;
 
-				// 处理加载更多的UI
+				// 澶勭悊鍔犺浇鏇村鐨刄I
 				if (!data.hasMore) {
 					if (allNotesCache.length > 0) {
 						scrollLoader.textContent = 'No more notes.';
@@ -5138,10 +5109,10 @@
 					}
 				}
 			} else if (response.status === 401) {
-				// 如果 session 无效或不存在，显示登录界面
+				// 濡傛灉 session 鏃犳晥鎴栦笉瀛樺湪锛屾樉绀虹櫥褰曠晫闈?
 				showLoginScreen();
 			} else {
-				// 处理其他网络或服务器错误
+				// 澶勭悊鍏朵粬缃戠粶鎴栨湇鍔″櫒閿欒
 				throw new Error(`Server check failed with status: ${response.status}`);
 			}
 		} catch (error) {
@@ -5155,10 +5126,10 @@
 		const textarea = document.getElementById('note-input');
 		const preview = document.getElementById('main-edit-preview');
 
-		// 如果当前不是分栏模式，只需确保 textarea 高度自适应即可
+		// 濡傛灉褰撳墠涓嶆槸鍒嗘爮妯″紡锛屽彧闇€纭繚 textarea 楂樺害鑷€傚簲鍗冲彲
 		if (!noteForm.classList.contains('split-mode')) {
 			autoResizeTextarea(textarea);
-			preview.style.minHeight = ''; // 移除可能存在的最小高度
+			preview.style.minHeight = ''; // 绉婚櫎鍙兘瀛樺湪鐨勬渶灏忛珮搴?
 			return;
 		}
 		autoResizeTextarea(textarea);
@@ -5167,12 +5138,12 @@
 		if (previewHeight > textareaHeight) {
 			textarea.style.height = `${previewHeight}px`;
 		} else if (textareaHeight > previewHeight) {
-			// 这是为了防止在删除大量文本时，右侧预览区突然变短导致布局跳动
+			// 杩欐槸涓轰簡闃叉鍦ㄥ垹闄ゅぇ閲忔枃鏈椂锛屽彸渚ч瑙堝尯绐佺劧鍙樼煭瀵艰嚧甯冨眬璺冲姩
 			preview.style.minHeight = `${textareaHeight}px`;
 		}
 	}
 
-	// --- 唯一的笔记编辑区布局管理函数 ---
+	// --- 鍞竴鐨勭瑪璁扮紪杈戝尯甯冨眬绠＄悊鍑芥暟 ---
 	function syncNoteEditorLayout(noteElement) {
 		if (!noteElement || !noteElement.classList.contains('editing')) return;
 
@@ -5197,9 +5168,9 @@
 			previewBtn.classList.remove('active');
 		}
 
-		// 如果处于分栏模式
+		// 濡傛灉澶勪簬鍒嗘爮妯″紡
 		if (noteElement.classList.contains('split-mode')) {
-			// 强制 textarea 重新计算其自适应高度
+			// 寮哄埗 textarea 閲嶆柊璁＄畻鍏惰嚜閫傚簲楂樺害
 			autoResizeTextarea(textarea);
 
 			const previewHeight = preview.offsetHeight;
@@ -5218,7 +5189,7 @@
 	});
 
 	function scrollToHeatmapEnd() {
-		// requestAnimationFrame 确保在浏览器下一次绘制前执行，此时 DOM 元素尺寸已计算完毕
+		// requestAnimationFrame 纭繚鍦ㄦ祻瑙堝櫒涓嬩竴娆＄粯鍒跺墠鎵ц锛屾鏃?DOM 鍏冪礌灏哄宸茶绠楀畬姣?
 		requestAnimationFrame(() => {
 			const scrollContainer = document.getElementById('heatmap-scroll-container');
 			if (scrollContainer) {
@@ -5228,11 +5199,11 @@
 	}
 
 	function applyViewModes() {
-		// 瀑布流模式
+		// 鐎戝竷娴佹ā寮?
 		if (appState.isWaterfall) {
 			notesSection.classList.add('waterfall-mode');
-			waterfallToggleBtn.classList.add('active'); // 按钮变亮
-			// 重新计算布局
+			waterfallToggleBtn.classList.add('active'); // 鎸夐挳鍙樹寒
+			// 閲嶆柊璁＄畻甯冨眬
 			document.querySelectorAll('#notes-container .note').forEach(note => {
 				waterfallObserver.observe(note);
 			});
@@ -5242,7 +5213,7 @@
 			waterfallObserver.disconnect();
 		}
 
-		// 宽屏模式
+		// 瀹藉睆妯″紡
 		if (appState.isWide) {
 			appLayoutContainer.classList.add('full-width-mode');
 			wideModeToggleBtn.classList.add('active');
@@ -5267,7 +5238,7 @@
 		applyViewModes();
 	});
 
-	// --- 预定义的主题色 ---
+	// --- 棰勫畾涔夌殑涓婚鑹?---
 	const themeColors = [
 		{ name: 'Blue', color: '#367cff', hover: '#2a63cc' },
 		{ name: 'Green', color: '#42c251', hover: '#42c251' },
@@ -5279,36 +5250,36 @@
 		{ name: 'Yellow', color: '#d69e2e', hover: '#b7791f' }
 	];
 
-	// 动态填充预设颜色
+	// 鍔ㄦ€佸～鍏呴璁鹃鑹?
 	fsColorPalette.innerHTML = themeColors.map(theme =>
 		`<button class='color-swatch' data-color='${theme.color}' title='${theme.name}' style='background-color: ${theme.color};'></button>`
 	).join('');
 
-	// 点击颜色按钮，显示/隐藏面板
+	// 鐐瑰嚮棰滆壊鎸夐挳锛屾樉绀?闅愯棌闈㈡澘
 	fsFontcolorBtn.addEventListener('click', (e) => {
 		e.stopPropagation();
 		fsColorPopover.classList.toggle('visible');
 	});
 
-	// 点击预设颜色
+	// 鐐瑰嚮棰勮棰滆壊
 	fsColorPalette.addEventListener('click', (e) => {
 		const swatch = e.target.closest('.color-swatch');
 		if (swatch) {
 			const color = swatch.dataset.color;
 			applyRichTextCommand('foreColor', color);
-			// 更新按钮上的颜色预览
+			// 鏇存柊鎸夐挳涓婄殑棰滆壊棰勮
 			fsFontcolorBtn.querySelector('span').style.backgroundColor = color;
 			fsColorPopover.classList.remove('visible');
 		}
 	});
 
 	/**
-	 * 一个通用的、可撤销的富文本命令执行器
+	 * 涓€涓€氱敤鐨勩€佸彲鎾ら攢鐨勫瘜鏂囨湰鍛戒护鎵ц鍣?
 	 */
 	function applyRichTextCommand(command, value) {
 		const textarea = fsEditorTextarea;
-		// Markdown 语法不支持富文本，所以我们用 HTML 标签包裹
-		// 注意：这会让你的笔记内容变成 HTML 和 Markdown 的混合体
+		// Markdown 璇硶涓嶆敮鎸佸瘜鏂囨湰锛屾墍浠ユ垜浠敤 HTML 鏍囩鍖呰９
+		// 娉ㄦ剰锛氳繖浼氳浣犵殑绗旇鍐呭鍙樻垚 HTML 鍜?Markdown 鐨勬贩鍚堜綋
 		let prefix, suffix;
 		let selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
 		if (!selectedText) return;
@@ -5323,7 +5294,7 @@
 			prefix = `<span style='font-size: ${value};'>`;
 			suffix = `</span>`;
 		} else {
-			return; // 不支持的命令
+			return; // 涓嶆敮鎸佺殑鍛戒护
 		}
 
 		const start = textarea.selectionStart;
@@ -5352,7 +5323,7 @@
 		}
 	}
 
-	// --- 通用的元素拖拽函数 ---
+	// --- 閫氱敤鐨勫厓绱犳嫋鎷藉嚱鏁?---
 	function makeDraggable(element, handle) {
 		let currentX;
 		let currentY;
@@ -5365,11 +5336,11 @@
 
 		function dragMouseDown(e) {
 			e.preventDefault();
-			// 获取鼠标按下时的初始位置
+			// 鑾峰彇榧犳爣鎸変笅鏃剁殑鍒濆浣嶇疆
 			initialX = e.clientX - xOffset;
 			initialY = e.clientY - yOffset;
 
-			// 绑定鼠标移动和松开事件
+			// 缁戝畾榧犳爣绉诲姩鍜屾澗寮€浜嬩欢
 			document.onmouseup = closeDragElement;
 			document.onmousemove = elementDrag;
 		}
@@ -5518,13 +5489,13 @@
 	}
 
 	/**
-	 * 根据当前加载的设置，应用所有UI效果
+	 * 鏍规嵁褰撳墠鍔犺浇鐨勮缃紝搴旂敤鎵€鏈塙I鏁堟灉
 	 */
 	async function applySettings() {
 		const isDarkMode = document.body.dataset.theme === 'dark';
 		const baseSurfaceColor = isDarkMode ? settings.surfaceColorDark : settings.surfaceColor;
 		const surfaceOpacity = settings.surfaceOpacity;
-		let r = 255, g = 255, b = 255; // 默认白色
+		let r = 255, g = 255, b = 255; // 榛樿鐧借壊
 		if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(baseSurfaceColor)) {
 			let hex = baseSurfaceColor.substring(1).split('');
 			if (hex.length === 3) {
@@ -5538,14 +5509,14 @@
 		const finalSurfaceColor = `rgba(${r}, ${g}, ${b}, ${surfaceOpacity})`;
 		document.documentElement.style.setProperty('--surface-color', finalSurfaceColor);
 		if (isDarkMode) {
-			// 在深色模式下，将 R, G, B 各增加 24 (使其变亮)，但不超过 255
+			// 鍦ㄦ繁鑹叉ā寮忎笅锛屽皢 R, G, B 鍚勫鍔?24 (浣垮叾鍙樹寒)锛屼絾涓嶈秴杩?255
 			const r_light = Math.min(255, r + 24);
 			const g_light = Math.min(255, g + 24);
 			const b_light = Math.min(255, b + 24);
 			const finalInputBg = `rgb(${r_light}, ${g_light}, ${b_light})`;
 			document.documentElement.style.setProperty('--surface-input-bg', finalInputBg);
 		} else {
-			// 在浅色模式下，使用默认的背景色
+			// 鍦ㄦ祬鑹叉ā寮忎笅锛屼娇鐢ㄩ粯璁ょ殑鑳屾櫙鑹?
 			document.documentElement.style.setProperty('--surface-input-bg', 'var(--bg-color)');
 		}
 
@@ -5567,10 +5538,10 @@
 		imgurClientIdInput.value = settings.imgurClientId || '';
 
 		if (areAllSidebarsHidden) {
-			// 如果都隐藏了，就给主容器添加 .no-sidebars 类
+			// 濡傛灉閮介殣钘忎簡锛屽氨缁欎富瀹瑰櫒娣诲姞 .no-sidebars 绫?
 			appLayoutContainer.classList.add('no-sidebars');
 		} else {
-			// 否则，确保移除这个类，恢复到正常的三栏或宽屏模式
+			// 鍚﹀垯锛岀‘淇濈Щ闄よ繖涓被锛屾仮澶嶅埌姝ｅ父鐨勪笁鏍忔垨瀹藉睆妯″紡
 			appLayoutContainer.classList.remove('no-sidebars');
 		}
 		if (!settings.showRightSidebar) {
@@ -5582,7 +5553,7 @@
 		const isDefaultBg = settings.backgroundImage === defaultSettings.backgroundImage;
 		const isLightMode = document.body.dataset.theme === 'light';
 
-		// 条件：只有在 (不是浅色模式) OR (不是默认背景) 的情况下才应用背景
+		// 鏉′欢锛氬彧鏈夊湪 (涓嶆槸娴呰壊妯″紡) OR (涓嶆槸榛樿鑳屾櫙) 鐨勬儏鍐典笅鎵嶅簲鐢ㄨ儗鏅?
 		if (settings.backgroundImage && (!isLightMode || !isDefaultBg)) {
 			// document.body.style.backgroundImage = `url(${settings.backgroundImage})`;
 			document.documentElement.style.setProperty('--bg-image-url', `url(${settings.backgroundImage})`);
@@ -5592,7 +5563,7 @@
 			const authForm = document.querySelector('.auth-form');
 			if (authForm) authForm.classList.add('glass-effect');
 		} else {
-			// 否则，移除背景
+			// 鍚﹀垯锛岀Щ闄よ儗鏅?
 			document.body.style.backgroundImage = '';
 			document.body.classList.remove('custom-background');
 			appLayoutContainer.classList.remove('glass-effect');
@@ -5607,7 +5578,7 @@
 	}
 
 	/**
-	 * 将当前加载的设置值，同步到设置弹框的控件上
+	 * 灏嗗綋鍓嶅姞杞界殑璁剧疆鍊硷紝鍚屾鍒拌缃脊妗嗙殑鎺т欢涓?
 	 */
 	async function updateSettingsModalControls() {
 		const isDarkMode = document.body.dataset.theme === 'dark';
@@ -5625,7 +5596,7 @@
 		toggleEditorInWaterfall.checked = settings.hideEditorInWaterfall;
 		toggleHeatmap.checked = settings.showHeatmap;
 		bgOpacitySlider.value = settings.backgroundOpacity;
-		bgImageUrl.value = settings.backgroundImage.startsWith('data:') ? '' : settings.backgroundImage; // 不显示base64
+		bgImageUrl.value = settings.backgroundImage.startsWith('data:') ? '' : settings.backgroundImage; // 涓嶆樉绀篵ase64
 		bgBlurSlider.value = settings.backgroundBlur;
 		waterfallWidthSlider.value = settings.waterfallCardWidth;
 		waterfallWidthValue.textContent = `${settings.waterfallCardWidth}px`;
@@ -5639,7 +5610,7 @@
 			applySettings();
 		});
 		restoreSurfaceBtn.addEventListener('click', () => {
-			settings.surfaceOpacity = defaultSettings.surfaceOpacity;  // 更新当前值
+			settings.surfaceOpacity = defaultSettings.surfaceOpacity;  // 鏇存柊褰撳墠鍊?
 			settings.surfaceColor = defaultSettings.surfaceColor;
 			settings.surfaceColorDark = defaultSettings.surfaceColorDark;
 			applySettings();
@@ -5793,9 +5764,9 @@
 
 		closeSettingsBtn.addEventListener('click', closeSettingsModal);
 
-		// --- 点击遮罩层（外部）关闭弹框 ---
+		// --- 鐐瑰嚮閬僵灞傦紙澶栭儴锛夊叧闂脊妗?---
 		settingsModalOverlay.addEventListener('click', (e) => {
-			// 检查点击的是否是遮罩层本身，而不是弹框内容
+			// 妫€鏌ョ偣鍑荤殑鏄惁鏄伄缃╁眰鏈韩锛岃€屼笉鏄脊妗嗗唴瀹?
 			if (e.target === settingsModalOverlay) {
 				closeSettingsModal();
 			}
@@ -5805,14 +5776,14 @@
 	}
 
 
-	// --- 为瀑布流菜单的按钮添加事件委托 ---
+	// --- 涓虹€戝竷娴佽彍鍗曠殑鎸夐挳娣诲姞浜嬩欢濮旀墭 ---
 	waterfallPopoverMenu.addEventListener('click', async (e) => {
 		const actionButton = e.target.closest('.icon-btn');
 		if (!actionButton) return;
 		const action = actionButton.dataset.action;
 		const noteId = waterfallPopoverMenu.dataset.noteId;
 		if (!noteId) return;
-		// 先隐藏菜单，提供即时反馈
+		// 鍏堥殣钘忚彍鍗曪紝鎻愪緵鍗虫椂鍙嶉
 		hideWaterfallPopover();
 
 		const noteElement = notesContainer.querySelector(`.note[data-id="${noteId}"]`);
@@ -5821,7 +5792,7 @@
 			case 'view': {
 				const noteData = allNotesCache.find(n => n.id === parseInt(noteId, 10));
 				if (noteData) {
-					// 调用全屏编辑器，并定制其行为
+					// 璋冪敤鍏ㄥ睆缂栬緫鍣紝骞跺畾鍒跺叾琛屼负
 					openFullscreenEditor(noteData.content, noteId, {
 						defaultViewMode: 'split'
 					});
@@ -5834,7 +5805,7 @@
 				const confirmed = await showCustomConfirm('Are you sure you want to delete this note?');
 				if (!confirmed) return;
 
-				// 复用现有的删除逻辑
+				// 澶嶇敤鐜版湁鐨勫垹闄ら€昏緫
 				waterfallObserver.unobserve(noteElement);
 				try {
 					await fetch(`/api/notes/${noteId}`, { method: 'DELETE' });
@@ -5859,20 +5830,20 @@
 		if (waterfallPopoverMenu.classList.contains('visible') && activePopoverNoteId === noteId) {
 			return;
 		}
-		// 获取按钮的位置信息，以便定位菜单
+		// 鑾峰彇鎸夐挳鐨勪綅缃俊鎭紝浠ヤ究瀹氫綅鑿滃崟
 		const btnRect = targetButton.getBoundingClientRect();
-		// top: 按钮底部 + 页面滚动距离 + 一点间距
-		// left: 按钮左侧 - 菜单宽度 + 按钮宽度 (使其右对齐)
+		// top: 鎸夐挳搴曢儴 + 椤甸潰婊氬姩璺濈 + 涓€鐐归棿璺?
+		// left: 鎸夐挳宸︿晶 - 鑿滃崟瀹藉害 + 鎸夐挳瀹藉害 (浣垮叾鍙冲榻?
 		waterfallPopoverMenu.style.top = `${btnRect.bottom + 5}px`;
 		waterfallPopoverMenu.style.left = `${btnRect.right - waterfallPopoverMenu.offsetWidth}px`;
-		// 存储当前笔记ID，并显示菜单
+		// 瀛樺偍褰撳墠绗旇ID锛屽苟鏄剧ず鑿滃崟
 		activePopoverNoteId = noteId;
-		waterfallPopoverMenu.dataset.noteId = noteId; // 将ID存到菜单上，方便后续操作
+		waterfallPopoverMenu.dataset.noteId = noteId; // 灏咺D瀛樺埌鑿滃崟涓婏紝鏂逛究鍚庣画鎿嶄綔
 		waterfallPopoverMenu.classList.add('visible');
 	}
 
 	/**
-	 * 隐藏“更多”操作菜单
+	 * 闅愯棌鈥滄洿澶氣€濇搷浣滆彍鍗?
 	 */
 	function hideWaterfallPopover() {
 		clearTimeout(waterfallPopoverHideTimer);
@@ -5882,7 +5853,7 @@
 		}, 200);
 	}
 
-	// --- 右侧栏Tab按钮的交互逻辑 ---
+	// --- 鍙充晶鏍廡ab鎸夐挳鐨勪氦浜掗€昏緫 ---
 	function updateSidebarTabsUI() {
 		document.querySelectorAll('.sidebar-tab-btn').forEach(btn => {
 			btn.classList.toggle('active', btn.dataset.tabName === appState.baseMode);
@@ -5923,37 +5894,37 @@
 	});
 
 
-	// 旧的重复事件监听器已删除 - 现在使用第5002行的新版本
+	// 鏃х殑閲嶅浜嬩欢鐩戝惉鍣ㄥ凡鍒犻櫎 - 鐜板湪浣跨敤绗?002琛岀殑鏂扮増鏈?
 
 
-	// 旧的 loadAttachments 函数已删除
+	// 鏃х殑 loadAttachments 鍑芥暟宸插垹闄?
 
 
-	// 旧的 renderAttachments 函数已删除
+	// 鏃х殑 renderAttachments 鍑芥暟宸插垹闄?
 
 
-	// 旧的 updateAttachmentsPagination 函数和重复的 tab 事件监听器已删除
+	// 鏃х殑 updateAttachmentsPagination 鍑芥暟鍜岄噸澶嶇殑 tab 浜嬩欢鐩戝惉鍣ㄥ凡鍒犻櫎
 
 
 
 
 	/**
-	 * 初始化侧边栏的折叠状态
-	 * 从 localStorage 读取用户的偏好并应用
+	 * 鍒濆鍖栦晶杈规爮鐨勬姌鍙犵姸鎬?
+	 * 浠?localStorage 璇诲彇鐢ㄦ埛鐨勫亸濂藉苟搴旂敤
 	 */
 	function initializeCollapsibleSidebars() {
 		const sections = ['tags-section-wrapper', 'timeline-section-wrapper'];
 
 		sections.forEach(sectionId => {
 			const sectionElement = document.getElementById(sectionId);
-			// 读取 localStorage，如果值为 'true'，则添加 is-collapsed 类
+			// 璇诲彇 localStorage锛屽鏋滃€间负 'true'锛屽垯娣诲姞 is-collapsed 绫?
 			if (localStorage.getItem(`sidebar-${sectionId}-collapsed`) === 'true') {
 				sectionElement.classList.add('is-collapsed');
 			}
 		});
 	}
 
-	// 使用事件委托，为所有折叠按钮添加点击事件
+	// 浣跨敤浜嬩欢濮旀墭锛屼负鎵€鏈夋姌鍙犳寜閽坊鍔犵偣鍑讳簨浠?
 	document.getElementById('app-layout-container').addEventListener('click', (e) => {
 		const toggleBtn = e.target.closest('.sidebar-toggle-btn');
 		if (toggleBtn) {
@@ -5972,12 +5943,12 @@
 			if (!response.ok) throw new Error('Failed to fetch stats');
 			const stats = await response.json();
 
-			// 计算天数
+			// 璁＄畻澶╂暟
 			let days = 0;
 			if (stats.oldestNoteTimestamp) {
 				const oldestDate = new Date(stats.oldestNoteTimestamp);
 				const today = new Date();
-				// 设置时间为当天的开始，避免时区和小时差异导致计算错误
+				// 璁剧疆鏃堕棿涓哄綋澶╃殑寮€濮嬶紝閬垮厤鏃跺尯鍜屽皬鏃跺樊寮傚鑷磋绠楅敊璇?
 				oldestDate.setHours(0, 0, 0, 0);
 				today.setHours(0, 0, 0, 0);
 
@@ -6067,7 +6038,7 @@
 		}
 	}
 
-	// --- 热力图交互事件 (事件委托) ---
+	// --- 鐑姏鍥句氦浜掍簨浠?(浜嬩欢濮旀墭) ---
 	heatmapContainerWrapper.addEventListener('mouseover', (e) => {
 		const dayElement = e.target.closest('.heatmap-day');
 		if (dayElement) {
@@ -6081,7 +6052,7 @@
 	});
 
 	heatmapContainerWrapper.addEventListener('mousemove', (e) => {
-		// 让 tooltip 跟随鼠标移动
+		// 璁?tooltip 璺熼殢榧犳爣绉诲姩
 		heatmapTooltip.style.left = `${e.pageX}px`;
 		heatmapTooltip.style.top = `${e.pageY}px`;
 	});
@@ -6095,7 +6066,7 @@
 		if (dayElement && dayElement.dataset.count > 0) {
 			const dateString = dayElement.dataset.date; // "YYYY-MM-DD"
 
-			// --- 复用之前的日期筛选逻辑 ---
+			// --- 澶嶇敤涔嬪墠鐨勬棩鏈熺瓫閫夐€昏緫 ---
 			const [year, month, day] = dateString.split('-').map(Number);
 			const monthIndex = month - 1;
 
@@ -6115,7 +6086,7 @@
 	});
 
 	let searchDebounceTimer;
-	// 防抖函数：延迟执行，避免频繁请求 API
+	// 闃叉姈鍑芥暟锛氬欢杩熸墽琛岋紝閬垮厤棰戠箒璇锋眰 API
 	function debounce(func, delay) {
 		return function (...args) {
 			clearTimeout(searchDebounceTimer);
@@ -6134,39 +6105,39 @@
 	function handleEditorShortcuts(event) {
 		const textarea = event.target;
 		if (!textarea.matches('textarea')) return;
-		// --- Ctrl+X 剪切当前行 ---
+		// --- Ctrl+X 鍓垏褰撳墠琛?---
 		if (event.ctrlKey && event.key.toLowerCase() === 'x') {
-			// 仅当没有文本被选中时，才执行剪切行逻辑
+			// 浠呭綋娌℃湁鏂囨湰琚€変腑鏃讹紝鎵嶆墽琛屽壀鍒囪閫昏緫
 			if (textarea.selectionStart === textarea.selectionEnd) {
-				event.preventDefault(); // 阻止默认行为，我们将手动处理
+				event.preventDefault(); // 闃绘榛樿琛屼负锛屾垜浠皢鎵嬪姩澶勭悊
 
 				const cursorPosition = textarea.selectionStart;
 				const text = textarea.value;
 
-				// 找到当前行的起始和结束位置
+				// 鎵惧埌褰撳墠琛岀殑璧峰鍜岀粨鏉熶綅缃?
 				const lineStart = text.lastIndexOf('\n', cursorPosition - 1) + 1;
 				let lineEnd = text.indexOf('\n', cursorPosition);
 				if (lineEnd === -1) {
 					lineEnd = text.length;
 				}
 
-				// 选中整行（包括末尾的换行符，如果有的话）
+				// 閫変腑鏁磋锛堝寘鎷湯灏剧殑鎹㈣绗︼紝濡傛灉鏈夌殑璇濓級
 				textarea.setSelectionRange(lineStart, lineEnd + 1);
-				// 这样做的好处是它会自动处理剪贴板，并且操作是可撤销的
+				// 杩欐牱鍋氱殑濂藉鏄畠浼氳嚜鍔ㄥ鐞嗗壀璐存澘锛屽苟涓旀搷浣滄槸鍙挙閿€鐨?
 				document.execCommand('cut');
 			}
 		}
 	}
 
-	// 监听输入框的 'input' 事件
+	// 鐩戝惉杈撳叆妗嗙殑 'input' 浜嬩欢
 	globalSearchInput.addEventListener('input', debounce(e => {
 		const query = e.target.value.trim();
 		if (query.length === 0 || query.length >= 2) {
 			performSearch(query);
 		}
-	}, 300)); // 延迟300毫秒执行搜索
+	}, 300)); // 寤惰繜300姣鎵ц鎼滅储
 	/**
-	 * 监听搜索框的 'keydown' 事件，以捕获回车键
+	 * 鐩戝惉鎼滅储妗嗙殑 'keydown' 浜嬩欢锛屼互鎹曡幏鍥炶溅閿?
 	 */
 	globalSearchInput.addEventListener('keydown', e => {
 		if (e.key === 'Enter') {
@@ -6178,7 +6149,7 @@
 			}
 		}
 	});
-	// 清除按钮的点击事件
+	// 娓呴櫎鎸夐挳鐨勭偣鍑讳簨浠?
 	clearSearchBtn.addEventListener('click', () => {
 		globalSearchInput.value = '';
 		performSearch('');
@@ -6192,7 +6163,7 @@
 		fsEditorTextarea.value = content;
 		fsPreviewPane.innerHTML = postProcessMarkdownHtml(marked.parse(content));
 
-		const defaultView = options.defaultViewMode || 'split'; // 默认split
+		const defaultView = options.defaultViewMode || 'split'; // 榛樿split
 		setFullscreenViewMode(defaultView);
 		editorContentArea.dataset.viewMode = defaultView;
 		fullscreenEditorOverlay.classList.add('visible');
@@ -6201,7 +6172,7 @@
 		fsEditorTextarea.focus();
 	}
 
-	// 关闭编辑器
+	// 鍏抽棴缂栬緫鍣?
 	function closeFullscreenEditor() {
 		fullscreenEditorOverlay.classList.remove('visible');
 		fullscreenEditorBox.classList.remove('active');
@@ -6210,16 +6181,16 @@
 	}
 
 	viewModeSplitBtn.addEventListener('click', () => {
-		// 如果当前已经是分屏模式，再次点击则切换回源码模式
+		// 濡傛灉褰撳墠宸茬粡鏄垎灞忔ā寮忥紝鍐嶆鐐瑰嚮鍒欏垏鎹㈠洖婧愮爜妯″紡
 		if (editorContentArea.dataset.viewMode === 'split') {
 			setFullscreenViewMode('source');
 		} else {
 			setFullscreenViewMode('split');
 		}
 	});
-	// 点击预览按钮
+	// 鐐瑰嚮棰勮鎸夐挳
 	viewModePreviewBtn.addEventListener('click', () => {
-		// 如果当前已经是预览模式，再次点击则切换回源码模式
+		// 濡傛灉褰撳墠宸茬粡鏄瑙堟ā寮忥紝鍐嶆鐐瑰嚮鍒欏垏鎹㈠洖婧愮爜妯″紡
 		if (editorContentArea.dataset.viewMode === 'preview') {
 			setFullscreenViewMode('source');
 		} else {
@@ -6227,19 +6198,19 @@
 		}
 	});
 
-	// 实时更新预览
+	// 瀹炴椂鏇存柊棰勮
 	fsEditorTextarea.addEventListener('input', () => {
 		fsPreviewPane.innerHTML = postProcessMarkdownHtml(marked.parse(fsEditorTextarea.value));
 	});
 
-	// 点击主创建区的全屏按钮
+	// 鐐瑰嚮涓诲垱寤哄尯鐨勫叏灞忔寜閽?
 	enterFullscreenBtn.addEventListener('click', () => {
-		// 将主输入框的内容带入全屏编辑器
+		// 灏嗕富杈撳叆妗嗙殑鍐呭甯﹀叆鍏ㄥ睆缂栬緫鍣?
 		openFullscreenEditor(noteInput.value, null);
 	});
 	let isDragging = false;
 	fsEditorDivider.addEventListener('mousedown', (e) => {
-		e.preventDefault(); // 防止拖拽时选中文字
+		e.preventDefault(); // 闃叉鎷栨嫿鏃堕€変腑鏂囧瓧
 		isDragging = true;
 		document.body.style.cursor = 'col-resize';
 		document.body.style.userSelect = 'none';
@@ -6263,7 +6234,7 @@
 			leftPaneWidth = 100 - minWidthPercent;
 		}
 		const rightPaneWidth = 100 - leftPaneWidth;
-		// 使用 flex-basis 来设置宽度
+		// 浣跨敤 flex-basis 鏉ヨ缃搴?
 		fsEditorTextarea.style.flexBasis = `${leftPaneWidth}%`;
 		fsPreviewPane.style.flexBasis = `${rightPaneWidth}%`;
 	}
@@ -6271,10 +6242,10 @@
 	function stopDrag() {
 		if (!isDragging) return;
 		isDragging = false;
-		// 移除全局样式
+		// 绉婚櫎鍏ㄥ眬鏍峰紡
 		document.body.style.cursor = '';
 		document.body.style.userSelect = '';
-		// 解绑事件
+		// 瑙ｇ粦浜嬩欢
 		window.removeEventListener('mousemove', handleDrag);
 		window.removeEventListener('mouseup', stopDrag);
 		window.removeEventListener('blur', stopDrag);
@@ -6290,7 +6261,7 @@
 		const end = textarea.selectionEnd;
 		const selectedText = textarea.value.substring(start, end);
 
-		// 让浏览器执行原生的、可撤销的插入命令
+		// 璁╂祻瑙堝櫒鎵ц鍘熺敓鐨勩€佸彲鎾ら攢鐨勬彃鍏ュ懡浠?
 		const applyMarkdown = (prefix, suffix = prefix) => {
 			textarea.focus();
 			document.execCommand('insertText', false, prefix + selectedText + suffix);
@@ -6328,21 +6299,21 @@
 				applyMarkdown('\n```\n', '\n```');
 				break;
 		}
-		// 手动触发input事件，确保预览能够实时更新
+		// 鎵嬪姩瑙﹀彂input浜嬩欢锛岀‘淇濋瑙堣兘澶熷疄鏃舵洿鏂?
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	});
 
-	// 字体大小选择
+	// 瀛椾綋澶у皬閫夋嫨
 	fsFontsizeSelector.addEventListener('change', (e) => {
 		const size = e.target.value;
 		if (size) {
 			applyRichTextCommand('fontSize', size);
 		}
-		e.target.value = ''; // 每次选择后重置，以便可以重复选择相同大小
+		e.target.value = ''; // 姣忔閫夋嫨鍚庨噸缃紝浠ヤ究鍙互閲嶅閫夋嫨鐩稿悓澶у皬
 	});
 
-	// 为全屏编辑器绑定
-	// 键盘快捷键
+	// 涓哄叏灞忕紪杈戝櫒缁戝畾
+	// 閿洏蹇嵎閿?
 	fsEditorTextarea.addEventListener('keydown', e => {
 		handleEditorShortcuts(e);
 		handleListAutoInsertion(e);
@@ -6355,7 +6326,7 @@
 
 			if (mdType) {
 				e.preventDefault();
-				// 模拟点击对应的按钮
+				// 妯℃嫙鐐瑰嚮瀵瑰簲鐨勬寜閽?
 				document.querySelector(`.toolbar-btn[data-md="${mdType}"]`).click();
 			}
 		}
@@ -6371,19 +6342,19 @@
 		try {
 			if (currentEditingNoteId === null) {
 				const content = fsEditorTextarea.value;
-				// 檢查內容和文件是否都為空
+				// 妾㈡煡鍏у鍜屾枃浠舵槸鍚﹂兘鐐虹┖
 				if (!content.trim() && noteFile.files.length === 0) {
 					showCustomAlert('Content or a file is required.', 'error');
-					// 恢復按鈕狀態
+					// 鎭㈠京鎸夐垥鐙€鎱?
 					fsSaveBtn.disabled = false;
 					fsSaveBtn.textContent = 'Save';
-					return; // 提前返回
+					return; // 鎻愬墠杩斿洖
 				}
 
 				const formData = new FormData();
-				// 1. 添加從全屏編輯器獲取的新文本內容
+				// 1. 娣诲姞寰炲叏灞忕法杓櫒鐛插彇鐨勬柊鏂囨湰鍏у
 				formData.append('content', content);
-				// 2. 從主界面的 noteFile 輸入框中獲取文件並添加到 formData
+				// 2. 寰炰富鐣岄潰鐨?noteFile 杓稿叆妗嗕腑鐛插彇鏂囦欢涓︽坊鍔犲埌 formData
 				Array.from(noteFile.files).forEach(file => {
 					formData.append('file', file);
 				});
@@ -6392,8 +6363,8 @@
 					const res = await fetch('/api/notes', { method: 'POST', body: formData });
 					if (!res.ok) throw new Error(`Save failed: ${await res.text()}`);
 
-					noteForm.reset(); // 使用 reset() 可以同時清空文本和文件輸入
-					updateMainFileDisplay(); // 更新主界面的文件列表顯示
+					noteForm.reset(); // 浣跨敤 reset() 鍙互鍚屾檪娓呯┖鏂囨湰鍜屾枃浠惰几鍏?
+					updateMainFileDisplay(); // 鏇存柊涓荤晫闈㈢殑鏂囦欢鍒楄〃椤ず
 					closeFullscreenEditor();
 					await refreshNotes();
 
@@ -6404,7 +6375,7 @@
 					fsSaveBtn.textContent = 'Save';
 				}
 
-			} else { // 编辑现有笔记
+			} else { // 缂栬緫鐜版湁绗旇
 				const noteElement = notesContainer.querySelector(`.note[data-id="${currentEditingNoteId}"]`);
 				if (!noteElement) {
 					showCustomAlert('Error: Original note element not found.', 'error');
@@ -6414,15 +6385,15 @@
 				fsSaveBtn.disabled = true;
 				fsSaveBtn.textContent = 'Saving...';
 				const formData = new FormData();
-				// 1. 添加从全屏编辑器获取的新内容
+				// 1. 娣诲姞浠庡叏灞忕紪杈戝櫒鑾峰彇鐨勬柊鍐呭
 				formData.append('content', content);
 
-				// 2. 从原始的 noteElement 中获取文件状态并添加到 formData
-				// 获取已标记删除的文件
+				// 2. 浠庡師濮嬬殑 noteElement 涓幏鍙栨枃浠剁姸鎬佸苟娣诲姞鍒?formData
+				// 鑾峰彇宸叉爣璁板垹闄ょ殑鏂囦欢
 				const filesToDelete = Array.from(noteElement.querySelectorAll('.edit-file-tag[data-deleted="true"]')).map(t => t.dataset.fileId);
 				formData.append('filesToDelete', JSON.stringify(filesToDelete));
 
-				// 获取新添加的文件 (如果用户先添加文件再进入全屏)
+				// 鑾峰彇鏂版坊鍔犵殑鏂囦欢 (濡傛灉鐢ㄦ埛鍏堟坊鍔犳枃浠跺啀杩涘叆鍏ㄥ睆)
 				if (noteElement.newFiles && noteElement.newFiles.length > 0) {
 					Array.from(noteElement.newFiles).forEach(file => formData.append('file', file));
 				}
@@ -6532,12 +6503,12 @@
 	}
 
 	function updateEditorVisibility() {
-		let shouldShow = false; // 默认隐藏
-		// 条件1: 基础模式必须是 'home'
+		let shouldShow = false; // 榛樿闅愯棌
+		// 鏉′欢1: 鍩虹妯″紡蹇呴』鏄?'home'
 		if (appState.baseMode === 'home') {
 			shouldShow = true;
 		}
-		// 条件2: 如果瀑布流开启，并且设置了“隐藏”，则强制隐藏
+		// 鏉′欢2: 濡傛灉鐎戝竷娴佸紑鍚紝骞朵笖璁剧疆浜嗏€滈殣钘忊€濓紝鍒欏己鍒堕殣钘?
 		if (appState.isWaterfall && settings.hideEditorInWaterfall) {
 			shouldShow = false;
 		}
@@ -6562,25 +6533,25 @@
 		return parseFloat((b / Math.pow(k, i)).toFixed(d)) + ' ' + s[i];
 	};
 
-	// 1. 创建一个函数来计算并设置单个笔记的行跨度
+	// 1. 鍒涘缓涓€涓嚱鏁版潵璁＄畻骞惰缃崟涓瑪璁扮殑琛岃法搴?
 	const setNoteRowSpan = (noteElement) => {
 		const notesContainer = document.getElementById('notes-container');
 		if (!notesContainer) return;
 
-		// 获取grid的行间距
+		// 鑾峰彇grid鐨勮闂磋窛
 		const rowGap = parseFloat(getComputedStyle(notesContainer).getPropertyValue('row-gap'));
 
-		// 获取卡片的实际高度
+		// 鑾峰彇鍗＄墖鐨勫疄闄呴珮搴?
 		const noteHeight = noteElement.getBoundingClientRect().height;
 
-		// 计算需要跨越的行数（基准行高为1px）
+		// 璁＄畻闇€瑕佽法瓒婄殑琛屾暟锛堝熀鍑嗚楂樹负1px锛?
 		const rowSpan = Math.ceil((noteHeight + rowGap) / (1 + rowGap));
 		noteElement.style.gridRowEnd = `span ${rowSpan}`;
 	};
 
-	// 当任何被观察的笔记卡片大小发生变化时，它会自动调用我们的设置函数
+	// 褰撲换浣曡瑙傚療鐨勭瑪璁板崱鐗囧ぇ灏忓彂鐢熷彉鍖栨椂锛屽畠浼氳嚜鍔ㄨ皟鐢ㄦ垜浠殑璁剧疆鍑芥暟
 	const waterfallObserver = new ResizeObserver(entries => {
-		// 使用 requestAnimationFrame 来确保我们在浏览器下一次绘制前更新布局，避免抖动
+		// 浣跨敤 requestAnimationFrame 鏉ョ‘淇濇垜浠湪娴忚鍣ㄤ笅涓€娆＄粯鍒跺墠鏇存柊甯冨眬锛岄伩鍏嶆姈鍔?
 		window.requestAnimationFrame(() => {
 			for (let entry of entries) {
 				setNoteRowSpan(entry.target);
@@ -6618,32 +6589,32 @@
 	}
 
 	/**
-	 * 处理 Textarea 中的 Tab 和 Shift+Tab 缩进/取消缩进功能。
-	 * 此版本使用 document.execCommand 以确保所有操作都是可撤销的 (undoable)。
-	 * @param {KeyboardEvent} event - keydown 事件对象。
+	 * 澶勭悊 Textarea 涓殑 Tab 鍜?Shift+Tab 缂╄繘/鍙栨秷缂╄繘鍔熻兘銆?
+	 * 姝ょ増鏈娇鐢?document.execCommand 浠ョ‘淇濇墍鏈夋搷浣滈兘鏄彲鎾ら攢鐨?(undoable)銆?
+	 * @param {KeyboardEvent} event - keydown 浜嬩欢瀵硅薄銆?
 	 */
 	function handleTabIndentation(event) {
 		if (event.key !== 'Tab') {
-			return; // 如果不是Tab键，则不执行任何操作
+			return; // 濡傛灉涓嶆槸Tab閿紝鍒欎笉鎵ц浠讳綍鎿嶄綔
 		}
 
-		event.preventDefault(); // 阻止Tab键的默认行为（切换焦点）
+		event.preventDefault(); // 闃绘Tab閿殑榛樿琛屼负锛堝垏鎹㈢劍鐐癸級
 
 		const textarea = event.target;
-		const indent = '    '; // 四个空格
+		const indent = '    '; // 鍥涗釜绌烘牸
 		const isShiftPressed = event.shiftKey;
 
 		const start = textarea.selectionStart;
 		const end = textarea.selectionEnd;
 		const value = textarea.value;
 
-		// 为了使用 execCommand，我们必须确保 textarea 是当前活动的元素
+		// 涓轰簡浣跨敤 execCommand锛屾垜浠繀椤荤‘淇?textarea 鏄綋鍓嶆椿鍔ㄧ殑鍏冪礌
 		textarea.focus();
 
 		if (start !== end) {
-			// --- 场景1: 有文本被选中 (处理多行) ---
+			// --- 鍦烘櫙1: 鏈夋枃鏈閫変腑 (澶勭悊澶氳) ---
 
-			// 1. 确定需要修改的完整行块的范围
+			// 1. 纭畾闇€瑕佷慨鏀圭殑瀹屾暣琛屽潡鐨勮寖鍥?
 			const firstLineStart = value.lastIndexOf('\n', start - 1) + 1;
 			const lastLineEnd = value.indexOf('\n', end) === -1 ? value.length : value.indexOf('\n', end);
 			const selectedBlock = value.substring(firstLineStart, lastLineEnd);
@@ -6652,7 +6623,7 @@
 			let changeInLength = 0;
 
 			if (isShiftPressed) {
-				// 取消缩进
+				// 鍙栨秷缂╄繘
 				newBlock = selectedBlock.split('\n').map(line => {
 					if (line.startsWith(indent)) {
 						changeInLength -= indent.length;
@@ -6665,10 +6636,10 @@
 					return line;
 				}).join('\n');
 			} else {
-				// 增加缩进
+				// 澧炲姞缂╄繘
 				const lines = selectedBlock.split('\n');
 				newBlock = lines.map(line => {
-					// 如果最后一行是空的（因为选中到行尾），则不缩进
+					// 濡傛灉鏈€鍚庝竴琛屾槸绌虹殑锛堝洜涓洪€変腑鍒拌灏撅級锛屽垯涓嶇缉杩?
 					if (line.length > 0 || lines.length === 1) {
 						changeInLength += indent.length;
 						return indent + line;
@@ -6677,60 +6648,60 @@
 				}).join('\n');
 			}
 
-			// 2. 选中需要被替换的整个文本块
+			// 2. 閫変腑闇€瑕佽鏇挎崲鐨勬暣涓枃鏈潡
 			textarea.selectionStart = firstLineStart;
 			textarea.selectionEnd = lastLineEnd;
 
-			// 3. 执行可撤销的插入命令，用新块替换选中的旧块
+			// 3. 鎵ц鍙挙閿€鐨勬彃鍏ュ懡浠わ紝鐢ㄦ柊鍧楁浛鎹㈤€変腑鐨勬棫鍧?
 			document.execCommand('insertText', false, newBlock);
 
-			// 4. 恢复用户的选择范围
+			// 4. 鎭㈠鐢ㄦ埛鐨勯€夋嫨鑼冨洿
 			textarea.selectionStart = start + (isShiftPressed ? (changeInLength > 0 ? -changeInLength : 0) : indent.length);
 			textarea.selectionEnd = end + changeInLength;
 
 		} else {
-			// --- 场景2: 没有文本被选中 (处理当前光标行) ---
+			// --- 鍦烘櫙2: 娌℃湁鏂囨湰琚€変腑 (澶勭悊褰撳墠鍏夋爣琛? ---
 			if (isShiftPressed) {
-				// 取消缩进
+				// 鍙栨秷缂╄繘
 				const lineStart = value.lastIndexOf('\n', start - 1) + 1;
 				const line = value.substring(lineStart, start);
 				const spacesMatch = line.match(/^ {1,4}/);
 
 				if (spacesMatch) {
 					const spacesToRemove = spacesMatch[0].length;
-					// 选中要删除的空格
+					// 閫変腑瑕佸垹闄ょ殑绌烘牸
 					textarea.selectionStart = lineStart;
 					textarea.selectionEnd = lineStart + spacesToRemove;
-					// 用空字符串替换选中的空格，这是一个可撤销的删除操作
+					// 鐢ㄧ┖瀛楃涓叉浛鎹㈤€変腑鐨勭┖鏍硷紝杩欐槸涓€涓彲鎾ら攢鐨勫垹闄ゆ搷浣?
 					document.execCommand('insertText', false, '');
 				}
 			} else {
-				// 增加缩进：直接在光标处插入缩进符
+				// 澧炲姞缂╄繘锛氱洿鎺ュ湪鍏夋爣澶勬彃鍏ョ缉杩涚
 				document.execCommand('insertText', false, indent);
 			}
 		}
 
-		// 手动触发input事件，以便实时预览能够更新
+		// 鎵嬪姩瑙﹀彂input浜嬩欢锛屼互渚垮疄鏃堕瑙堣兘澶熸洿鏂?
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
 	function autoResizeTextarea(textarea) {
-		// 保存当前的滚动位置
+		// 淇濆瓨褰撳墠鐨勬粴鍔ㄤ綅缃?
 		const savedWindowScrollY = window.scrollY;
 		const savedWindowScrollX = window.scrollX;
 		const savedTextareaScrollTop = textarea.scrollTop;
 
-		// 调整 textarea 高度
+		// 璋冩暣 textarea 楂樺害
 		textarea.style.height = 'auto';
 		const newHeight = textarea.scrollHeight;
 		if (newHeight !== 0) {
 			textarea.style.height = `${newHeight + 2}px`;
 		}
 
-		// 恢复 textarea 内部滚动位置
+		// 鎭㈠ textarea 鍐呴儴婊氬姩浣嶇疆
 		textarea.scrollTop = savedTextareaScrollTop;
 
-		// 立即恢复窗口滚动位置，抵消 height='auto' 可能导致的页面跳动
+		// 绔嬪嵆鎭㈠绐楀彛婊氬姩浣嶇疆锛屾姷娑?height='auto' 鍙兘瀵艰嚧鐨勯〉闈㈣烦鍔?
 		window.scrollTo(savedWindowScrollX, savedWindowScrollY);
 	}
 
@@ -6747,9 +6718,9 @@
 		appContainer.style.display = 'block';
 		document.body.classList.remove('auth-visible');
 		document.getElementById('app-layout-container').classList.add('app-visible');
-		// 确保只有在登录成功后才执行这些操作
-		initializeCollapsibleSidebars(); // 初始化侧边栏折叠状态
-		initializeViewMode(); // 初始化宽屏模式
+		// 纭繚鍙湁鍦ㄧ櫥褰曟垚鍔熷悗鎵嶆墽琛岃繖浜涙搷浣?
+		initializeCollapsibleSidebars(); // 鍒濆鍖栦晶杈规爮鎶樺彔鐘舵€?
+		initializeViewMode(); // 鍒濆鍖栧灞忔ā寮?
 		updateEditorVisibility();
 		loadAndRenderStats();
 		loadAndRenderTags();
@@ -6808,9 +6779,9 @@
 
 	// --- Event Handlers ---
 	insertImageBtn.addEventListener('click', () => {
-		const url = prompt('请输入图片链接 (URL):', 'https://');
+		const url = prompt('璇疯緭鍏ュ浘鐗囬摼鎺?(URL):', 'https://');
 
-		// 检查用户是否输入了链接 (没有取消或留空)
+		// 妫€鏌ョ敤鎴锋槸鍚﹁緭鍏ヤ簡閾炬帴 (娌℃湁鍙栨秷鎴栫暀绌?
 		if (url && url.trim() !== 'https://' && url.trim() !== '') {
 			const markdownImage = `![](${url})`;
 			insertTextAtCursor(noteInput, markdownImage);
@@ -6818,7 +6789,7 @@
 	});
 
 	/**
-	 * 插入代码块
+	 * 鎻掑叆浠ｇ爜鍧?
 	 */
 	/*	insertCodeBtn.addEventListener('click', () => {
 			const textarea = noteInput;
@@ -6830,27 +6801,27 @@
 		const textBefore = `${code}\n`;
 		const textAfter = `\n${code}`;
 
-		// 使用 setRangeText 来插入文本并能更好地控制光标
+		// 浣跨敤 setRangeText 鏉ユ彃鍏ユ枃鏈苟鑳芥洿濂藉湴鎺у埗鍏夋爣
 		textarea.setRangeText(textBefore + selectedText + textAfter, start, end);
 
 		textarea.focus();
 		textarea.selectionStart = start + textBefore.length;
 		textarea.selectionEnd = start + textBefore.length + selectedText.length;
-		// 手动触发 input 事件，以便实时预览能够更新
+		// 鎵嬪姩瑙﹀彂 input 浜嬩欢锛屼互渚垮疄鏃堕瑙堣兘澶熸洿鏂?
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	});*/
 
 	/**
-	 * 应用一个主题色，并更新所有相关的UI
+	 * 搴旂敤涓€涓富棰樿壊锛屽苟鏇存柊鎵€鏈夌浉鍏崇殑UI
 	 */
 	function applyThemeColor(hexColor, isCustom = false) {
-		// 简单的颜色格式验证
+		// 绠€鍗曠殑棰滆壊鏍煎紡楠岃瘉
 		if (!/^#[0-9a-f]{6}$/i.test(hexColor)) return;
 
 		let primaryColor = hexColor;
 		let hoverColor;
 
-		// 将 HEX 转换为 R, G, B 并设置到新的 CSS 变量中
+		// 灏?HEX 杞崲涓?R, G, B 骞惰缃埌鏂扮殑 CSS 鍙橀噺涓?
 		if (/^#[0-9a-f]{6}$/i.test(primaryColor)) {
 			let r = parseInt(primaryColor.slice(1, 3), 16);
 			let g = parseInt(primaryColor.slice(3, 5), 16);
@@ -6858,13 +6829,13 @@
 			document.documentElement.style.setProperty('--primary-color-rgb', `${r}, ${g}, ${b}`);
 		}
 
-		// 1. 计算悬停颜色 (如果颜色是预设的，直接用；如果是自定义的，智能地变暗)
+		// 1. 璁＄畻鎮仠棰滆壊 (濡傛灉棰滆壊鏄璁剧殑锛岀洿鎺ョ敤锛涘鏋滄槸鑷畾涔夌殑锛屾櫤鑳藉湴鍙樻殫)
 		const predefinedTheme = themeColors.find(t => t.color === hexColor);
 		if (predefinedTheme) {
 			hoverColor = predefinedTheme.hover;
 		} else {
-			// 智能计算 hover 颜色：将原色变暗 15%
-			// 这是通过将颜色分解为R,G,B，分别乘以0.85，再合成为十六进制实现的
+			// 鏅鸿兘璁＄畻 hover 棰滆壊锛氬皢鍘熻壊鍙樻殫 15%
+			// 杩欐槸閫氳繃灏嗛鑹插垎瑙ｄ负R,G,B锛屽垎鍒箻浠?.85锛屽啀鍚堟垚涓哄崄鍏繘鍒跺疄鐜扮殑
 			let r = parseInt(hexColor.slice(1, 3), 16);
 			let g = parseInt(hexColor.slice(3, 5), 16);
 			let b = parseInt(hexColor.slice(5, 7), 16);
@@ -6874,26 +6845,26 @@
 			hoverColor = `#${r}${g}${b}`;
 		}
 
-		// 2. 应用 CSS 变量
+		// 2. 搴旂敤 CSS 鍙橀噺
 		document.documentElement.style.setProperty('--primary-color', primaryColor);
 		document.documentElement.style.setProperty('--primary-hover', hoverColor);
 
-		// 3. 更新 UI 状态
-		// 如果是预设颜色，高亮对应的圆形按钮；否则取消所有高亮
+		// 3. 鏇存柊 UI 鐘舵€?
+		// 濡傛灉鏄璁鹃鑹诧紝楂樹寒瀵瑰簲鐨勫渾褰㈡寜閽紱鍚﹀垯鍙栨秷鎵€鏈夐珮浜?
 		colorPalette.querySelectorAll('.color-swatch').forEach(swatch => {
 			swatch.classList.toggle('active', swatch.dataset.color === hexColor);
 		});
 
-		// 实时更新自定义颜色选择器的预览和输入框
+		// 瀹炴椂鏇存柊鑷畾涔夐鑹查€夋嫨鍣ㄧ殑棰勮鍜岃緭鍏ユ
 		colorPickerPreview.style.backgroundColor = primaryColor;
-		// 只有在输入框当前值不等于新值时才更新，避免光标跳动
+		// 鍙湁鍦ㄨ緭鍏ユ褰撳墠鍊间笉绛変簬鏂板€兼椂鎵嶆洿鏂帮紝閬垮厤鍏夋爣璺冲姩
 		if (hexColorInput.value.toLowerCase() !== primaryColor) {
 			hexColorInput.value = primaryColor;
 		}
-		// 同步隐藏的 <input type="color">
+		// 鍚屾闅愯棌鐨?<input type="color">
 		colorPickerInput.value = primaryColor;
 
-		// 4. 保存到本地存储
+		// 4. 淇濆瓨鍒版湰鍦板瓨鍌?
 		localStorage.setItem('memos-theme-color', primaryColor);
 	}
 
@@ -6905,17 +6876,17 @@
 		applyThemeColor(savedColor);
 	}
 
-	// 事件监听：点击“自定义颜色”标签时，触发隐藏的颜色选择器
+	// 浜嬩欢鐩戝惉锛氱偣鍑烩€滆嚜瀹氫箟棰滆壊鈥濇爣绛炬椂锛岃Е鍙戦殣钘忕殑棰滆壊閫夋嫨鍣?
 	colorPickerLabel.addEventListener('click', () => {
 		colorPickerInput.click();
 	});
 
-	// 事件监听：当HTML5颜色选择器的值改变时 (用户关闭调色板后)
+	// 浜嬩欢鐩戝惉锛氬綋HTML5棰滆壊閫夋嫨鍣ㄧ殑鍊兼敼鍙樻椂 (鐢ㄦ埛鍏抽棴璋冭壊鏉垮悗)
 	colorPickerInput.addEventListener('input', (e) => {
 		applyThemeColor(e.target.value, true);
 	});
 
-	// 事件监听：当手动输入十六进制颜色时
+	// 浜嬩欢鐩戝惉锛氬綋鎵嬪姩杈撳叆鍗佸叚杩涘埗棰滆壊鏃?
 	hexColorInput.addEventListener('input', (e) => {
 		const rawValue = e.target.value;
 		if (/^#[0-9a-f]{6}$/i.test(rawValue)) {
@@ -6923,7 +6894,7 @@
 		}
 	});
 
-	// 事件监听：在颜色面板内点击一个颜色
+	// 浜嬩欢鐩戝惉锛氬湪棰滆壊闈㈡澘鍐呯偣鍑讳竴涓鑹?
 	colorPalette.addEventListener('click', (e) => {
 		const swatch = e.target.closest('.color-swatch');
 		if (swatch) {
@@ -6932,16 +6903,16 @@
 		}
 	});
 
-	// 事件监听：点击页面其他任何地方，关闭面板
+	// 浜嬩欢鐩戝惉锛氱偣鍑婚〉闈㈠叾浠栦换浣曞湴鏂癸紝鍏抽棴闈㈡澘
 	document.addEventListener('click', (e) => {
 		if (fsColorPopover.classList.contains('visible') && !fsColorPickerWrapper.contains(e.target)) {
 			fsColorPopover.classList.remove('visible');
 		}
 		if (!moreActionsContainer.contains(e.target)) {
-			// 并且菜单当前是固定的
+			// 骞朵笖鑿滃崟褰撳墠鏄浐瀹氱殑
 			if (isMenuPinned) {
-				isMenuPinned = false; // 取消固定
-				moreMenuPopover.classList.remove('visible'); // 关闭菜单
+				isMenuPinned = false; // 鍙栨秷鍥哄畾
+				moreMenuPopover.classList.remove('visible'); // 鍏抽棴鑿滃崟
 			}
 		}
 		if (isTagDropdownOpen && !tagDropdown.contains(e.target) && e.target !== insertTagBtn) {
@@ -6950,7 +6921,7 @@
 		if (!themeColorPopover.contains(e.target) && !themeColorBtn.contains(e.target)) {
 			themeColorPopover.classList.remove('visible');
 		}
-		// 检查菜单是否可见，以及点击的目标是否在菜单内部或是否是“更多”按钮
+		// 妫€鏌ヨ彍鍗曟槸鍚﹀彲瑙侊紝浠ュ強鐐瑰嚮鐨勭洰鏍囨槸鍚﹀湪鑿滃崟鍐呴儴鎴栨槸鍚︽槸鈥滄洿澶氣€濇寜閽?
 		if (
 			waterfallPopoverMenu.classList.contains('visible') &&
 			!waterfallPopoverMenu.contains(e.target) &&
@@ -6960,9 +6931,9 @@
 		}
 	});
 
-	// --- 返回顶部 ---
+	// --- 杩斿洖椤堕儴 ---
 	const scrollThreshold = 300;
-	// 监听窗口滚动事件
+	// 鐩戝惉绐楀彛婊氬姩浜嬩欢
 	window.addEventListener('scroll', () => {
 		if (window.scrollY > scrollThreshold) {
 			backToTopBtn.classList.add('visible');
@@ -6980,7 +6951,7 @@
 
 	let allTagsCache = [];
 	let isTagDropdownOpen = false;
-	// 渲染标签列表到下拉框
+	// 娓叉煋鏍囩鍒楄〃鍒颁笅鎷夋
 	function renderTagList(filter = '') {
 		const lowerCaseFilter = filter.toLowerCase();
 		const filteredTags = allTagsCache.filter(tag => tag.name.toLowerCase().includes(lowerCaseFilter));
@@ -7003,7 +6974,7 @@
 		});
 	}
 
-	// 打开下拉框并获取标签
+	// 鎵撳紑涓嬫媺妗嗗苟鑾峰彇鏍囩
 	async function openTagDropdown() {
 		if (isTagDropdownOpen) return;
 
@@ -7017,24 +6988,24 @@
 				allTagsCache = await response.json();
 			} catch (error) {
 				console.error(error);
-				allTagsCache = []; // 出错时清空
+				allTagsCache = []; // 鍑洪敊鏃舵竻绌?
 			}
 		}
 
 		renderTagList();
 	}
 
-	// 关闭下拉框
+	// 鍏抽棴涓嬫媺妗?
 	function closeTagDropdown() {
 		if (!isTagDropdownOpen) return;
 		tagDropdown.style.display = 'none';
 		isTagDropdownOpen = false;
-		tagSearchInput.value = ''; // 清空搜索框
+		tagSearchInput.value = ''; // 娓呯┖鎼滅储妗?
 	}
 
-	// 按钮点击事件：切换下拉框的显示/隐藏
+	// 鎸夐挳鐐瑰嚮浜嬩欢锛氬垏鎹笅鎷夋鐨勬樉绀?闅愯棌
 	insertTagBtn.addEventListener('click', (e) => {
-		e.stopPropagation(); // 阻止事件冒泡到 document
+		e.stopPropagation(); // 闃绘浜嬩欢鍐掓场鍒?document
 		if (isTagDropdownOpen) {
 			closeTagDropdown();
 		} else {
@@ -7042,60 +7013,60 @@
 		}
 	});
 
-	// 搜索框输入事件：实时过滤列表
+	// 鎼滅储妗嗚緭鍏ヤ簨浠讹細瀹炴椂杩囨护鍒楄〃
 	tagSearchInput.addEventListener('input', () => {
 		renderTagList(tagSearchInput.value);
 	});
 
-	// 列表点击事件：选择标签并插入
+	// 鍒楄〃鐐瑰嚮浜嬩欢锛氶€夋嫨鏍囩骞舵彃鍏?
 	tagDropdownList.addEventListener('click', (e) => {
 		if (e.target && e.target.nodeName === 'LI' && e.target.dataset.tagName) {
 			const tagName = e.target.dataset.tagName;
 
-			// 1. 获取当前文本内容
+			// 1. 鑾峰彇褰撳墠鏂囨湰鍐呭
 			let currentContent = noteInput.value;
 
-			// 2. 检查末尾是否已经有换行符
-			// 我们希望目标格式是: "Content\n\n#tag "
+			// 2. 妫€鏌ユ湯灏炬槸鍚﹀凡缁忔湁鎹㈣绗?
+			// 鎴戜滑甯屾湜鐩爣鏍煎紡鏄? "Content\n\n#tag "
 
 			if (currentContent.length > 0) {
-				// 移除末尾的空白字符（如果需要更严格控制，可以只移除换行）
-				// 但通常追加标签时，我们希望它在“最”下面，所以可以先 trimEnd 一下，再追加两个换行
+				// 绉婚櫎鏈熬鐨勭┖鐧藉瓧绗︼紙濡傛灉闇€瑕佹洿涓ユ牸鎺у埗锛屽彲浠ュ彧绉婚櫎鎹㈣锛?
+				// 浣嗛€氬父杩藉姞鏍囩鏃讹紝鎴戜滑甯屾湜瀹冨湪鈥滄渶鈥濅笅闈紝鎵€浠ュ彲浠ュ厛 trimEnd 涓€涓嬶紝鍐嶈拷鍔犱袱涓崲琛?
 				currentContent = currentContent.trimEnd();
 				currentContent += '\n\n';
 			}
 
-			// 3. 追加标签
+			// 3. 杩藉姞鏍囩
 			const tagText = `#${tagName} `;
 			noteInput.value = currentContent + tagText;
 
-			// 4. 更新 UI
+			// 4. 鏇存柊 UI
 			noteInput.focus();
-			// 将光标移动到最后
+			// 灏嗗厜鏍囩Щ鍔ㄥ埌鏈€鍚?
 			noteInput.selectionStart = noteInput.selectionEnd = noteInput.value.length;
 
-			// 触发 input 事件以更新预览和高度
+			// 瑙﹀彂 input 浜嬩欢浠ユ洿鏂伴瑙堝拰楂樺害
 			noteInput.dispatchEvent(new Event('input', { bubbles: true }));
 
 			closeTagDropdown();
 		}
 	});
 
-	// --- 清空编辑器按钮 ---
+	// --- 娓呯┖缂栬緫鍣ㄦ寜閽?---
 	const clearEditorBtn = document.getElementById('clear-editor-btn');
 	if (clearEditorBtn) {
 		clearEditorBtn.addEventListener('click', async () => {
-			// 简单的确认，避免误触
+			// 绠€鍗曠殑纭锛岄伩鍏嶈瑙?
 			// const confirmed = confirm('Clear editor content?');
 			// if (!confirmed) return;
 
-			// 清空文本
+			// 娓呯┖鏂囨湰
 			noteInput.value = '';
-			// 清空文件 (如果需要清空文件，取消下面注释)
+			// 娓呯┖鏂囦欢 (濡傛灉闇€瑕佹竻绌烘枃浠讹紝鍙栨秷涓嬮潰娉ㄩ噴)
 			// noteFile.value = '';
 			// updateMainFileDisplay();
 
-			// 触发 input 更新 UI (预览和高度)
+			// 瑙﹀彂 input 鏇存柊 UI (棰勮鍜岄珮搴?
 			noteInput.dispatchEvent(new Event('input', { bubbles: true }));
 			noteInput.focus();
 		});
@@ -7144,11 +7115,11 @@
 		currentLoader.style.display = isAppending ? 'block' : 'flex';
 		try {
 			const url = new URL(window.location.origin + '/api/notes');
-			// 1. 添加分页
+			// 1. 娣诲姞鍒嗛〉
 			url.searchParams.set('page', page);
-			// 2. 添加所有共存的筛选条件
+			// 2. 娣诲姞鎵€鏈夊叡瀛樼殑绛涢€夋潯浠?
 			if (appState.filters.query) {
-				url.pathname = '/api/search'; // 切换到搜索 API
+				url.pathname = '/api/search'; // 鍒囨崲鍒版悳绱?API
 				url.searchParams.set('q', appState.filters.query);
 			}
 			if (appState.filters.tag) {
@@ -7209,9 +7180,9 @@
 		}
 	}
 
-	// --- 统一的入口函数，用于在状态改变后重新加载数据 ---
+	// --- 缁熶竴鐨勫叆鍙ｅ嚱鏁帮紝鐢ㄤ簬鍦ㄧ姸鎬佹敼鍙樺悗閲嶆柊鍔犺浇鏁版嵁 ---
 	function reloadNotes(shouldScroll = true) {
-		// 任何筛选条件的改变都应该从第一页开始
+		// 浠讳綍绛涢€夋潯浠剁殑鏀瑰彉閮藉簲璇ヤ粠绗竴椤靛紑濮?
 		appState.pagination.currentPage = 1;
 		appState.pagination.hasMore = true;
 		noteCounter = 1;
@@ -7232,7 +7203,7 @@
 		let editedIndicatorHtml = '';
 		// if (note.updated_at !== note.created_at) {
 		// 	const editedTime = formatTimestamp(note.updated_at);
-		// 	editedIndicatorHtml = ` ·&nbsp;<span class="note-edited-indicator" title="Edited at: ${editedTime.absolute}">edited</span>`;
+		// 	editedIndicatorHtml = ` 路&nbsp;<span class="note-edited-indicator" title="Edited at: ${editedTime.absolute}">edited</span>`;
 		// }
 		const pinnedIconHTML = note.is_pinned ? `
 				<button class='unpin-btn icon-btn pinned' title='Unpin'>
@@ -7265,7 +7236,7 @@
 
 		let index = '';
 		// if (appState.isWaterfall) {
-		// 	index = `#${noteCounter++} ・`
+		// 	index = `#${noteCounter++} 銉籤
 		// }
 		noteElement.innerHTML = `
 									<div class='note-header'>
@@ -7355,24 +7326,24 @@
 			const pinnedNotes = notes.filter(note => note.is_pinned);
 			const regularNotes = notes.filter(note => !note.is_pinned);
 
-			// 如果存在置顶笔记，则创建并渲染置顶区域
+			// 濡傛灉瀛樺湪缃《绗旇锛屽垯鍒涘缓骞舵覆鏌撶疆椤跺尯鍩?
 			if (pinnedNotes.length > 0) {
 				const pinnedContainer = document.createElement('div');
 				pinnedContainer.className = 'pinned-notes-container';
 
-				// 为置顶区域添加一个标题/分隔符
+				// 涓虹疆椤跺尯鍩熸坊鍔犱竴涓爣棰?鍒嗛殧绗?
 				const pinnedHeader = document.createElement('div');
 				pinnedHeader.className = 'pinned-section-header';
 				pinnedHeader.textContent = 'Pinned';
 				pinnedContainer.appendChild(pinnedHeader);
 
-				// 循环渲染所有置顶笔记
+				// 寰幆娓叉煋鎵€鏈夌疆椤剁瑪璁?
 				pinnedNotes.forEach(note => {
 					const noteElement = createNoteElement(note);
 					pinnedContainer.appendChild(noteElement);
 				});
 
-				// 将整个置顶区域添加到主文档片段中
+				// 灏嗘暣涓疆椤跺尯鍩熸坊鍔犲埌涓绘枃妗ｇ墖娈典腑
 				fragment.appendChild(pinnedContainer);
 			}
 
@@ -7441,11 +7412,11 @@
 			const fileTag = document.createElement('div');
 			fileTag.className = 'file-tag-item';
 			fileTag.textContent = file.name;
-			// 将文件名存储在 data 属性中，以便之后识别
+			// 灏嗘枃浠跺悕瀛樺偍鍦?data 灞炴€т腑锛屼互渚夸箣鍚庤瘑鍒?
 			fileTag.dataset.filename = file.name;
 
 			const removeBtn = document.createElement('button');
-			removeBtn.type = 'button'; // 防止触发表单提交
+			removeBtn.type = 'button'; // 闃叉瑙﹀彂琛ㄥ崟鎻愪氦
 			removeBtn.className = 'remove-file-main-btn';
 			removeBtn.innerHTML = '&times;';
 
@@ -7454,31 +7425,31 @@
 		});
 	};
 	noteFile.addEventListener('change', async () => {
-		// 1. 上传图片并插入 Markdown
+		// 1. 涓婁紶鍥剧墖骞舵彃鍏?Markdown
 		await handleImageUploadAndInsert(noteFile.files, noteInput);
-		// 2. 更新附件列表（只显示非图片文件）
+		// 2. 鏇存柊闄勪欢鍒楄〃锛堝彧鏄剧ず闈炲浘鐗囨枃浠讹級
 		updateMainFileDisplay();
 	});
 
 	fileListDisplay.addEventListener('click', e => {
-		// 仅当点击的是移除按钮时执行
+		// 浠呭綋鐐瑰嚮鐨勬槸绉婚櫎鎸夐挳鏃舵墽琛?
 		if (e.target.classList.contains('remove-file-main-btn')) {
 			const fileTag = e.target.closest('.file-tag-item');
 			const fileNameToRemove = fileTag.dataset.filename;
 
-			// FileList 是不可变的，需要用 DataTransfer 来创建一个新的 FileList
+			// FileList 鏄笉鍙彉鐨勶紝闇€瑕佺敤 DataTransfer 鏉ュ垱寤轰竴涓柊鐨?FileList
 			const dt = new DataTransfer();
 			const currentFiles = Array.from(noteFile.files);
 
-			// 遍历当前文件，只添加那些我们不想移除的文件
+			// 閬嶅巻褰撳墠鏂囦欢锛屽彧娣诲姞閭ｄ簺鎴戜滑涓嶆兂绉婚櫎鐨勬枃浠?
 			for (const file of currentFiles) {
 				if (file.name !== fileNameToRemove) {
 					dt.items.add(file);
 				}
 			}
-			// 将更新后的文件列表赋值回 input 元素
+			// 灏嗘洿鏂板悗鐨勬枃浠跺垪琛ㄨ祴鍊煎洖 input 鍏冪礌
 			noteFile.files = dt.files;
-			// 重新渲染文件列表显示
+			// 閲嶆柊娓叉煋鏂囦欢鍒楄〃鏄剧ず
 			updateMainFileDisplay();
 		}
 	});
@@ -7498,21 +7469,21 @@
 		}
 	});
 
-	// 实时更新主预览区内容
+	// 瀹炴椂鏇存柊涓婚瑙堝尯鍐呭
 	noteInput.addEventListener('input', e => {
 		mainEditPreview.innerHTML = postProcessMarkdownHtml(marked.parse(noteInput.value || ''));
 		// autoResizeTextarea(noteInput);
 		syncMainEditorLayout();
 	});
 
-	// 点击按钮切换模式
+	// 鐐瑰嚮鎸夐挳鍒囨崲妯″紡
 	mainPreviewToggleBtn.addEventListener('click', () => {
 		noteForm.classList.toggle('preview-mode');
 		const isPreview = noteForm.classList.contains('preview-mode');
 		mainPreviewToggleBtn.classList.toggle('active', isPreview);
 
 		if (isPreview) {
-			// 在切换到预览时，确保内容是最新的
+			// 鍦ㄥ垏鎹㈠埌棰勮鏃讹紝纭繚鍐呭鏄渶鏂扮殑
 			mainEditPreview.innerHTML = postProcessMarkdownHtml(marked.parse(noteInput.value || ''));
 		} else {
 			noteInput.focus();
@@ -7540,18 +7511,18 @@
 
 		if (isWide) {
 			mainPreviewToggleBtn.style.display = 'none';
-			mainSplitToggleBtn.style.display = 'inline-flex'; // 或者 'block'
+			mainSplitToggleBtn.style.display = 'inline-flex'; // 鎴栬€?'block'
 		} else {
 			mainPreviewToggleBtn.style.display = 'inline-flex';
 			mainSplitToggleBtn.style.display = 'none';
 		}
 
-		// 如果窗口从宽变窄，但之前处于分栏模式，则必须强制退出
+		// 濡傛灉绐楀彛浠庡鍙樼獎锛屼絾涔嬪墠澶勪簬鍒嗘爮妯″紡锛屽垯蹇呴』寮哄埗閫€鍑?
 		if (!isWide && noteForm.classList.contains('split-mode')) {
 			noteForm.classList.remove('split-mode');
 			mainSplitToggleBtn.classList.remove('active');
 		}
-		// 如果窗口从窄变宽，但之前处于预览模式，则强制退出
+		// 濡傛灉绐楀彛浠庣獎鍙樺锛屼絾涔嬪墠澶勪簬棰勮妯″紡锛屽垯寮哄埗閫€鍑?
 		if (isWide && noteForm.classList.contains('preview-mode')) {
 			noteForm.classList.remove('preview-mode');
 			mainPreviewToggleBtn.classList.remove('active');
@@ -7559,21 +7530,21 @@
 	}
 
 
-	// 手动在 textarea 中插入文本
+	// 鎵嬪姩鍦?textarea 涓彃鍏ユ枃鏈?
 	function insertTextAtCursor(textarea, text) {
-		textarea.focus(); // 确保命令在正确的元素上执行
+		textarea.focus(); // 纭繚鍛戒护鍦ㄦ纭殑鍏冪礌涓婃墽琛?
 		document.execCommand('insertText', false, text);
-		// execCommand 会自动处理光标位置
-		// 手动触发 input 事件，以便实时预览等依赖 input 事件的逻辑能够更新
+		// execCommand 浼氳嚜鍔ㄥ鐞嗗厜鏍囦綅缃?
+		// 鎵嬪姩瑙﹀彂 input 浜嬩欢锛屼互渚垮疄鏃堕瑙堢瓑渚濊禆 input 浜嬩欢鐨勯€昏緫鑳藉鏇存柊
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
 	function convertTableRowElementToMarkdown(tableRowEl, rowNumber) {
 		const cells = [];
 		const cellEls = tableRowEl.children;
-		// 使用 Array.from 进行更现代的遍历
+		// 浣跨敤 Array.from 杩涜鏇寸幇浠ｇ殑閬嶅巻
 		Array.from(cellEls).forEach(cell => {
-			// 清理单元格内容并处理链接
+			// 娓呯悊鍗曞厓鏍煎唴瀹瑰苟澶勭悊閾炬帴
 			let cellContent = cell.innerText.trim();
 			const link = cell.querySelector('a');
 			if (link) {
@@ -7596,77 +7567,77 @@
 		return `| ${dividerCells.join(' | ')} |`;
 	}
 
-	// --- 核心代码结束 ---
-	// --- 智能粘贴逻辑 (使用 Turndown.js) ---
-	// 1. 在全局作用域初始化 Turndown 服务，并进行一些推荐配置
-	//    检查 TurndownService 是否存在，以防 CDN 加载失败
+	// --- 鏍稿績浠ｇ爜缁撴潫 ---
+	// --- 鏅鸿兘绮樿创閫昏緫 (浣跨敤 Turndown.js) ---
+	// 1. 鍦ㄥ叏灞€浣滅敤鍩熷垵濮嬪寲 Turndown 鏈嶅姟锛屽苟杩涜涓€浜涙帹鑽愰厤缃?
+	//    妫€鏌?TurndownService 鏄惁瀛樺湪锛屼互闃?CDN 鍔犺浇澶辫触
 	const turndownService = typeof TurndownService === 'function'
 		? new TurndownService({
-			headingStyle: 'atx',      // 标题样式使用 '#' (e.g., ## My Heading)
+			headingStyle: 'atx',      // 鏍囬鏍峰紡浣跨敤 '#' (e.g., ## My Heading)
 			codeBlockStyle: 'fenced',
-			bulletListMarker: '-',    // 无序列表使用 '-'
-			emDelimiter: '*',         // 斜体使用 '*'
-			strongDelimiter: '**'     // 加粗使用 '**'
+			bulletListMarker: '-',    // 鏃犲簭鍒楄〃浣跨敤 '-'
+			emDelimiter: '*',         // 鏂滀綋浣跨敤 '*'
+			strongDelimiter: '**'     // 鍔犵矖浣跨敤 '**'
 		})
 		: null;
 	if (turndownService) {
-		// 使用 .addRule() 来教 Turndown 如何处理 <table> 标签
+		// 浣跨敤 .addRule() 鏉ユ暀 Turndown 濡備綍澶勭悊 <table> 鏍囩
 		turndownService.addRule('customTableRule', {
-			// 过滤器：告诉 Turndown 这条规则只应用于 'table' 标签
+			// 杩囨护鍣細鍛婅瘔 Turndown 杩欐潯瑙勫垯鍙簲鐢ㄤ簬 'table' 鏍囩
 			filter: 'table',
-			// 替换函数：当遇到 <table> 时，调用这个函数来生成 Markdown
+			// 鏇挎崲鍑芥暟锛氬綋閬囧埌 <table> 鏃讹紝璋冪敤杩欎釜鍑芥暟鏉ョ敓鎴?Markdown
 			replacement: function (content, node) {
 				const rows = [];
-				// node 参数就是当前的 <table> DOM 元素
+				// node 鍙傛暟灏辨槸褰撳墠鐨?<table> DOM 鍏冪礌
 				const trEls = Array.from(node.querySelectorAll('tr'));
 
 				for (let i = 0; i < trEls.length; i++) {
 					const markdownRow = convertTableRowElementToMarkdown(trEls[i], i);
 					rows.push(markdownRow);
 				}
-				// 在生成的表格前后添加换行符，确保它与其他 Markdown 内容正确分隔
+				// 鍦ㄧ敓鎴愮殑琛ㄦ牸鍓嶅悗娣诲姞鎹㈣绗︼紝纭繚瀹冧笌鍏朵粬 Markdown 鍐呭姝ｇ‘鍒嗛殧
 				return '\n\n' + rows.join('\n') + '\n\n';
 			}
 		});
 		turndownService.addRule('lineBreakRule', {
 			filter: ['div', 'p'],
 			replacement: function (content, node) {
-				// 如果在链接内部，不要添加额外的换行符，但要保留内容并加一个空格以防粘连
+				// 濡傛灉鍦ㄩ摼鎺ュ唴閮紝涓嶈娣诲姞棰濆鐨勬崲琛岀锛屼絾瑕佷繚鐣欏唴瀹瑰苟鍔犱竴涓┖鏍间互闃茬矘杩?
 				if (node.closest('a')) {
 					return content + ' ';
 				}
-				// 如果内容不为空，则在内容后添加一个换行符。
-				// 这将保留段落结构，但不会产生额外的空行。
+				// 濡傛灉鍐呭涓嶄负绌猴紝鍒欏湪鍐呭鍚庢坊鍔犱竴涓崲琛岀銆?
+				// 杩欏皢淇濈暀娈佃惤缁撴瀯锛屼絾涓嶄細浜х敓棰濆鐨勭┖琛屻€?
 				return content.trim() ? content + '\n' : '';
 			}
 		});
 
-		// 新增：显式处理 <br> 标签，确保推文中的换行被保留
+		// 鏂板锛氭樉寮忓鐞?<br> 鏍囩锛岀‘淇濇帹鏂囦腑鐨勬崲琛岃淇濈暀
 		turndownService.addRule('brRule', {
 			filter: 'br',
 			replacement: function () {
-				// 使用 '  \n' 表示 Markdown 硬换行 (Hard Break)，
-				// 这样虽然换行了，但不会产生段落间距 (即不会有空行)。
+				// 浣跨敤 '  \n' 琛ㄧず Markdown 纭崲琛?(Hard Break)锛?
+				// 杩欐牱铏界劧鎹㈣浜嗭紝浣嗕笉浼氫骇鐢熸钀介棿璺?(鍗充笉浼氭湁绌鸿)銆?
 				return '  \n';
 			}
 		});
 
-		// 新增：处理通过CSS font-weight实现的加粗文本（如Twitter/X）
+		// 鏂板锛氬鐞嗛€氳繃CSS font-weight瀹炵幇鐨勫姞绮楁枃鏈紙濡俆witter/X锛?
 		turndownService.addRule('cssBoldRule', {
 			filter: function (node) {
-				// 跳过已经是strong/b标签的元素，避免重复处理
+				// 璺宠繃宸茬粡鏄痵trong/b鏍囩鐨勫厓绱狅紝閬垮厤閲嶅澶勭悊
 				if (node.nodeName === 'STRONG' || node.nodeName === 'B') {
 					return false;
 				}
-				// 检查是否为元素节点
+				// 妫€鏌ユ槸鍚︿负鍏冪礌鑺傜偣
 				if (node.nodeType === Node.ELEMENT_NODE) {
-					// 检查内联样式中的font-weight（粘贴的HTML通常保留内联样式）
+					// 妫€鏌ュ唴鑱旀牱寮忎腑鐨刦ont-weight锛堢矘璐寸殑HTML閫氬父淇濈暀鍐呰仈鏍峰紡锛?
 					const inlineFontWeight = node.style.fontWeight;
 					if (inlineFontWeight) {
 						const weight = parseInt(inlineFontWeight);
-						// font-weight >= 600 或 'bold' 被认为是加粗
+						// font-weight >= 600 鎴?'bold' 琚涓烘槸鍔犵矖
 						if (weight >= 600 || inlineFontWeight === 'bold' || inlineFontWeight === 'bolder') {
-							// 也要检查display属性，确保是内联元素
+							// 涔熻妫€鏌isplay灞炴€э紝纭繚鏄唴鑱斿厓绱?
 							const inlineDisplay = node.style.display;
 							if (!inlineDisplay || inlineDisplay === 'inline' || inlineDisplay === 'inline-block') {
 								return true;
@@ -7674,61 +7645,61 @@
 						}
 					}
 
-					// 也检查计算样式作为后备（某些情况下可能有用）
+					// 涔熸鏌ヨ绠楁牱寮忎綔涓哄悗澶囷紙鏌愪簺鎯呭喌涓嬪彲鑳芥湁鐢級
 					try {
 						const style = window.getComputedStyle(node);
 						const fontWeight = style.fontWeight;
 						if (fontWeight && (parseInt(fontWeight) >= 600 || fontWeight === 'bold')) {
-							// 只处理包含文本的内联元素
+							// 鍙鐞嗗寘鍚枃鏈殑鍐呰仈鍏冪礌
 							const hasText = node.textContent && node.textContent.trim().length > 0;
 							const isInline = style.display === 'inline' || style.display === 'inline-block';
 							return hasText && isInline;
 						}
 					} catch (e) {
-						// 如果获取样式失败，忽略
+						// 濡傛灉鑾峰彇鏍峰紡澶辫触锛屽拷鐣?
 					}
 				}
 				return false;
 			},
 			replacement: function (content) {
-				// 将内容包裹在 ** 中表示加粗
+				// 灏嗗唴瀹瑰寘瑁瑰湪 ** 涓〃绀哄姞绮?
 				return content ? `**${content}**` : '';
 			}
 		});
 
-		// 新增：识别行内图片 (Emoji 等)，保留为 HTML <img> 标签并添加 class
+		// 鏂板锛氳瘑鍒鍐呭浘鐗?(Emoji 绛?锛屼繚鐣欎负 HTML <img> 鏍囩骞舵坊鍔?class
 		turndownService.addRule('imgRule', {
 			filter: 'img',
 			replacement: function (content, node) {
 				const src = node.getAttribute('src');
 				const alt = node.getAttribute('alt') || '';
 
-				// 判断是否为行内图片 (Emoji)：
-				// 1. 包含 'emoji' 类名 (Twitter/X 等常用)
-				// 2. 或者 SRC URL 中包含 'emoji' (针对 Twitter/X 的图片 URL: https://.../emoji/...)
-				// 3. 或者宽度/高度很小 (< 32px)
+				// 鍒ゆ柇鏄惁涓鸿鍐呭浘鐗?(Emoji)锛?
+				// 1. 鍖呭惈 'emoji' 绫诲悕 (Twitter/X 绛夊父鐢?
+				// 2. 鎴栬€?SRC URL 涓寘鍚?'emoji' (閽堝 Twitter/X 鐨勫浘鐗?URL: https://.../emoji/...)
+				// 3. 鎴栬€呭搴?楂樺害寰堝皬 (< 32px)
 				const isEmoji = (node.classList && node.classList.contains('emoji')) ||
 					(src && src.includes('emoji')) ||
 					(node.width > 0 && node.width <= 32) ||
 					(node.height > 0 && node.height <= 32);
 
 				if (isEmoji) {
-					// 只有对于行内图片，我们返回 HTML，这样带有 class
+					// 鍙湁瀵逛簬琛屽唴鍥剧墖锛屾垜浠繑鍥?HTML锛岃繖鏍峰甫鏈?class
 					return `<img src="${src}" alt="${alt}" class="inline-img" />`;
 				}
 
-				// 对于大图，使用标准 Markdown 格式，它会受到我们之前添加的 .note-content img 样式影响 (max-width: 100%)
-				// 如果图片是在段落内，Turndown 会自动处理。
-				// 注意：如果图片是独立的，最好确保它前后有换行，但标准 Markdown image 语法通常足够。
+				// 瀵逛簬澶у浘锛屼娇鐢ㄦ爣鍑?Markdown 鏍煎紡锛屽畠浼氬彈鍒版垜浠箣鍓嶆坊鍔犵殑 .note-content img 鏍峰紡褰卞搷 (max-width: 100%)
+				// 濡傛灉鍥剧墖鏄湪娈佃惤鍐咃紝Turndown 浼氳嚜鍔ㄥ鐞嗐€?
+				// 娉ㄦ剰锛氬鏋滃浘鐗囨槸鐙珛鐨勶紝鏈€濂界‘淇濆畠鍓嶅悗鏈夋崲琛岋紝浣嗘爣鍑?Markdown image 璇硶閫氬父瓒冲銆?
 				return src ? `![${alt}](${src})` : '';
 			}
 		});
 	}
 
 
-	// 2. 粘贴事件处理函数
+	// 2. 绮樿创浜嬩欢澶勭悊鍑芥暟
 	function handleSmartPaste(event) {
-		// 确保只在 textarea 元素中生效，并且 Turndown 库已成功加载
+		// 纭繚鍙湪 textarea 鍏冪礌涓敓鏁堬紝骞朵笖 Turndown 搴撳凡鎴愬姛鍔犺浇
 		const textarea = event.target;
 		if (!textarea.matches('textarea') || !turndownService) {
 			return;
@@ -7738,20 +7709,20 @@
 		const pastedHtml = clipboardData.getData('text/html');
 		const pastedText = clipboardData.getData('text/plain');
 
-		// 关键条件：
-		// 1. 如果有 HTML 内容且与纯文本不同，进行 HTML 转 Markdown 处理
-		// 2. 如果只有纯文本，检查是否包含空白行，如果有则手动处理以保留空白行
+		// 鍏抽敭鏉′欢锛?
+		// 1. 濡傛灉鏈?HTML 鍐呭涓斾笌绾枃鏈笉鍚岋紝杩涜 HTML 杞?Markdown 澶勭悊
+		// 2. 濡傛灉鍙湁绾枃鏈紝妫€鏌ユ槸鍚﹀寘鍚┖鐧借锛屽鏋滄湁鍒欐墜鍔ㄥ鐞嗕互淇濈暀绌虹櫧琛?
 		const hasHtml = pastedHtml && pastedHtml.length > 0 && pastedHtml !== pastedText;
 		const hasBlankLines = pastedText && /\n\s*\n/.test(pastedText);
 
 		if (hasHtml) {
 
-			// 阻止浏览器默认的、会丢失格式的粘贴行为
+			// 闃绘娴忚鍣ㄩ粯璁ょ殑銆佷細涓㈠け鏍煎紡鐨勭矘璐磋涓?
 			event.preventDefault();
 
-			// 预处理 HTML：保留文本节点中的换行符
-			// 许多网站 (如 X/Twitter) 使用 white-space: pre-wrap，复制的 HTML 包含换行符但没有 <br>
-			// Turndown 默认会忽略这些换行符，所以我们需要先将它们转换为 <br>
+			// 棰勫鐞?HTML锛氫繚鐣欐枃鏈妭鐐逛腑鐨勬崲琛岀
+			// 璁稿缃戠珯 (濡?X/Twitter) 浣跨敤 white-space: pre-wrap锛屽鍒剁殑 HTML 鍖呭惈鎹㈣绗︿絾娌℃湁 <br>
+			// Turndown 榛樿浼氬拷鐣ヨ繖浜涙崲琛岀锛屾墍浠ユ垜浠渶瑕佸厛灏嗗畠浠浆鎹负 <br>
 			const tempDiv = document.createElement('div');
 			tempDiv.innerHTML = pastedHtml;
 
@@ -7834,7 +7805,7 @@
 
 			function preserveNewlines(node) {
 				if (node.nodeType === Node.TEXT_NODE) {
-					// 如果文本包含换行符，且不在 pre/code 标签内 (Turndown 会自己处理这些)
+					// 濡傛灉鏂囨湰鍖呭惈鎹㈣绗︼紝涓斾笉鍦?pre/code 鏍囩鍐?(Turndown 浼氳嚜宸卞鐞嗚繖浜?
 					if (/\r?\n/.test(node.nodeValue)) {
 						const parent = node.parentNode;
 						if (parent && /^(PRE|CODE|TABLE|THEAD|TBODY|TR|TH|TD|STYLE|SCRIPT)$/i.test(parent.nodeName)) {
@@ -7952,9 +7923,9 @@
 						parent.replaceChild(frag, node);
 					}
 				} else if (node.nodeType === Node.ELEMENT_NODE) {
-					// 递归处理，但跳过 pre/code 等
+					// 閫掑綊澶勭悊锛屼絾璺宠繃 pre/code 绛?
 					if (!/^(PRE|CODE|STYLE|SCRIPT)$/i.test(node.nodeName)) {
-						// 需要将子节点转换为数组，因为遍历过程中可能会修改 DOM 结构
+						// 闇€瑕佸皢瀛愯妭鐐硅浆鎹负鏁扮粍锛屽洜涓洪亶鍘嗚繃绋嬩腑鍙兘浼氫慨鏀?DOM 缁撴瀯
 						Array.from(node.childNodes).forEach(preserveNewlines);
 					}
 				}
@@ -7969,40 +7940,40 @@
 
 			let markdown = turndownService.turndown(processedHtml);
 
-			// 修复 1: 将转义的下划线 \_ 替换回 _，以正确显示用户名等
+			// 淇 1: 灏嗚浆涔夌殑涓嬪垝绾?\_ 鏇挎崲鍥?_锛屼互姝ｇ‘鏄剧ず鐢ㄦ埛鍚嶇瓑
 			markdown = markdown.replace(/\\_/g, '_');
 
-			// 修复 2: 移除链接文本中的换行符和多余空格
-			// 针对 X (Twitter) 帖子，[Title\n](url) -> [Title](url)
+			// 淇 2: 绉婚櫎閾炬帴鏂囨湰涓殑鎹㈣绗﹀拰澶氫綑绌烘牸
+			// 閽堝 X (Twitter) 甯栧瓙锛孾Title\n](url) -> [Title](url)
 			markdown = markdown.replace(/\[([\s\S]*?)\]\(([^)]+)\)/g, (match, text, url) => {
-				// 将所有空白字符（包括换行）替换为单个空格，然后去除首尾空格
+				// 灏嗘墍鏈夌┖鐧藉瓧绗︼紙鍖呮嫭鎹㈣锛夋浛鎹负鍗曚釜绌烘牸锛岀劧鍚庡幓闄ら灏剧┖鏍?
 				const cleanText = text.replace(/\s+/g, ' ').trim();
 				return `[${cleanText}](${url})`;
 			});
 
-			// 修复 3: 去除首尾空白字符
+			// 淇 3: 鍘婚櫎棣栧熬绌虹櫧瀛楃
 			markdown = markdown.trim();
 
-			// 将转换后的 Markdown 插入到当前光标所在的位置
+			// 灏嗚浆鎹㈠悗鐨?Markdown 鎻掑叆鍒板綋鍓嶅厜鏍囨墍鍦ㄧ殑浣嶇疆
 			insertTextAtCursor(textarea, markdown);
 		} else if (hasBlankLines) {
-			// 处理纯文本中的空白行：将连续的换行符转换为 Markdown 硬换行（两个空格 + 换行）
+			// 澶勭悊绾枃鏈腑鐨勭┖鐧借锛氬皢杩炵画鐨勬崲琛岀杞崲涓?Markdown 纭崲琛岋紙涓や釜绌烘牸 + 鎹㈣锛?
 			event.preventDefault();
 
-			// 将空白行（连续换行）转换为 Markdown 格式
-			// 单个换行保持不变，空白行用两个空格+换行来表示
+			// 灏嗙┖鐧借锛堣繛缁崲琛岋級杞崲涓?Markdown 鏍煎紡
+			// 鍗曚釜鎹㈣淇濇寔涓嶅彉锛岀┖鐧借鐢ㄤ袱涓┖鏍?鎹㈣鏉ヨ〃绀?
 			let processedText = pastedText;
 
-			// 将连续的空行（\n\n）转换为 Markdown 段落分隔（保留）
-			// 不需要特殊处理，Markdown 本身支持空行
+			// 灏嗚繛缁殑绌鸿锛圽n\n锛夎浆鎹负 Markdown 娈佃惤鍒嗛殧锛堜繚鐣欙級
+			// 涓嶉渶瑕佺壒娈婂鐞嗭紝Markdown 鏈韩鏀寔绌鸿
 
 			insertTextAtCursor(textarea, processedText);
 		}
-		// 如果不满足以上条件，则不执行任何操作，让浏览器执行默认的纯文本粘贴。
+		// 濡傛灉涓嶆弧瓒充互涓婃潯浠讹紝鍒欎笉鎵ц浠讳綍鎿嶄綔锛岃娴忚鍣ㄦ墽琛岄粯璁ょ殑绾枃鏈矘璐淬€?
 	}
 
 	function handleGlobalPaste(event) {
-		// 确保粘贴的目标是一个 textarea
+		// 纭繚绮樿创鐨勭洰鏍囨槸涓€涓?textarea
 		const textarea = event.target;
 		if (!textarea.matches('textarea')) {
 			return;
@@ -8011,21 +7982,21 @@
 		const clipboardData = event.clipboardData || window.clipboardData;
 		if (!clipboardData) return;
 
-		// --- 优先级 1: 检查并处理图片文件 ---
+		// --- 浼樺厛绾?1: 妫€鏌ュ苟澶勭悊鍥剧墖鏂囦欢 ---
 		const imageFile = Array.from(clipboardData.files).find(file => file.type.startsWith('image/'));
 		if (imageFile) {
 			event.preventDefault();
 			handlePastedImage(imageFile, textarea);
-			return; // 处理完毕，结束函数
+			return; // 澶勭悊瀹屾瘯锛岀粨鏉熷嚱鏁?
 		}
 
-		// --- 优先级 2: 检查并处理其他类型的文件 (非图片) ---
+		// --- 浼樺厛绾?2: 妫€鏌ュ苟澶勭悊鍏朵粬绫诲瀷鐨勬枃浠?(闈炲浘鐗? ---
 		const otherFiles = Array.from(clipboardData.files).filter(file => !file.type.startsWith('image/'));
 		if (otherFiles.length > 0) {
-			// 我们只在主编辑区处理非图片文件的粘贴，将其作为附件
+			// 鎴戜滑鍙湪涓荤紪杈戝尯澶勭悊闈炲浘鐗囨枃浠剁殑绮樿创锛屽皢鍏朵綔涓洪檮浠?
 			if (textarea.id === 'note-input') {
 				event.preventDefault();
-				// 使用 DataTransfer 来安全地合并现有文件和新粘贴的文件
+				// 浣跨敤 DataTransfer 鏉ュ畨鍏ㄥ湴鍚堝苟鐜版湁鏂囦欢鍜屾柊绮樿创鐨勬枃浠?
 				const dt = new DataTransfer();
 				for (const f of noteFile.files) {
 					dt.items.add(f);
@@ -8083,19 +8054,19 @@
 		globalSearchInput.value = '';
 		clearSearchBtn.style.display = 'none';
 
-		// 重置UI
+		// 閲嶇疆UI
 		document.querySelectorAll('.timeline-item.active, .tag-item.active').forEach(i => i.classList.remove('active'));
 		clearFilterBtn.classList.remove('visible');
 		clearTagsBtn.classList.remove('visible');
 
-		// 如果当前不在 home 模式，切换回去
+		// 濡傛灉褰撳墠涓嶅湪 home 妯″紡锛屽垏鎹㈠洖鍘?
 		if (appState.baseMode !== 'home') {
 			appState.baseMode = 'home';
 			updateSidebarTabsUI();
 		}
 
 		reloadNotes(shouldScroll);
-		// 重新加载侧边栏数据
+		// 閲嶆柊鍔犺浇渚ц竟鏍忔暟鎹?
 		loadAndRenderTags();
 		loadAndRenderTimeline();
 		loadAndRenderStats();
@@ -8214,7 +8185,7 @@
 				shareBtn.innerHTML = originalIcon;
 				shareBtn.disabled = false;
 			}
-			return; // 处理完分享点击后，终止后续事件处理
+			return; // 澶勭悊瀹屽垎浜偣鍑诲悗锛岀粓姝㈠悗缁簨浠跺鐞?
 		}
 		const dateHeader = target.closest('.date-group-header');
 		if (dateHeader) {
@@ -8235,7 +8206,7 @@
 		const noteId = noteElement.dataset.id;
 		const moreBtn = target.closest('.waterfall-more-btn');
 		if (moreBtn) {
-			e.stopPropagation(); // 阻止事件冒泡到document的关闭监听器
+			e.stopPropagation(); // 闃绘浜嬩欢鍐掓场鍒癲ocument鐨勫叧闂洃鍚櫒
 			showWaterfallPopover(moreBtn, noteId);
 			return;
 		}
@@ -8247,7 +8218,7 @@
 		const saveEditBtn = target.closest('.save-edit');
 		const previewToggleBtn = target.closest('.md-preview-toggle-btn');
 		const splitToggleBtn = target.closest('.md-split-toggle-btn');
-		// 检查被点击的元素或其父元素是否是 .inline-tag
+		// 妫€鏌ヨ鐐瑰嚮鐨勫厓绱犳垨鍏剁埗鍏冪礌鏄惁鏄?.inline-tag
 		const inlineTag = event.target.closest('.inline-tag');
 
 		const unpinBtn = target.closest('.unpin-btn');
@@ -8266,13 +8237,13 @@
 			return;
 		}
 		if (inlineTag) {
-			// 阻止 <a> 标签的默认跳转行为
+			// 闃绘 <a> 鏍囩鐨勯粯璁よ烦杞涓?
 			event.preventDefault();
 
 			const tagName = inlineTag.dataset.tagName;
 			if (!tagName) return;
 			appState.filters.tag = tagName;
-			// 更新UI
+			// 鏇存柊UI
 			document.querySelectorAll('.tag-item.active').forEach(i => i.classList.remove('active'));
 			const leftSidebarTag = document.querySelector(`#tags-container .tag-item[data-tag-name="${tagName}"]`);
 			if (leftSidebarTag) leftSidebarTag.classList.add('active');
@@ -8282,15 +8253,15 @@
 		}
 
 		if (fullscreenEditBtn) {
-			// 从当前笔记的 DOM 元素中找到正在编辑的 textarea
+			// 浠庡綋鍓嶇瑪璁扮殑 DOM 鍏冪礌涓壘鍒版鍦ㄧ紪杈戠殑 textarea
 			const editTextarea = noteElement.querySelector('.edit-textarea');
-			// 获取 textarea 中最新的、可能尚未保存的内容
+			// 鑾峰彇 textarea 涓渶鏂扮殑銆佸彲鑳藉皻鏈繚瀛樼殑鍐呭
 			const currentContent = editTextarea.value;
-			// 使用这个最新的内容打开全屏编辑器
+			// 浣跨敤杩欎釜鏈€鏂扮殑鍐呭鎵撳紑鍏ㄥ睆缂栬緫鍣?
 			openFullscreenEditor(currentContent, noteId);
 		} else if (editBtn) {
 			noteElement.classList.add('editing');
-			// 初始化为编辑模式 (raw)
+			// 鍒濆鍖栦负缂栬緫妯″紡 (raw)
 			noteElement.dataset.editMode = 'raw';
 			noteElement.querySelector('.md-preview-toggle-btn').classList.remove('active');
 			noteElement.querySelector('.md-split-toggle-btn').classList.remove('active');
@@ -8306,44 +8277,44 @@
 
 			syncNoteEditorLayout(noteElement);
 			noteEditorResizeObserver.observe(noteElement);
-			// --- 自动聚焦并将光标移动到末尾 ---
-			// 使用 requestAnimationFrame 可以确保在浏览器完成UI渲染（使textarea可见）之后再执行聚焦操作，
+			// --- 鑷姩鑱氱劍骞跺皢鍏夋爣绉诲姩鍒版湯灏?---
+			// 浣跨敤 requestAnimationFrame 鍙互纭繚鍦ㄦ祻瑙堝櫒瀹屾垚UI娓叉煋锛堜娇textarea鍙锛変箣鍚庡啀鎵ц鑱氱劍鎿嶄綔锛?
 			requestAnimationFrame(() => {
 				const editTextarea = noteElement.querySelector('.edit-textarea');
 				editTextarea.focus({ preventScroll: true });
 				const textLength = editTextarea.value.length;
 				editTextarea.setSelectionRange(textLength, textLength);
-				// 如果文本很长，确保 textarea 内部也滚动到底部，
+				// 濡傛灉鏂囨湰寰堥暱锛岀‘淇?textarea 鍐呴儴涔熸粴鍔ㄥ埌搴曢儴锛?
 				editTextarea.scrollTop = editTextarea.scrollHeight;
 			});
 		} else if (cancelEditBtn) {
-			// 1. 从缓存中找到这条笔记的原始数据
+			// 1. 浠庣紦瀛樹腑鎵惧埌杩欐潯绗旇鐨勫師濮嬫暟鎹?
 			const noteId = parseInt(noteElement.dataset.id, 10);
 			const originalNoteData = allNotesCache.find(n => n.id === noteId);
 
 			if (originalNoteData) {
-				// 2. 将 textarea 的内容重置为原始文本
+				// 2. 灏?textarea 鐨勫唴瀹归噸缃负鍘熷鏂囨湰
 				const editTextarea = noteElement.querySelector('.edit-textarea');
 				editTextarea.value = originalNoteData.content;
 
-				// 3. 重置高度，以防文本变短后留下空白
+				// 3. 閲嶇疆楂樺害锛屼互闃叉枃鏈彉鐭悗鐣欎笅绌虹櫧
 				autoResizeTextarea(editTextarea);
 			}
-			// 清空在本次编辑中新暂存的文件
+			// 娓呯┖鍦ㄦ湰娆＄紪杈戜腑鏂版殏瀛樼殑鏂囦欢
 			noteElement.newFiles = new DataTransfer().files;
-			// 移除所有文件的“待删除”标记
+			// 绉婚櫎鎵€鏈夋枃浠剁殑鈥滃緟鍒犻櫎鈥濇爣璁?
 			noteElement.querySelectorAll('.edit-file-tag.deleted').forEach(tag => {
 				tag.classList.remove('deleted');
 				delete tag.dataset.deleted;
 			});
-			// 移除为新文件创建的UI标签
-			// （因为下次点击编辑时会重新渲染，所以这一步可以省略，但加上更严谨）
+			// 绉婚櫎涓烘柊鏂囦欢鍒涘缓鐨刄I鏍囩
+			// 锛堝洜涓轰笅娆＄偣鍑荤紪杈戞椂浼氶噸鏂版覆鏌擄紝鎵€浠ヨ繖涓€姝ュ彲浠ョ渷鐣ワ紝浣嗗姞涓婃洿涓ヨ皑锛?
 			const filesContainer = noteElement.querySelector('.edit-files-container');
 			filesContainer.innerHTML = '';
 			if (originalNoteData && originalNoteData.files) {
 				originalNoteData.files.forEach(file => filesContainer.appendChild(createFileTag(file.name, file.id)));
 			}
-			// 5. 最后，执行原始的UI清理操作
+			// 5. 鏈€鍚庯紝鎵ц鍘熷鐨刄I娓呯悊鎿嶄綔
 			noteElement.classList.remove('editing', 'preview-mode', 'split-mode');
 			noteEditorResizeObserver.unobserve(noteElement);
 			delete noteElement.dataset.editMode;
@@ -8365,7 +8336,7 @@
 		} else if (saveEditBtn) {
 			noteEditorResizeObserver.unobserve(noteElement);
 			saveEditBtn.disabled = true;
-			// 找到SVG并替换为加载中的动画或文本
+			// 鎵惧埌SVG骞舵浛鎹负鍔犺浇涓殑鍔ㄧ敾鎴栨枃鏈?
 			const originalIcon = saveEditBtn.innerHTML;
 			saveEditBtn.innerHTML = '...';
 
@@ -8428,7 +8399,7 @@
 			} catch (error) {
 				showCustomAlert(error.message, 'error');
 				saveEditBtn.disabled = false;
-				saveEditBtn.innerHTML = originalIcon; // 恢复图标
+				saveEditBtn.innerHTML = originalIcon; // 鎭㈠鍥炬爣
 			}
 		} else if (previewToggleBtn) {
 			const currentMode = noteElement.dataset.editMode || 'raw';
@@ -8507,7 +8478,7 @@
 			const noteElement = e.target.closest('.note');
 			const textarea = noteElement.querySelector('.edit-textarea');
 			await handleImageUploadAndInsert(e.target.files, textarea);
-			// 旧的附件逻辑现在只处理非图片文件
+			// 鏃х殑闄勪欢閫昏緫鐜板湪鍙鐞嗛潪鍥剧墖鏂囦欢
 			addFilesToEditNote(e.target.files, noteElement);
 			e.target.value = '';
 		}
@@ -8565,7 +8536,7 @@
 		}
 	});
 
-	// 获取并渲染时间线和热力图
+	// 鑾峰彇骞舵覆鏌撴椂闂寸嚎鍜岀儹鍔涘浘
 	async function loadAndRenderTimeline() {
 		const timelineContainer = document.getElementById('timeline-container');
 		try {
@@ -8589,7 +8560,7 @@
 				monthUl.className = 'timeline-children';
 				yearLi.appendChild(monthUl);
 
-				monthUl.style.display = 'block'; //直接设置月份列表为可见
+				monthUl.style.display = 'block'; //鐩存帴璁剧疆鏈堜唤鍒楄〃涓哄彲瑙?
 				const yearToggle = yearLi.querySelector('.timeline-toggle');
 				if (yearToggle) {
 					yearToggle.classList.add('expanded');
@@ -8619,13 +8590,13 @@
 		}
 	}
 
-	// 创建时间线节点的辅助函数，以支持新的交互模型
+	// 鍒涘缓鏃堕棿绾胯妭鐐圭殑杈呭姪鍑芥暟锛屼互鏀寔鏂扮殑浜や簰妯″瀷
 	function createTimelineNode(level, label, count, dateParts = {}) {
 		const li = document.createElement('li');
 		const itemDiv = document.createElement('div');
 		itemDiv.className = 'timeline-item';
 		itemDiv.dataset.level = level;
-		// 存储日期信息用于筛选
+		// 瀛樺偍鏃ユ湡淇℃伅鐢ㄤ簬绛涢€?
 		if (dateParts.year) itemDiv.dataset.year = dateParts.year;
 		if (dateParts.month) itemDiv.dataset.month = dateParts.month;
 		if (dateParts.day) itemDiv.dataset.day = dateParts.day;
@@ -8670,7 +8641,7 @@
 		reloadNotes();
 	});
 
-	// 处理时间线点击事件，由客户端计算精确时间戳
+	// 澶勭悊鏃堕棿绾跨偣鍑讳簨浠讹紝鐢卞鎴风璁＄畻绮剧‘鏃堕棿鎴?
 	document.getElementById('timeline-container').addEventListener('click', (event) => {
 		const item = event.target.closest('.timeline-item');
 		if (!item) return;
@@ -8679,24 +8650,24 @@
 		const level = item.dataset.level;
 
 		const applyFilter = (targetItem) => {
-			// --- 1. 从 data-* 属性中获取年/月/日 (并转换为数字) ---
+			// --- 1. 浠?data-* 灞炴€т腑鑾峰彇骞?鏈?鏃?(骞惰浆鎹负鏁板瓧) ---
 			const year = parseInt(targetItem.dataset.year);
 			const month = targetItem.dataset.month ? parseInt(targetItem.dataset.month) : null;
 			const day = targetItem.dataset.day ? parseInt(targetItem.dataset.day) : null;
 
-			// --- 2. 使用本地时区计算精确的开始和结束时间戳 ---
+			// --- 2. 浣跨敤鏈湴鏃跺尯璁＄畻绮剧‘鐨勫紑濮嬪拰缁撴潫鏃堕棿鎴?---
 			let startOfDay, endOfDay;
 			const monthIndex = month ? month - 1 : 0;
 
-			if (day) { // 精确到天
-				startOfDay = new Date(year, monthIndex, day); // 本地时间的当天 00:00:00
-				endOfDay = new Date(year, monthIndex, day + 1); // 本地时间的下一天 00:00:00
-			} else if (month) { // 精确到月
-				startOfDay = new Date(year, monthIndex, 1); // 本地时间的当月第一天 00:00:00
-				endOfDay = new Date(year, monthIndex + 1, 1); // 本地时间的下个月第一天 00:00:00
-			} else { // 精确到年
-				startOfDay = new Date(year, 0, 1); // 本地时间的当年第一天 00:00:00
-				endOfDay = new Date(year + 1, 0, 1); // 本地时间的下一年第一天 00:00:00
+			if (day) { // 绮剧‘鍒板ぉ
+				startOfDay = new Date(year, monthIndex, day); // 鏈湴鏃堕棿鐨勫綋澶?00:00:00
+				endOfDay = new Date(year, monthIndex, day + 1); // 鏈湴鏃堕棿鐨勪笅涓€澶?00:00:00
+			} else if (month) { // 绮剧‘鍒版湀
+				startOfDay = new Date(year, monthIndex, 1); // 鏈湴鏃堕棿鐨勫綋鏈堢涓€澶?00:00:00
+				endOfDay = new Date(year, monthIndex + 1, 1); // 鏈湴鏃堕棿鐨勪笅涓湀绗竴澶?00:00:00
+			} else { // 绮剧‘鍒板勾
+				startOfDay = new Date(year, 0, 1); // 鏈湴鏃堕棿鐨勫綋骞寸涓€澶?00:00:00
+				endOfDay = new Date(year + 1, 0, 1); // 鏈湴鏃堕棿鐨勪笅涓€骞寸涓€澶?00:00:00
 			}
 
 			appState.filters.date = {
@@ -8769,7 +8740,7 @@
 		const item = event.target.closest('.tag-item');
 		if (!item) return;
 		appState.filters.tag = item.dataset.tagName;
-		// 更新UI
+		// 鏇存柊UI
 		document.querySelectorAll('#tags-container .tag-item.active').forEach(i => i.classList.remove('active'));
 		item.classList.add('active');
 		clearTagsBtn.classList.add('visible');
@@ -8791,7 +8762,7 @@
 	});
 
 	/**
-	 * 监听 textarea 的键盘事件，实现列表自动补全
+	 * 鐩戝惉 textarea 鐨勯敭鐩樹簨浠讹紝瀹炵幇鍒楄〃鑷姩琛ュ叏
 	 * @param {KeyboardEvent} event
 	 */
 	function handleListAutoInsertion(event) {
@@ -8801,13 +8772,13 @@
 		const cursorPosition = textarea.selectionStart;
 		const text = textarea.value;
 
-		// 寻找当前行的起始位置
+		// 瀵绘壘褰撳墠琛岀殑璧峰浣嶇疆
 		const lineStart = text.lastIndexOf('\n', cursorPosition - 1) + 1;
 		const currentLine = text.substring(lineStart, cursorPosition);
 
-		// 匹配无序列表，例如 "- ", "* ", "+ "
+		// 鍖归厤鏃犲簭鍒楄〃锛屼緥濡?"- ", "* ", "+ "
 		const unorderedListMatch = currentLine.match(/^(\s*[-*+]\s+)/);
-		// 匹配有序列表，例如 "1. ", "2. "
+		// 鍖归厤鏈夊簭鍒楄〃锛屼緥濡?"1. ", "2. "
 		const orderedListMatch = currentLine.match(/^(\s*)(\d+)(\.\s+)/);
 		let wasHandled = false;
 
@@ -8844,14 +8815,14 @@
 		}
 	}
 
-	// 为主输入框绑定
+	// 涓轰富杈撳叆妗嗙粦瀹?
 	noteInput.addEventListener('keydown', event => {
 		handleTabIndentation(event);
 		handleEditorShortcuts(event);
 		handleListAutoInsertion(event);
 	});
 
-	// 通过事件委托为笔记卡片内的编辑框绑定
+	// 閫氳繃浜嬩欢濮旀墭涓虹瑪璁板崱鐗囧唴鐨勭紪杈戞缁戝畾
 	notesContainer.addEventListener('keydown', event => {
 		if (event.target.matches('.edit-textarea')) {
 			handleTabIndentation(event);
@@ -8862,7 +8833,7 @@
 
 	function initializeHeatmapDragToScroll() {
 		const scrollContainer = document.getElementById('heatmap-scroll-container');
-		// 如果找不到容器（例如加载失败），则不执行任何操作
+		// 濡傛灉鎵句笉鍒板鍣紙渚嬪鍔犺浇澶辫触锛夛紝鍒欎笉鎵ц浠讳綍鎿嶄綔
 		if (!scrollContainer) return;
 
 		let isDown = false;
@@ -8871,12 +8842,12 @@
 		let scrollLeftStart;
 
 		scrollContainer.addEventListener('mousedown', (e) => {
-			// 阻止默认的文本选择等行为
+			// 闃绘榛樿鐨勬枃鏈€夋嫨绛夎涓?
 			e.preventDefault();
 			isDown = true;
-			isDragging = false; // 每次按下鼠标时，重置拖拽状态
+			isDragging = false; // 姣忔鎸変笅榧犳爣鏃讹紝閲嶇疆鎷栨嫿鐘舵€?
 			scrollContainer.classList.add('active-drag');
-			// 记录起始点
+			// 璁板綍璧峰鐐?
 			startX = e.pageX - scrollContainer.offsetLeft;
 			scrollLeftStart = scrollContainer.scrollLeft;
 		});
@@ -8894,7 +8865,7 @@
 			if (!isDown) return;
 			isDragging = true;
 			const x = e.pageX - scrollContainer.offsetLeft;
-			const walk = (x - startX) * 1.5; //乘以1.5可以增加拖动速度，感觉更灵敏
+			const walk = (x - startX) * 1.5; //涔樹互1.5鍙互澧炲姞鎷栧姩閫熷害锛屾劅瑙夋洿鐏垫晱
 			scrollContainer.scrollLeft = scrollLeftStart - walk;
 		});
 
@@ -8936,3 +8907,266 @@
 	start();
 	// });
 </script>
+
+<!-- Share Dialog Implementation -->
+<style>
+	/* Share Modal Styles */
+	.share-modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2000;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.2s;
+	}
+
+	.share-modal-overlay.active {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.share-modal {
+		background: var(--surface-color);
+		padding: 1.5rem;
+		border-radius: 8px;
+		width: 90%;
+		max-width: 500px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+		color: var(--text-color);
+	}
+
+	.share-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.5rem;
+	}
+
+	.share-header h3 {
+		margin: 0;
+		font-size: 1.2rem;
+	}
+
+	.close-share-btn {
+		background: none;
+		border: none;
+		font-size: 1.5rem;
+		cursor: pointer;
+		color: var(--text-secondary);
+		padding: 0;
+		line-height: 1;
+	}
+
+	.share-body {
+		display: flex;
+		flex-direction: column;
+		gap: 1.2rem;
+	}
+
+	.share-field label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+	}
+
+	.share-input-group {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.share-input {
+		flex: 1;
+		padding: 0.6rem;
+		border: 1px solid var(--border-color);
+		border-radius: 4px;
+		background: var(--bg-color);
+		color: var(--text-color);
+		font-size: 0.9rem;
+	}
+
+	.share-btn {
+		padding: 0.6rem 1rem;
+		background: #367cff;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	.share-btn:hover {
+		background: #2a63cc;
+	}
+
+	.share-delete-btn {
+		padding: 0.6rem 1rem;
+		background: transparent;
+		color: var(--danger-color);
+		border: 1px solid var(--danger-color);
+		border-radius: 4px;
+		cursor: pointer;
+		font-weight: 500;
+		margin-top: 0.5rem;
+		align-self: flex-start;
+	}
+
+	.share-delete-btn:hover {
+		background: rgba(229, 62, 62, 0.1);
+	}
+
+	.expiration-select {
+		padding: 0.6rem;
+		border: 1px solid var(--border-color);
+		border-radius: 4px;
+		background: var(--surface-color);
+		color: var(--text-color);
+		width: 100%;
+	}
+</style>
+
+<div class="share-modal-overlay" id="share-modal-overlay">
+	<div class="share-modal">
+		<div class="share-header">
+			<h3>Share Note</h3>
+			<button class="close-share-btn" onclick="closeShareDialog()">&times;</button>
+		</div>
+		<div class="share-body">
+			<p style="margin:0; color:var(--text-secondary); font-size:0.9rem;">
+				Anyone with these public links can view this note.
+			</p>
+
+			<div class="share-field">
+				<label>Display Link</label>
+				<div class="share-input-group">
+					<input type="text" class="share-input" id="share-link-input" readonly>
+					<button class="share-btn" onclick="copyShareLink()">Copy</button>
+				</div>
+			</div>
+
+			<div class="share-field">
+				<label>Expires in</label>
+				<select class="expiration-select" id="share-expiration-select" onchange="updateShareExpiration()">
+					<option value="3600">1 Hour</option>
+					<option value="86400">1 Day</option>
+					<option value="0" selected>Permanent</option>
+				</select>
+			</div>
+
+			<button class="share-delete-btn" onclick="deleteShare()">Stop Sharing</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	let currentSharingNoteId = null;
+	const STORAGE_KEY_EXPIRATION = 'flynotes_share_expiration';
+
+	// Open Share Dialog
+	async function openShareDialog(noteId) {
+		currentSharingNoteId = noteId;
+		const modal = document.getElementById('share-modal-overlay');
+		const input = document.getElementById('share-link-input');
+		const select = document.getElementById('share-expiration-select');
+
+		// Restore last expiration
+		const lastExpires = localStorage.getItem(STORAGE_KEY_EXPIRATION);
+		if (lastExpires !== null) {
+			select.value = lastExpires;
+		}
+
+		modal.classList.add('active');
+		input.value = 'Generating...';
+
+		await generateShareLink();
+	}
+
+	// Close Share Dialog
+	function closeShareDialog() {
+		document.getElementById('share-modal-overlay').classList.remove('active');
+		currentSharingNoteId = null;
+	}
+
+	// Generate/Update Share Link
+	async function generateShareLink() {
+		if (!currentSharingNoteId) return;
+
+		const expiresIn = parseInt(document.getElementById('share-expiration-select').value);
+		// Persist setting
+		localStorage.setItem(STORAGE_KEY_EXPIRATION, expiresIn);
+
+		const input = document.getElementById('share-link-input');
+
+		try {
+			const response = await fetch(`/api/notes/${currentSharingNoteId}/share`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ expiresIn })
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				input.value = data.url;
+			} else {
+				input.value = 'Error generating link';
+			}
+		} catch (e) {
+			console.error('Share Error:', e);
+			input.value = 'Error generating link';
+		}
+	}
+
+	// Update Expiration
+	async function updateShareExpiration() {
+		const input = document.getElementById('share-link-input');
+		input.value = 'Updating...';
+		await generateShareLink();
+	}
+
+	// Delete Share
+	async function deleteShare() {
+		if (!currentSharingNoteId) return;
+		if (!confirm('Are you sure you want to stop sharing this note? The link will become invalid.')) return;
+
+		const input = document.getElementById('share-link-input');
+		input.value = 'Deleting...';
+
+		try {
+			const response = await fetch(`/api/notes/${currentSharingNoteId}/share`, {
+				method: 'DELETE'
+			});
+
+			if (response.ok) {
+				closeShareDialog();
+			} else {
+				input.value = 'Error deleting share';
+			}
+		} catch (e) {
+			console.error('Delete Share Error:', e);
+			input.value = 'Error';
+		}
+	}
+
+	// Copy Link
+	function copyShareLink() {
+		const input = document.getElementById('share-link-input');
+		input.select();
+		document.execCommand('copy');
+
+		const btn = input.nextElementSibling;
+		const originalText = btn.innerText;
+		btn.innerText = 'Copied!';
+		setTimeout(() => btn.innerText = originalText, 2000);
+	}
+</script>
+</body>
+</html>

@@ -55,7 +55,7 @@ async function handleApiRequest(request, env) {
 	}
 
 	const shareNoteMatch = pathname.match(/^\/api\/notes\/(\d+)\/share$/);
-	if (shareNoteMatch && request.method === 'POST') {
+	if (shareNoteMatch && (request.method === 'POST' || request.method === 'DELETE')) {
 		const [, noteId] = shareNoteMatch;
 		return handleShareNoteRequest(noteId, request, env);
 	}
@@ -1756,6 +1756,7 @@ function jsonResponse(data, status = 200, headers = new Headers()) {
 /**
  * 生成或检索笔记的公开分享链接
  * POST /api/notes/:noteId/share
+ * Body: { expiresIn: 3600 } // 可选，秒数。3600=1小时，86400=1天，0或不传=永久
  */
 async function handleShareNoteRequest(noteId, request, env) {
 	const db = env.DB;
@@ -1763,16 +1764,60 @@ async function handleShareNoteRequest(noteId, request, env) {
 	if (isNaN(id)) return new Response('Invalid Note ID', { status: 400 });
 
 	try {
+		// DELETE: 删除分享
+		if (request.method === 'DELETE') {
+			const publicId = await env.NOTES_KV.get(`note_share:${id}`);
+			if (publicId) {
+				await env.NOTES_KV.delete(`public_note:${publicId}`);
+				await env.NOTES_KV.delete(`note_share:${id}`);
+			}
+			return jsonResponse({ success: true });
+		}
+
+		// POST: 创建或获取分享
 		const note = await db.prepare("SELECT id FROM notes WHERE id = ?").bind(id).first();
 		if (!note) return jsonResponse({ error: 'Note not found' }, 404);
 
-		const publicId = crypto.randomUUID();
-		await env.NOTES_KV.put(`public_note:${publicId}`, JSON.stringify({ noteId: id }));
+		// 解析请求体获取过期时间
+		let expiresIn = 0; // 默认永久
+		try {
+			const body = await request.json();
+			if (body.expiresIn && typeof body.expiresIn === 'number') {
+				expiresIn = body.expiresIn;
+			}
+		} catch (e) {
+			// 如果没有body或解析失败，使用默认值
+		}
+
+		// 检查是否已有分享
+		let publicId = await env.NOTES_KV.get(`note_share:${id}`);
+
+		if (publicId) {
+			// 验证 publicId 是否仍然有效（未过期）
+			const existingNoteData = await env.NOTES_KV.get(`public_note:${publicId}`);
+			if (!existingNoteData) {
+				publicId = null; // 已过期
+			}
+		}
+
+		if (!publicId) {
+			publicId = crypto.randomUUID();
+			await env.NOTES_KV.put(`note_share:${id}`, publicId);
+		}
+
+		// 更新存储（应用新的过期时间或刷新）
+		const kvOptions = expiresIn > 0 ? { expirationTtl: expiresIn } : {};
+
+		await env.NOTES_KV.put(
+			`public_note:${publicId}`,
+			JSON.stringify({ noteId: id }),
+			kvOptions
+		);
 
 		const { protocol, host } = new URL(request.url);
 		const publicUrl = `${protocol}//${host}/api/public/notes/${publicId}`;
 
-		return jsonResponse({ url: publicUrl });
+		return jsonResponse({ url: publicUrl, publicId, expiresIn });
 	} catch (e) {
 		console.error(`Share Note Error (noteId: ${noteId}):`, e.message);
 		return jsonResponse({ error: 'Database error', message: e.message }, 500);
