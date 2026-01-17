@@ -60,6 +60,10 @@ async function handleApiRequest(request, env) {
 		return handleShareNoteRequest(noteId, request, env);
 	}
 
+	// 临时管理端点：清除所有分享记录
+	if (request.method === 'POST' && pathname === '/api/admin/clear-all-shares') {
+		return handleClearAllShares(request, env);
+	}
 
 
 	if (pathname === '/api/settings') {
@@ -1948,4 +1952,62 @@ async function handleServeSharedNote(publicId, request, env) {
 	return new Response(html, {
 		headers: { 'Content-Type': 'text/html; charset=utf-8' }
 	});
+}
+
+/**
+ * 临时管理端点：清除所有分享记录
+ * POST /api/admin/clear-all-shares
+ */
+async function handleClearAllShares(request, env) {
+	try {
+		let deletedCount = 0;
+		const limit = 1000;
+		const deletedKeys = [];
+
+		// 清理 note_share: 键
+		let cursor = undefined;
+		do {
+			const list = await env.NOTES_KV.list({
+				prefix: 'note_share:',
+				limit,
+				cursor
+			});
+
+			for (const key of list.keys) {
+				await env.NOTES_KV.delete(key.name);
+				deletedKeys.push(key.name);
+				deletedCount++;
+			}
+
+			cursor = list.cursor;
+		} while (cursor);
+
+		// 清理 public_note: 键
+		cursor = undefined;
+		do {
+			const list = await env.NOTES_KV.list({
+				prefix: 'public_note:',
+				limit,
+				cursor
+			});
+
+			for (const key of list.keys) {
+				await env.NOTES_KV.delete(key.name);
+				deletedKeys.push(key.name);
+				deletedCount++;
+			}
+
+			cursor = list.cursor;
+		} while (cursor);
+
+		return jsonResponse({
+			success: true,
+			deletedCount,
+			message: `Successfully deleted ${deletedCount} share-related keys`,
+			keys: deletedKeys.slice(0, 10) // 只返回前10个作为示例
+		});
+	} catch (e) {
+		console.error('Clear shares error:', e);
+		return jsonResponse({ error: e.message }, 500);
+	}
 }
