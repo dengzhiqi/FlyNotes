@@ -3528,6 +3528,13 @@
 					d="M4 8h3V5H5v1H4v2zm0 4h2V9H4v3zm0-8h3c0-1.1-.9-2-2-2H4v2zm2 12H5v-1H4v2h2c1.1 0 2-.9 2-2h-2v1zm12-12h2v2h-2V4zm0 4h2v3h-2V8zm-8 12v-8h6v8H8zm8 0c1.1 0 2-.9 2-2h-2v2zm-8-16h6v2H8V4zM4 20c0 1.1.9 2 2 2v-2H4z" />
 			</svg>
 		</button>
+		<button class='icon-btn' data-action='share' title='Share'>
+			<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+				<path d="M0 0h24v24H0V0z" fill="none" />
+				<path
+					d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z" />
+			</svg>
+		</button>
 		<button class='icon-btn btn-danger' data-action='delete' title='Delete Note'>
 			<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='currentColor'>
 				<path d='M0 0h24v24H0V0z' fill='none' />
@@ -4620,6 +4627,39 @@
 				} catch (error) {
 					showCustomAlert(error.message, 'error');
 				} finally {
+					actionButton.disabled = false;
+				}
+				break;
+			}
+			case 'share': {
+				const originalIcon = actionButton.innerHTML;
+				const successIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`;
+				actionButton.disabled = true;
+				actionButton.innerHTML = '<span style="font-size:12px">...</span>';
+
+				try {
+					const res = await fetch(`/api/notes/${noteId}/share`, { method: 'POST' });
+					if (!res.ok) {
+						let errorMsg = 'Failed to share note.';
+						try { errorMsg = (await res.json()).error || errorMsg; } catch (e) { }
+						throw new Error(errorMsg);
+					}
+					const data = await res.json();
+					await navigator.clipboard.writeText(data.url);
+
+					actionButton.innerHTML = successIcon;
+					actionButton.classList.add('copied');
+					actionButton.title = 'Link Copied!';
+
+					setTimeout(() => {
+						actionButton.innerHTML = originalIcon;
+						actionButton.classList.remove('copied');
+						actionButton.title = 'Share';
+						actionButton.disabled = false;
+					}, 2000);
+				} catch (error) {
+					showCustomAlert(error.message, 'error');
+					actionButton.innerHTML = originalIcon;
 					actionButton.disabled = false;
 				}
 				break;

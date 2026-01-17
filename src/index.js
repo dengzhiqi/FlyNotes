@@ -18,6 +18,11 @@ async function handleApiRequest(request, env) {
 		const publicId = publicFileMatch[1];
 		return handlePublicFileRequest(publicId, request, env);
 	}
+	const publicNoteMatch = pathname.match(/^\/api\/public\/notes\/([a-zA-Z0-9-]+)$/);
+	if (publicNoteMatch) {
+		const publicId = publicNoteMatch[1];
+		return handleServeSharedNote(publicId, request, env);
+	}
 
 	const tgProxyMatch = pathname.match(/^\/api\/tg-media-proxy\/([^\/]+)$/);
 	if (tgProxyMatch) {
@@ -47,6 +52,12 @@ async function handleApiRequest(request, env) {
 	if (shareFileMatch && request.method === 'POST') {
 		const [, noteId, fileId] = shareFileMatch;
 		return handleShareFileRequest(noteId, fileId, request, env);
+	}
+
+	const shareNoteMatch = pathname.match(/^\/api\/notes\/(\d+)\/share$/);
+	if (shareNoteMatch && request.method === 'POST') {
+		const [, noteId] = shareNoteMatch;
+		return handleShareNoteRequest(noteId, request, env);
 	}
 
 
@@ -1740,4 +1751,156 @@ async function handlePublicFileRequest(publicId, request, env) {
 function jsonResponse(data, status = 200, headers = new Headers()) {
 	headers.set('Content-Type', 'application/json');
 	return new Response(JSON.stringify(data, null, 2), { status, headers });
+}
+
+/**
+ * 生成或检索笔记的公开分享链接
+ * POST /api/notes/:noteId/share
+ */
+async function handleShareNoteRequest(noteId, request, env) {
+	const db = env.DB;
+	const id = parseInt(noteId);
+	if (isNaN(id)) return new Response('Invalid Note ID', { status: 400 });
+
+	try {
+		const note = await db.prepare("SELECT id FROM notes WHERE id = ?").bind(id).first();
+		if (!note) return jsonResponse({ error: 'Note not found' }, 404);
+
+		const publicId = crypto.randomUUID();
+		await env.NOTES_KV.put(`public_note:${publicId}`, JSON.stringify({ noteId: id }));
+
+		const { protocol, host } = new URL(request.url);
+		const publicUrl = `${protocol}//${host}/api/public/notes/${publicId}`;
+
+		return jsonResponse({ url: publicUrl });
+	} catch (e) {
+		console.error(`Share Note Error (noteId: ${noteId}):`, e.message);
+		return jsonResponse({ error: 'Database error', message: e.message }, 500);
+	}
+}
+
+/**
+ * 展示公开分享的笔记
+ * GET /api/public/notes/:publicId
+ */
+async function handleServeSharedNote(publicId, request, env) {
+	const kvData = await env.NOTES_KV.get(`public_note:${publicId}`, 'json');
+	if (!kvData) {
+		return new Response('Note not found or link expired.', { status: 404 });
+	}
+	const { noteId } = kvData;
+	const db = env.DB;
+
+	const note = await db.prepare("SELECT content, created_at FROM notes WHERE id = ?").bind(noteId).first();
+	if (!note) {
+		return new Response('Note content not found.', { status: 404 });
+	}
+
+	const html = `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Note</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.12/marked.min.js"></script>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif; 
+            line-height: 1.6; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+            color: #333; 
+            background: #f4f7f9; 
+        }
+        .note-card { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+        }
+        .note-date { 
+            color: #666; 
+            font-size: 0.9em; 
+            margin-bottom: 1rem; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 0.5rem; 
+        }
+        .note-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        /* 段落间距 - 与原笔记保持一致 */
+        .note-content p {
+            margin: 0.5em 0;
+        }
+        .note-content p:first-child {
+            margin-top: 0;
+        }
+        .note-content p:last-child {
+            margin-bottom: 0;
+        }
+        /* 默认图片样式 - 响应式大图片 */
+        .note-content img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+        }
+        /* emoji小图片样式 */
+        .note-content img.emoji-img {
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            vertical-align: text-bottom;
+        }
+        /* 链接样式 */
+        .note-content a {
+            color: #367cff;
+            text-decoration: none;
+        }
+        .note-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="note-card">
+        <div class="note-date">${new Date(note.created_at).toLocaleString('zh-CN', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false
+	})}</div>
+        <div class="note-content"></div>
+    </div>
+    <script>
+        const content = ${JSON.stringify(note.content)};
+        document.querySelector('.note-content').innerHTML = marked.parse(content);
+        
+        // 智能识别emoji图片（原始尺寸≤72px的图片）
+        document.querySelectorAll('.note-content img').forEach(img => {
+            const checkAndMark = () => {
+                if (img.naturalWidth > 0 && img.naturalWidth <= 72 && img.naturalHeight <= 72) {
+                    img.classList.add('emoji-img');
+                }
+            };
+            
+            if (img.complete) {
+                checkAndMark();
+            } else {
+                img.addEventListener('load', checkAndMark);
+            }
+        });
+    </script>
+</body>
+</html>`;
+
+	return new Response(html, {
+		headers: { 'Content-Type': 'text/html; charset=utf-8' }
+	});
 }
