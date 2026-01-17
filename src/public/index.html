@@ -9054,6 +9054,18 @@
 	.export-image-btn:hover {
 		background: rgba(40, 167, 69, 0.1);
 	}
+
+	.share-buttons-row {
+		display: flex;
+		gap: 0.5rem;
+		margin-top: 0.5rem;
+	}
+
+	.share-buttons-row .export-image-btn,
+	.share-buttons-row .share-delete-btn {
+		margin-top: 0;
+		margin-left: 0;
+	}
 </style>
 
 <div class="share-modal-overlay" id="share-modal-overlay">
@@ -9082,12 +9094,15 @@
 				<select class="expiration-select" id="share-expiration-select" onchange="updateShareExpiration()">
 					<option value="3600">1 Hour</option>
 					<option value="86400">1 Day</option>
+					<option value="604800">7 Days</option>
 					<option value="0" selected>Permanent</option>
 				</select>
 			</div>
 
-			<button class="share-btn export-image-btn" onclick="exportNoteAsImage()">📷 导出为图片</button>
-			<button class="share-delete-btn" onclick="deleteShare()">停止分享</button>
+			<div class="share-buttons-row">
+				<button class="share-btn export-image-btn" onclick="exportNoteAsImage()">📷 导出为图片</button>
+				<button class="share-delete-btn" onclick="deleteShare()">停止分享</button>
+			</div>
 		</div>
 	</div>
 </div>
