@@ -2539,6 +2539,206 @@
 		transform: translate(-50%, -120%);
 	}
 
+	/* ========================================
+	   移动端优化样式
+	   ======================================== */
+
+	/* 遮罩层 - 用于移动端下拉菜单 */
+	.dropdown-overlay {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 99;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.dropdown-overlay.visible {
+		display: block;
+		opacity: 1;
+	}
+
+	/* 平板和手机端优化 (768px 及以下) */
+	@media (max-width: 768px) {
+
+		/* 标签下拉菜单 - 移动端居中显示 */
+		.tag-dropdown-container {
+			position: fixed !important;
+			top: 50% !important;
+			left: 50% !important;
+			transform: translate(-50%, -50%);
+			margin-top: 0 !important;
+			width: calc(100vw - 2rem) !important;
+			max-width: 320px !important;
+			z-index: 100;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+		}
+
+		/* 增大移动端按钮触摸目标 */
+		.icon-btn {
+			min-width: 44px;
+			min-height: 44px;
+			width: 44px;
+			height: 44px;
+		}
+
+		.icon-btn svg {
+			width: 22px;
+			height: 22px;
+		}
+
+		/* 工具栏优化 */
+		.form-actions {
+			gap: 0.75rem;
+		}
+
+		.toolbar-group-left,
+		.toolbar-group-right {
+			gap: 0.5rem;
+		}
+
+		/* 文本输入框 - 防止移动端自动缩放 */
+		textarea,
+		input[type="text"],
+		input[type="search"],
+		#tag-search-input {
+			font-size: 16px !important;
+		}
+
+		/* 标签下拉列表项 - 增大触摸目标 */
+		#tag-dropdown-list li {
+			padding: 12px 16px;
+			font-size: 1rem;
+			min-height: 44px;
+			display: flex;
+			align-items: center;
+		}
+
+		/* 侧边栏标签项 - 增大触摸目标 */
+		.tag-item,
+		.timeline-item {
+			padding: 10px 12px;
+			min-height: 44px;
+		}
+
+		/* 笔记卡片优化 */
+		.note {
+			padding: 0.75rem;
+		}
+
+		.note-actions button,
+		.edit-actions button {
+			min-width: 40px;
+			min-height: 40px;
+		}
+
+		/* 优化主题色板 */
+		.color-swatch {
+			width: 36px;
+			height: 36px;
+		}
+
+		/* 设置面板优化 */
+		.sidebar-tab-btn {
+			width: 64px !important;
+			height: 64px !important;
+		}
+
+		/* 优化更多菜单 */
+		.more-menu-item {
+			padding: 12px 16px;
+			min-height: 48px;
+		}
+	}
+
+	/* 小屏手机优化 (480px 及以下) */
+	@media (max-width: 480px) {
+
+		/* 进一步优化标签下拉菜单 */
+		.tag-dropdown-container {
+			width: calc(100vw - 1rem) !important;
+			max-width: none !important;
+		}
+
+		/* 工具栏按钮在极小屏幕上略微缩小 */
+		.icon-btn {
+			min-width: 40px;
+			min-height: 40px;
+			width: 40px;
+			height: 40px;
+		}
+
+		.icon-btn svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		/* 减小工具栏间距 */
+		.form-actions {
+			gap: 0.5rem;
+		}
+
+		.toolbar-group-left,
+		.toolbar-group-right {
+			gap: 0.35rem;
+		}
+
+		/* 笔记卡片进一步优化 */
+		.note {
+			padding: 0.5rem 0.75rem;
+		}
+
+		/* 优化笔记操作按钮 */
+		.note-actions,
+		.edit-actions {
+			gap: 0.15rem;
+		}
+
+		/* 主题色板在小屏幕上调整 */
+		.color-palette {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		.color-swatch {
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	/* 触摸设备优化 */
+	@media (hover: none) and (pointer: coarse) {
+
+		/* 移除 hover 效果,使用 active 状态 */
+		.icon-btn:hover {
+			transform: none;
+		}
+
+		.icon-btn:active {
+			transform: scale(0.95);
+			background-color: var(--border-color);
+		}
+
+		.tag-item:hover,
+		.timeline-item:hover {
+			background-color: transparent;
+		}
+
+		.tag-item:active,
+		.timeline-item:active {
+			background-color: var(--border-color);
+		}
+
+		/* 优化按钮点击反馈 */
+		button:active,
+		.btn:active {
+			transform: scale(0.97);
+		}
+	}
+
 	#note-form.split-mode #main-editor-container {
 		display: flex;
 		gap: 1rem;
@@ -6994,14 +7194,33 @@
 		}
 
 		renderTagList();
+
+		// 为移动端设备添加遮罩层
+		if (window.innerWidth <= 768) {
+			const overlay = document.createElement('div');
+			overlay.className = 'dropdown-overlay';
+			document.body.appendChild(overlay);
+
+			// 使用 setTimeout 确保 DOM 更新后添加类
+			setTimeout(() => overlay.classList.add('visible'), 10);
+
+			// 点击遮罩层关闭下拉菜单
+			overlay.addEventListener('click', closeTagDropdown);
+		}
 	}
 
-	// 鍏抽棴涓嬫媺妗?
 	function closeTagDropdown() {
 		if (!isTagDropdownOpen) return;
 		tagDropdown.style.display = 'none';
 		isTagDropdownOpen = false;
 		tagSearchInput.value = ''; // 娓呯┖鎼滅储妗?
+
+		// 绉婚櫎绉诲姩绔伄缃╁眰
+		const overlay = document.querySelector('.dropdown-overlay');
+		if (overlay) {
+			overlay.classList.remove('visible');
+			setTimeout(() => overlay.remove(), 300); // 绛夊緟鍔ㄧ敾瀹屾垚鍚庡垹闄?
+		}
 	}
 
 	// 鎸夐挳鐐瑰嚮浜嬩欢锛氬垏鎹笅鎷夋鐨勬樉绀?闅愯棌
