@@ -368,7 +368,7 @@
 
 		#left-sidebar {
 			display: none !important;
-			/* 闅愯棌渚ц竟鏍?*/
+			/* 隐藏侧边栏 */
 		}
 
 		/* 鍦ㄥ灞忔ā寮忎笅锛屽鏋滃彸渚ф爮瀛樺湪锛屽垯涓棿鏍忎緷鐒跺彈闄?*/
@@ -381,7 +381,7 @@
 	@media (max-width: 1150px) {
 		#right-sidebar {
 			display: none !important;
-			/* 闅愯棌渚ц竟鏍?*/
+			/* 隐藏侧边栏 */
 		}
 
 		#wide-mode-toggle-btn {
@@ -3286,7 +3286,7 @@
 		background-color: rgba(0, 0, 0, 0.4);
 		color: white;
 		opacity: 0;
-		/* 榛樿闅愯棌 */
+		/* 榛樿隐藏 */
 		visibility: hidden;
 		transform: scale(0.8);
 		transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
@@ -3609,10 +3609,10 @@
 					<header class="attachments-header">
 						<h3>Files</h3>
 						<div class="attachments-tabs">
-							<button class="tab-btn active" data-filter="all">鉁?All</button>
-							<button class="tab-btn" data-filter="image">馃彏锔?Images</button>
-							<button class="tab-btn" data-filter="video">馃幀 Videos</button>
-							<button class="tab-btn" data-filter="file">馃搫 Files</button>
+							<button class="tab-btn active" data-filter="all">✓ All</button>
+							<button class="tab-btn" data-filter="image">🖼️ Images</button>
+							<button class="tab-btn" data-filter="video">🎬 Videos</button>
+							<button class="tab-btn" data-filter="file">📎 Files</button>
 						</div>
 					</header>
 					<div id="attachments-content" class="loading-state">
@@ -4106,12 +4106,12 @@
 			const header = document.createElement('div');
 			header.className = 'calendar-header';
 			header.innerHTML = `
-                <button id='calendar-prev' class='calendar-nav-btn' title='Previous month'>鈼?/button>
+                <button id='calendar-prev' class='calendar-nav-btn' title='Previous month'>◀</button>
                 <span id='calendar-month-year'>${this.currentDate.toLocaleString('en-US', {
 				month: 'long',
 				year: 'numeric'
 			})}</span>
-                <button id='calendar-next' class='calendar-nav-btn' title='Next month'>鈻?/button>
+                <button id='calendar-next' class='calendar-nav-btn' title='Next month'>▶/button>
             `;
 			this.container.appendChild(header);
 			const nextMonthBtn = document.getElementById('calendar-next');
@@ -4450,7 +4450,7 @@
 			}
 		}
 	});
-	// --- 鍏ㄥ眬璁剧疆绠＄悊 ---
+	// --- 鍏ㄥ眬设置绠＄悊 ---
 	const defaultSettings = {
 		showSearchBar: true, showStatsCard: true, showCalendar: true, showTags: true,
 		showTimeline: true, showRightSidebar: true, hideEditorInWaterfall: false,
@@ -4583,7 +4583,7 @@
 	const toggleCalendar = document.getElementById('toggle-calendar');
 	const toggleEditorInWaterfall = document.getElementById('toggle-editor-in-waterfall');
 
-	// 璁剧疆寮规鐩稿叧鍏冪礌
+	// 设置寮规鐩稿叧鍏冪礌
 	const settingsModalOverlay = document.getElementById('settings-modal-overlay');
 	const closeSettingsBtn = document.getElementById('close-settings-btn');
 	// 鍙鎬у紑鍏?
@@ -4591,7 +4591,7 @@
 	const toggleStatsCard = document.getElementById('toggle-stats-card');
 	const toggleTags = document.getElementById('toggle-tags');
 	const toggleTimeline = document.getElementById('toggle-timeline');
-	// 鑳屾櫙璁剧疆
+	// 鑳屾櫙设置
 	const bgImageUrl = document.getElementById('bg-image-url');
 	const bgImageUpload = document.getElementById('bg-image-upload');
 	const bgBlurSlider = document.getElementById('bg-blur-slider');
@@ -4643,7 +4643,7 @@
 	let waterfallPopoverHideTimer = null;
 	let activePopoverNoteId = null;
 
-	// --- 鏄剧ず绗旇鎿嶄綔鑿滃崟 ---
+	// --- 显示绗旇鎿嶄綔鑿滃崟 ---
 	function showNotePopover(targetButton, noteId) {
 		clearTimeout(popoverHoverTimer); // 娓呴櫎鍙兘瀛樺湪鐨勯殣钘忚鏃跺櫒
 		// 濡傛灉鑿滃崟宸茬粡涓哄悓涓€涓寜閽樉绀猴紝鍒欎笉鎵ц浠讳綍鎿嶄綔
@@ -4694,12 +4694,12 @@
 		notePopoverMenu.classList.add('visible');
 	}
 
-	// --- 闅愯棌绗旇鎿嶄綔鑿滃崟 ---
+	// --- 隐藏绗旇鎿嶄綔鑿滃崟 ---
 	function hideNotePopover() {
 		popoverHoverTimer = setTimeout(() => {
 			notePopoverMenu.classList.remove('visible');
 			activePopoverNoteId = null;
-		}, 200); // 寤惰繜200姣闅愯棌锛岄槻姝㈤紶鏍囨剰澶栫Щ鍑?
+		}, 200); // 寤惰繜200姣隐藏锛岄槻姝㈤紶鏍囨剰澶栫Щ鍑?
 	}
 
 	// --- 涓鸿彍鍗曟湰韬坊鍔犳偓鍋滈€昏緫锛岄槻姝㈤紶鏍囩Щ鍏ヨ彍鍗曟椂瀹冩秷澶?---
@@ -4711,7 +4711,7 @@
 		hideNotePopover();
 	});
 
-	// --- 澶勭悊鑿滃崟椤圭殑鐐瑰嚮浜嬩欢 ---
+	// --- 处理鑿滃崟椤圭殑点击浜嬩欢 ---
 	notePopoverMenu.addEventListener('click', async (e) => {
 		const actionButton = e.target.closest('.icon-btn');
 		if (!actionButton) return;
@@ -4784,7 +4784,7 @@
 						setTimeout(() => noteElement.remove(), 300);
 					}
 
-					// 鏇存柊缂撳瓨
+					// 更新缂撳瓨
 					const noteInCache = allNotesCache.find(n => n.id === parseInt(noteId));
 					if (noteInCache) noteInCache.is_archived = isArchiving;
 
@@ -4858,7 +4858,7 @@
 		themeColorPopover.classList.remove('visible');
 	}
 
-	// 鐐瑰嚮鈥滄洿澶氣€濇寜閽?
+	// 点击鈥滄洿澶氣€濇寜閽?
 	moreActionsBtn.addEventListener('click', () => {
 		isMenuPinned = !isMenuPinned;
 		moreMenuPopover.classList.toggle('visible', isMenuPinned);
@@ -4867,7 +4867,7 @@
 		}
 	});
 
-	// 鎮仠鏄剧ず
+	// 鎮仠显示
 	moreActionsContainer.addEventListener('mouseenter', () => {
 		clearTimeout(hideMenuTimeout);
 		if (!moreMenuPopover.classList.contains('visible')) {
@@ -4875,7 +4875,7 @@
 		}
 	});
 
-	// 绂诲紑闅愯棌
+	// 绂诲紑隐藏
 	moreActionsContainer.addEventListener('mouseleave', () => {
 		if (!isMenuPinned) {
 			hideMenuTimeout = setTimeout(() => {
@@ -4887,7 +4887,7 @@
 		}
 	});
 
-	// 鐐瑰嚮鑿滃崟鍐呯殑鈥滀富棰橀鑹测€濇寜閽?
+	// 点击鑿滃崟鍐呯殑鈥滀富棰橀鑹测€濇寜閽?
 	themeColorBtn.addEventListener('click', (e) => {
 		e.stopPropagation();
 		if (themeColorPopover.classList.contains('visible')) {
@@ -4897,7 +4897,7 @@
 		}
 	});
 
-	// 鍏ㄥ眬鐐瑰嚮浜嬩欢锛岀敤浜庡叧闂墍鏈夊脊绐?
+	// 鍏ㄥ眬点击浜嬩欢锛岀敤浜庡叧闂墍鏈夊脊绐?
 	document.addEventListener('click', (e) => {
 		if (!moreActionsContainer.contains(e.target)) {
 			if (isMenuPinned) {
@@ -4921,7 +4921,7 @@
 		}
 	});
 
-	// 绐楀彛澶у皬鏀瑰彉鎴栨粴鍔ㄦ椂锛岄殣钘忔诞鍔ㄧ獥鍙ｏ紝閬垮厤閿欎綅
+	// 绐楀彛澶у皬鏀瑰彉鎴栨粴鍔ㄦ椂锛岄殣钘忔诞鍔ㄧ獥鍙ｏ紝避免閿欎綅
 	window.addEventListener('resize', () => {
 		hideColorPopover();
 		if (isMenuPinned) {
@@ -4940,7 +4940,7 @@
 		hasMore: true,
 	};
 	/**
-	 * @param {boolean} isInitialLoad - 鏄惁鏄娆″姞杞芥垨鍒囨崲绛涢€夊櫒
+	 * @param {boolean} isInitialLoad - 鏄惁鏄娆″姞杞芥垨切换绛涢€夊櫒
 	 */
 	async function fetchAllAttachments(isInitialLoad = false) {
 		if (attachmentsState.isLoading || (!attachmentsState.hasMore && !isInitialLoad)) return;
@@ -5047,7 +5047,7 @@
 				itemContainer.style.cursor = 'pointer';
 				itemContainer.innerHTML = `
         <video src="${item.url}" class="preview" preload="metadata" muted style="object-fit: contain; background: #000; pointer-events: none;"></video>
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255,255,255,0.7); pointer-events: none;">鈻?/div>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: rgba(255,255,255,0.7); pointer-events: none;">▶/div>
     `;
 				gridEl.appendChild(itemContainer);
 			} else { // type === 'file'
@@ -5055,7 +5055,7 @@
 				itemLink.className = 'attachment-item attachment-item-file';
 				itemLink.download = item.name;
 				itemLink.innerHTML = `
-                    <div class="file-icon">馃搫</div>
+                    <div class="file-icon">📎</div>
                     <div class="file-info">
                         <div class="name">${item.name}</div>
                         <div class="size">${formatBytes(item.size)}</div>
@@ -5088,7 +5088,7 @@
 		fetchAllAttachments(true);
 	});
 
-	// --- 涓洪檮浠跺唴瀹瑰尯娣诲姞鏃犻檺婊氬姩鍜屽浘鐗囬瑙堢殑浜嬩欢濮旀墭 ---
+	// --- 涓洪檮浠跺唴瀹瑰尯添加鏃犻檺婊氬姩鍜屽浘鐗囬瑙堢殑浜嬩欢濮旀墭 ---
 
 
 	attachmentsContent.addEventListener('click', async e => {
@@ -5146,7 +5146,7 @@
 		}
 	});
 
-	// 澶勭悊鍙抽敭棰勮鏂囨湰鏂囦欢鐨勪簨浠?
+	// 处理鍙抽敭棰勮鏂囨湰鏂囦欢鐨勪簨浠?
 	attachmentsContent.addEventListener('contextmenu', e => {
 		// 杩欓噷鐨勭洰鏍囨槸鏁翠釜鍙笅杞界殑鏂囦欢鍗＄墖
 		const link = e.target.closest('.attachment-item-file');
@@ -5167,7 +5167,7 @@
 		appLayoutContainer.classList.remove('attachments-mode');
 	}
 
-	// --- 鍙充晶鏍忔寜閽殑鐐瑰嚮浜嬩欢 ---
+	// --- 鍙充晶鏍忔寜閽殑点击浜嬩欢 ---
 	homeTabBtn.addEventListener('click', () => {
 		if (appState.baseMode === 'home') return;
 		hideAttachmentsViewer(); // 浠庨檮浠堕〉杩斿洖
@@ -5191,7 +5191,7 @@
 		hideAttachmentsViewer();
 		appState.baseMode = 'archive';
 		updateSidebarTabsUI();
-		updateEditorVisibility(); // 缂栬緫鍣ㄥ湪褰掓。椤典笉鏄剧ず
+		updateEditorVisibility(); // 缂栬緫鍣ㄥ湪褰掓。椤典笉显示
 		reloadNotes();
 	});
 
@@ -5222,7 +5222,7 @@
 	// --- START: 鍏ㄥ睆缂栬緫鍣ㄥ悓姝ユ粴鍔ㄩ€昏緫 ---
 
 	/**
-	 * 澶勭悊缂栬緫鍣ㄥ拰棰勮鍖轰箣闂寸殑鍚屾婊氬姩銆?
+	 * 处理缂栬緫鍣ㄥ拰棰勮鍖轰箣闂寸殑鍚屾婊氬姩銆?
 	 * @param {HTMLElement} source - 瑙﹀彂婊氬姩鐨勫厓绱?(textarea 鎴?preview div)銆?
 	 * @param {HTMLElement} target - 闇€瑕佽鍚屾婊氬姩鐨勫厓绱犮€?
 	 */
@@ -5254,7 +5254,7 @@
 		target.scrollTop = scrollPercentage * targetScrollableHeight;
 	}
 
-	// 涓哄叏灞忕紪杈戝櫒鐨勬枃鏈尯娣诲姞婊氬姩浜嬩欢鐩戝惉
+	// 涓哄叏灞忕紪杈戝櫒鐨勬枃鏈尯添加婊氬姩浜嬩欢鐩戝惉
 	fsEditorTextarea.addEventListener('scroll', () => {
 		// 纭繚鍙湪鍒嗘爮锛坰plit锛夋ā寮忎笅鍚屾婊氬姩
 		if (editorContentArea.dataset.viewMode === 'split') {
@@ -5262,7 +5262,7 @@
 		}
 	});
 
-	// 涓哄叏灞忕紪杈戝櫒鐨勯瑙堝尯娣诲姞婊氬姩浜嬩欢鐩戝惉
+	// 涓哄叏灞忕紪杈戝櫒鐨勯瑙堝尯添加婊氬姩浜嬩欢鐩戝惉
 	fsPreviewPane.addEventListener('scroll', () => {
 		// 纭繚鍙湪鍒嗘爮锛坰plit锛夋ā寮忎笅鍚屾婊氬姩
 		if (editorContentArea.dataset.viewMode === 'split') {
@@ -5281,14 +5281,14 @@
 			const response = await fetch('/api/notes?page=1');
 			if (response.ok) {
 				const data = await response.json();
-				// 鏄剧ず搴旂敤涓荤晫闈?
+				// 显示搴旂敤涓荤晫闈?
 				showAppScreen();
 				allNotesCache = data.notes;
 				renderNotes(data.notes);
 				appState.pagination.hasMore = data.hasMore;
 				appState.pagination.currentPage = 1;
 
-				// 澶勭悊鍔犺浇鏇村鐨刄I
+				// 处理加载鏇村鐨刄I
 				if (!data.hasMore) {
 					if (allNotesCache.length > 0) {
 						scrollLoader.textContent = 'No more notes.';
@@ -5302,7 +5302,7 @@
 				// 濡傛灉 session 鏃犳晥鎴栦笉瀛樺湪锛屾樉绀虹櫥褰曠晫闈?
 				showLoginScreen();
 			} else {
-				// 澶勭悊鍏朵粬缃戠粶鎴栨湇鍔″櫒閿欒
+				// 处理鍏朵粬缃戠粶鎴栨湇鍔″櫒閿欒
 				throw new Error(`Server check failed with status: ${response.status}`);
 			}
 		} catch (error) {
@@ -5445,19 +5445,19 @@
 		`<button class='color-swatch' data-color='${theme.color}' title='${theme.name}' style='background-color: ${theme.color};'></button>`
 	).join('');
 
-	// 鐐瑰嚮棰滆壊鎸夐挳锛屾樉绀?闅愯棌闈㈡澘
+	// 点击棰滆壊鎸夐挳锛屾樉绀?隐藏闈㈡澘
 	fsFontcolorBtn.addEventListener('click', (e) => {
 		e.stopPropagation();
 		fsColorPopover.classList.toggle('visible');
 	});
 
-	// 鐐瑰嚮棰勮棰滆壊
+	// 点击棰勮棰滆壊
 	fsColorPalette.addEventListener('click', (e) => {
 		const swatch = e.target.closest('.color-swatch');
 		if (swatch) {
 			const color = swatch.dataset.color;
 			applyRichTextCommand('foreColor', color);
-			// 鏇存柊鎸夐挳涓婄殑棰滆壊棰勮
+			// 更新鎸夐挳涓婄殑棰滆壊棰勮
 			fsFontcolorBtn.querySelector('span').style.backgroundColor = color;
 			fsColorPopover.classList.remove('visible');
 		}
@@ -5526,7 +5526,7 @@
 
 		function dragMouseDown(e) {
 			e.preventDefault();
-			// 鑾峰彇榧犳爣鎸変笅鏃剁殑鍒濆浣嶇疆
+			// 获取榧犳爣鎸変笅鏃剁殑鍒濆浣嶇疆
 			initialX = e.clientX - xOffset;
 			initialY = e.clientY - yOffset;
 
@@ -5679,7 +5679,7 @@
 	}
 
 	/**
-	 * 鏍规嵁褰撳墠鍔犺浇鐨勮缃紝搴旂敤鎵€鏈塙I鏁堟灉
+	 * 鏍规嵁褰撳墠加载鐨勮缃紝搴旂敤鎵€鏈塙I鏁堟灉
 	 */
 	async function applySettings() {
 		const isDarkMode = document.body.dataset.theme === 'dark';
@@ -5728,7 +5728,7 @@
 		imgurClientIdInput.value = settings.imgurClientId || '';
 
 		if (areAllSidebarsHidden) {
-			// 濡傛灉閮介殣钘忎簡锛屽氨缁欎富瀹瑰櫒娣诲姞 .no-sidebars 绫?
+			// 濡傛灉閮介殣钘忎簡锛屽氨缁欎富瀹瑰櫒添加 .no-sidebars 绫?
 			appLayoutContainer.classList.add('no-sidebars');
 		} else {
 			// 鍚﹀垯锛岀‘淇濈Щ闄よ繖涓被锛屾仮澶嶅埌姝ｅ父鐨勪笁鏍忔垨瀹藉睆妯″紡
@@ -5768,7 +5768,7 @@
 	}
 
 	/**
-	 * 灏嗗綋鍓嶅姞杞界殑璁剧疆鍊硷紝鍚屾鍒拌缃脊妗嗙殑鎺т欢涓?
+	 * 灏嗗綋鍓嶅姞杞界殑设置鍊硷紝鍚屾鍒拌缃脊妗嗙殑鎺т欢涓?
 	 */
 	async function updateSettingsModalControls() {
 		const isDarkMode = document.body.dataset.theme === 'dark';
@@ -5800,7 +5800,7 @@
 			applySettings();
 		});
 		restoreSurfaceBtn.addEventListener('click', () => {
-			settings.surfaceOpacity = defaultSettings.surfaceOpacity;  // 鏇存柊褰撳墠鍊?
+			settings.surfaceOpacity = defaultSettings.surfaceOpacity;  // 更新褰撳墠鍊?
 			settings.surfaceColor = defaultSettings.surfaceColor;
 			settings.surfaceColorDark = defaultSettings.surfaceColorDark;
 			applySettings();
@@ -5954,7 +5954,7 @@
 
 		closeSettingsBtn.addEventListener('click', closeSettingsModal);
 
-		// --- 鐐瑰嚮閬僵灞傦紙澶栭儴锛夊叧闂脊妗?---
+		// --- 点击閬僵灞傦紙澶栭儴锛夊叧闂脊妗?---
 		settingsModalOverlay.addEventListener('click', (e) => {
 			// 妫€鏌ョ偣鍑荤殑鏄惁鏄伄缃╁眰鏈韩锛岃€屼笉鏄脊妗嗗唴瀹?
 			if (e.target === settingsModalOverlay) {
@@ -5966,7 +5966,7 @@
 	}
 
 
-	// --- 涓虹€戝竷娴佽彍鍗曠殑鎸夐挳娣诲姞浜嬩欢濮旀墭 ---
+	// --- 涓虹€戝竷娴佽彍鍗曠殑鎸夐挳添加浜嬩欢濮旀墭 ---
 	waterfallPopoverMenu.addEventListener('click', async (e) => {
 		const actionButton = e.target.closest('.icon-btn');
 		if (!actionButton) return;
@@ -6020,20 +6020,20 @@
 		if (waterfallPopoverMenu.classList.contains('visible') && activePopoverNoteId === noteId) {
 			return;
 		}
-		// 鑾峰彇鎸夐挳鐨勪綅缃俊鎭紝浠ヤ究瀹氫綅鑿滃崟
+		// 获取鎸夐挳鐨勪綅缃俊鎭紝浠ヤ究瀹氫綅鑿滃崟
 		const btnRect = targetButton.getBoundingClientRect();
 		// top: 鎸夐挳搴曢儴 + 椤甸潰婊氬姩璺濈 + 涓€鐐归棿璺?
 		// left: 鎸夐挳宸︿晶 - 鑿滃崟瀹藉害 + 鎸夐挳瀹藉害 (浣垮叾鍙冲榻?
 		waterfallPopoverMenu.style.top = `${btnRect.bottom + 5}px`;
 		waterfallPopoverMenu.style.left = `${btnRect.right - waterfallPopoverMenu.offsetWidth}px`;
-		// 瀛樺偍褰撳墠绗旇ID锛屽苟鏄剧ず鑿滃崟
+		// 瀛樺偍褰撳墠绗旇ID锛屽苟显示鑿滃崟
 		activePopoverNoteId = noteId;
 		waterfallPopoverMenu.dataset.noteId = noteId; // 灏咺D瀛樺埌鑿滃崟涓婏紝鏂逛究鍚庣画鎿嶄綔
 		waterfallPopoverMenu.classList.add('visible');
 	}
 
 	/**
-	 * 闅愯棌鈥滄洿澶氣€濇搷浣滆彍鍗?
+	 * 隐藏鈥滄洿澶氣€濇搷浣滆彍鍗?
 	 */
 	function hideWaterfallPopover() {
 		clearTimeout(waterfallPopoverHideTimer);
@@ -6084,7 +6084,7 @@
 	});
 
 
-	// 鏃х殑閲嶅浜嬩欢鐩戝惉鍣ㄥ凡鍒犻櫎 - 鐜板湪浣跨敤绗?002琛岀殑鏂扮増鏈?
+	// 鏃х殑閲嶅浜嬩欢鐩戝惉鍣ㄥ凡删除 - 鐜板湪浣跨敤绗?002琛岀殑鏂扮増鏈?
 
 
 	// 鏃х殑 loadAttachments 鍑芥暟宸插垹闄?
@@ -6093,21 +6093,21 @@
 	// 鏃х殑 renderAttachments 鍑芥暟宸插垹闄?
 
 
-	// 鏃х殑 updateAttachmentsPagination 鍑芥暟鍜岄噸澶嶇殑 tab 浜嬩欢鐩戝惉鍣ㄥ凡鍒犻櫎
+	// 鏃х殑 updateAttachmentsPagination 鍑芥暟鍜岄噸澶嶇殑 tab 浜嬩欢鐩戝惉鍣ㄥ凡删除
 
 
 
 
 	/**
 	 * 鍒濆鍖栦晶杈规爮鐨勬姌鍙犵姸鎬?
-	 * 浠?localStorage 璇诲彇鐢ㄦ埛鐨勫亸濂藉苟搴旂敤
+	 * 浠?localStorage 读取鐢ㄦ埛鐨勫亸濂藉苟搴旂敤
 	 */
 	function initializeCollapsibleSidebars() {
 		const sections = ['tags-section-wrapper', 'timeline-section-wrapper'];
 
 		sections.forEach(sectionId => {
 			const sectionElement = document.getElementById(sectionId);
-			// 璇诲彇 localStorage锛屽鏋滃€间负 'true'锛屽垯娣诲姞 is-collapsed 绫?
+			// 读取 localStorage锛屽鏋滃€间负 'true'锛屽垯添加 is-collapsed 绫?
 			if (localStorage.getItem(`sidebar-${sectionId}-collapsed`) === 'true') {
 				sectionElement.classList.add('is-collapsed');
 			}
@@ -6138,7 +6138,7 @@
 			if (stats.oldestNoteTimestamp) {
 				const oldestDate = new Date(stats.oldestNoteTimestamp);
 				const today = new Date();
-				// 璁剧疆鏃堕棿涓哄綋澶╃殑寮€濮嬶紝閬垮厤鏃跺尯鍜屽皬鏃跺樊寮傚鑷磋绠楅敊璇?
+				// 设置鏃堕棿涓哄綋澶╃殑寮€濮嬶紝避免鏃跺尯鍜屽皬鏃跺樊寮傚鑷磋绠楅敊璇?
 				oldestDate.setHours(0, 0, 0, 0);
 				today.setHours(0, 0, 0, 0);
 
@@ -6276,7 +6276,7 @@
 	});
 
 	let searchDebounceTimer;
-	// 闃叉姈鍑芥暟锛氬欢杩熸墽琛岋紝閬垮厤棰戠箒璇锋眰 API
+	// 闃叉姈鍑芥暟锛氬欢杩熸墽琛岋紝避免棰戠箒璇锋眰 API
 	function debounce(func, delay) {
 		return function (...args) {
 			clearTimeout(searchDebounceTimer);
@@ -6299,7 +6299,7 @@
 		if (event.ctrlKey && event.key.toLowerCase() === 'x') {
 			// 浠呭綋娌℃湁鏂囨湰琚€変腑鏃讹紝鎵嶆墽琛屽壀鍒囪閫昏緫
 			if (textarea.selectionStart === textarea.selectionEnd) {
-				event.preventDefault(); // 闃绘榛樿琛屼负锛屾垜浠皢鎵嬪姩澶勭悊
+				event.preventDefault(); // 闃绘榛樿琛屼负锛屾垜浠皢鎵嬪姩处理
 
 				const cursorPosition = textarea.selectionStart;
 				const text = textarea.value;
@@ -6371,16 +6371,16 @@
 	}
 
 	viewModeSplitBtn.addEventListener('click', () => {
-		// 濡傛灉褰撳墠宸茬粡鏄垎灞忔ā寮忥紝鍐嶆鐐瑰嚮鍒欏垏鎹㈠洖婧愮爜妯″紡
+		// 濡傛灉褰撳墠宸茬粡鏄垎灞忔ā寮忥紝鍐嶆点击鍒欏垏鎹㈠洖婧愮爜妯″紡
 		if (editorContentArea.dataset.viewMode === 'split') {
 			setFullscreenViewMode('source');
 		} else {
 			setFullscreenViewMode('split');
 		}
 	});
-	// 鐐瑰嚮棰勮鎸夐挳
+	// 点击棰勮鎸夐挳
 	viewModePreviewBtn.addEventListener('click', () => {
-		// 濡傛灉褰撳墠宸茬粡鏄瑙堟ā寮忥紝鍐嶆鐐瑰嚮鍒欏垏鎹㈠洖婧愮爜妯″紡
+		// 濡傛灉褰撳墠宸茬粡鏄瑙堟ā寮忥紝鍐嶆点击鍒欏垏鎹㈠洖婧愮爜妯″紡
 		if (editorContentArea.dataset.viewMode === 'preview') {
 			setFullscreenViewMode('source');
 		} else {
@@ -6388,12 +6388,12 @@
 		}
 	});
 
-	// 瀹炴椂鏇存柊棰勮
+	// 瀹炴椂更新棰勮
 	fsEditorTextarea.addEventListener('input', () => {
 		fsPreviewPane.innerHTML = postProcessMarkdownHtml(marked.parse(fsEditorTextarea.value));
 	});
 
-	// 鐐瑰嚮涓诲垱寤哄尯鐨勫叏灞忔寜閽?
+	// 点击涓诲垱寤哄尯鐨勫叏灞忔寜閽?
 	enterFullscreenBtn.addEventListener('click', () => {
 		// 灏嗕富杈撳叆妗嗙殑鍐呭甯﹀叆鍏ㄥ睆缂栬緫鍣?
 		openFullscreenEditor(noteInput.value, null);
@@ -6432,10 +6432,10 @@
 	function stopDrag() {
 		if (!isDragging) return;
 		isDragging = false;
-		// 绉婚櫎鍏ㄥ眬鏍峰紡
+		// 移除全局样式
 		document.body.style.cursor = '';
 		document.body.style.userSelect = '';
-		// 瑙ｇ粦浜嬩欢
+		// 解绑事件
 		window.removeEventListener('mousemove', handleDrag);
 		window.removeEventListener('mouseup', stopDrag);
 		window.removeEventListener('blur', stopDrag);
@@ -6489,7 +6489,7 @@
 				applyMarkdown('\n```\n', '\n```');
 				break;
 		}
-		// 鎵嬪姩瑙﹀彂input浜嬩欢锛岀‘淇濋瑙堣兘澶熷疄鏃舵洿鏂?
+		// 手动触发input事件锛岀‘淇濋瑙堣兘澶熷疄鏃舵洿鏂?
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	});
 
@@ -6516,7 +6516,7 @@
 
 			if (mdType) {
 				e.preventDefault();
-				// 妯℃嫙鐐瑰嚮瀵瑰簲鐨勬寜閽?
+				// 妯℃嫙点击瀵瑰簲鐨勬寜閽?
 				document.querySelector(`.toolbar-btn[data-md="${mdType}"]`).click();
 			}
 		}
@@ -6542,7 +6542,7 @@
 				}
 
 				const formData = new FormData();
-				// 1. 娣诲姞寰炲叏灞忕法杓櫒鐛插彇鐨勬柊鏂囨湰鍏у
+				// 1. 添加寰炲叏灞忕法杓櫒鐛插彇鐨勬柊鏂囨湰鍏у
 				formData.append('content', content);
 				// 2. 寰炰富鐣岄潰鐨?noteFile 杓稿叆妗嗕腑鐛插彇鏂囦欢涓︽坊鍔犲埌 formData
 				Array.from(noteFile.files).forEach(file => {
@@ -6554,7 +6554,7 @@
 					if (!res.ok) throw new Error(`Save failed: ${await res.text()}`);
 
 					noteForm.reset(); // 浣跨敤 reset() 鍙互鍚屾檪娓呯┖鏂囨湰鍜屾枃浠惰几鍏?
-					updateMainFileDisplay(); // 鏇存柊涓荤晫闈㈢殑鏂囦欢鍒楄〃椤ず
+					updateMainFileDisplay(); // 更新涓荤晫闈㈢殑鏂囦欢鍒楄〃椤ず
 					closeFullscreenEditor();
 					await refreshNotes();
 
@@ -6575,15 +6575,15 @@
 				fsSaveBtn.disabled = true;
 				fsSaveBtn.textContent = 'Saving...';
 				const formData = new FormData();
-				// 1. 娣诲姞浠庡叏灞忕紪杈戝櫒鑾峰彇鐨勬柊鍐呭
+				// 1. 添加浠庡叏灞忕紪杈戝櫒获取鐨勬柊鍐呭
 				formData.append('content', content);
 
-				// 2. 浠庡師濮嬬殑 noteElement 涓幏鍙栨枃浠剁姸鎬佸苟娣诲姞鍒?formData
-				// 鑾峰彇宸叉爣璁板垹闄ょ殑鏂囦欢
+				// 2. 浠庡師濮嬬殑 noteElement 涓幏鍙栨枃浠剁姸鎬佸苟添加鍒?formData
+				// 获取宸叉爣璁板垹闄ょ殑鏂囦欢
 				const filesToDelete = Array.from(noteElement.querySelectorAll('.edit-file-tag[data-deleted="true"]')).map(t => t.dataset.fileId);
 				formData.append('filesToDelete', JSON.stringify(filesToDelete));
 
-				// 鑾峰彇鏂版坊鍔犵殑鏂囦欢 (濡傛灉鐢ㄦ埛鍏堟坊鍔犳枃浠跺啀杩涘叆鍏ㄥ睆)
+				// 获取鏂版坊鍔犵殑鏂囦欢 (濡傛灉鐢ㄦ埛鍏堟坊鍔犳枃浠跺啀杩涘叆鍏ㄥ睆)
 				if (noteElement.newFiles && noteElement.newFiles.length > 0) {
 					Array.from(noteElement.newFiles).forEach(file => formData.append('file', file));
 				}
@@ -6693,12 +6693,12 @@
 	}
 
 	function updateEditorVisibility() {
-		let shouldShow = false; // 榛樿闅愯棌
+		let shouldShow = false; // 榛樿隐藏
 		// 鏉′欢1: 鍩虹妯″紡蹇呴』鏄?'home'
 		if (appState.baseMode === 'home') {
 			shouldShow = true;
 		}
-		// 鏉′欢2: 濡傛灉鐎戝竷娴佸紑鍚紝骞朵笖璁剧疆浜嗏€滈殣钘忊€濓紝鍒欏己鍒堕殣钘?
+		// 鏉′欢2: 濡傛灉鐎戝竷娴佸紑鍚紝骞朵笖设置浜嗏€滈殣钘忊€濓紝鍒欏己鍒堕殣钘?
 		if (appState.isWaterfall && settings.hideEditorInWaterfall) {
 			shouldShow = false;
 		}
@@ -6728,10 +6728,10 @@
 		const notesContainer = document.getElementById('notes-container');
 		if (!notesContainer) return;
 
-		// 鑾峰彇grid鐨勮闂磋窛
+		// 获取grid鐨勮闂磋窛
 		const rowGap = parseFloat(getComputedStyle(notesContainer).getPropertyValue('row-gap'));
 
-		// 鑾峰彇鍗＄墖鐨勫疄闄呴珮搴?
+		// 获取鍗＄墖鐨勫疄闄呴珮搴?
 		const noteHeight = noteElement.getBoundingClientRect().height;
 
 		// 璁＄畻闇€瑕佽法瓒婄殑琛屾暟锛堝熀鍑嗚楂樹负1px锛?
@@ -6739,9 +6739,9 @@
 		noteElement.style.gridRowEnd = `span ${rowSpan}`;
 	};
 
-	// 褰撲换浣曡瑙傚療鐨勭瑪璁板崱鐗囧ぇ灏忓彂鐢熷彉鍖栨椂锛屽畠浼氳嚜鍔ㄨ皟鐢ㄦ垜浠殑璁剧疆鍑芥暟
+	// 褰撲换浣曡瑙傚療鐨勭瑪璁板崱鐗囧ぇ灏忓彂鐢熷彉鍖栨椂锛屽畠浼氳嚜鍔ㄨ皟鐢ㄦ垜浠殑设置鍑芥暟
 	const waterfallObserver = new ResizeObserver(entries => {
-		// 浣跨敤 requestAnimationFrame 鏉ョ‘淇濇垜浠湪娴忚鍣ㄤ笅涓€娆＄粯鍒跺墠鏇存柊甯冨眬锛岄伩鍏嶆姈鍔?
+		// 浣跨敤 requestAnimationFrame 鏉ョ‘淇濇垜浠湪娴忚鍣ㄤ笅涓€娆＄粯鍒跺墠更新甯冨眬锛岄伩鍏嶆姈鍔?
 		window.requestAnimationFrame(() => {
 			for (let entry of entries) {
 				setNoteRowSpan(entry.target);
@@ -6779,7 +6779,7 @@
 	}
 
 	/**
-	 * 澶勭悊 Textarea 涓殑 Tab 鍜?Shift+Tab 缂╄繘/鍙栨秷缂╄繘鍔熻兘銆?
+	 * 处理 Textarea 涓殑 Tab 鍜?Shift+Tab 缂╄繘/鍙栨秷缂╄繘鍔熻兘銆?
 	 * 姝ょ増鏈娇鐢?document.execCommand 浠ョ‘淇濇墍鏈夋搷浣滈兘鏄彲鎾ら攢鐨?(undoable)銆?
 	 * @param {KeyboardEvent} event - keydown 浜嬩欢瀵硅薄銆?
 	 */
@@ -6802,7 +6802,7 @@
 		textarea.focus();
 
 		if (start !== end) {
-			// --- 鍦烘櫙1: 鏈夋枃鏈閫変腑 (澶勭悊澶氳) ---
+			// --- 鍦烘櫙1: 鏈夋枃鏈閫変腑 (处理澶氳) ---
 
 			// 1. 纭畾闇€瑕佷慨鏀圭殑瀹屾暣琛屽潡鐨勮寖鍥?
 			const firstLineStart = value.lastIndexOf('\n', start - 1) + 1;
@@ -6850,7 +6850,7 @@
 			textarea.selectionEnd = end + changeInLength;
 
 		} else {
-			// --- 鍦烘櫙2: 娌℃湁鏂囨湰琚€変腑 (澶勭悊褰撳墠鍏夋爣琛? ---
+			// --- 鍦烘櫙2: 娌℃湁鏂囨湰琚€変腑 (处理褰撳墠鍏夋爣琛? ---
 			if (isShiftPressed) {
 				// 鍙栨秷缂╄繘
 				const lineStart = value.lastIndexOf('\n', start - 1) + 1;
@@ -6871,12 +6871,12 @@
 			}
 		}
 
-		// 鎵嬪姩瑙﹀彂input浜嬩欢锛屼互渚垮疄鏃堕瑙堣兘澶熸洿鏂?
+		// 手动触发input事件锛屼互渚垮疄鏃堕瑙堣兘澶熸洿鏂?
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
 	function autoResizeTextarea(textarea) {
-		// 淇濆瓨褰撳墠鐨勬粴鍔ㄤ綅缃?
+		// 保存褰撳墠鐨勬粴鍔ㄤ綅缃?
 		const savedWindowScrollY = window.scrollY;
 		const savedWindowScrollX = window.scrollX;
 		const savedTextareaScrollTop = textarea.scrollTop;
@@ -6969,9 +6969,11 @@
 
 	// --- Event Handlers ---
 	insertImageBtn.addEventListener('click', () => {
-		const url = prompt('璇疯緭鍏ュ浘鐗囬摼鎺?(URL):', 'https://');
+		const url = prompt('请输入图片链接(URL):', 'https://');
 
-		// 妫€鏌ョ敤鎴锋槸鍚﹁緭鍏ヤ簡閾炬帴 (娌℃湁鍙栨秷鎴栫暀绌?
+
+
+		// 检查用户是否输入了链接 (没有取消或留空)
 		if (url && url.trim() !== 'https://' && url.trim() !== '') {
 			const markdownImage = `![](${url})`;
 			insertTextAtCursor(noteInput, markdownImage);
@@ -7002,7 +7004,7 @@
 	});*/
 
 	/**
-	 * 搴旂敤涓€涓富棰樿壊锛屽苟鏇存柊鎵€鏈夌浉鍏崇殑UI
+	 * 搴旂敤涓€涓富棰樿壊锛屽苟更新鎵€鏈夌浉鍏崇殑UI
 	 */
 	function applyThemeColor(hexColor, isCustom = false) {
 		// 绠€鍗曠殑棰滆壊鏍煎紡楠岃瘉
@@ -7039,22 +7041,22 @@
 		document.documentElement.style.setProperty('--primary-color', primaryColor);
 		document.documentElement.style.setProperty('--primary-hover', hoverColor);
 
-		// 3. 鏇存柊 UI 鐘舵€?
+		// 3. 更新 UI 鐘舵€?
 		// 濡傛灉鏄璁鹃鑹诧紝楂樹寒瀵瑰簲鐨勫渾褰㈡寜閽紱鍚﹀垯鍙栨秷鎵€鏈夐珮浜?
 		colorPalette.querySelectorAll('.color-swatch').forEach(swatch => {
 			swatch.classList.toggle('active', swatch.dataset.color === hexColor);
 		});
 
-		// 瀹炴椂鏇存柊鑷畾涔夐鑹查€夋嫨鍣ㄧ殑棰勮鍜岃緭鍏ユ
+		// 瀹炴椂更新鑷畾涔夐鑹查€夋嫨鍣ㄧ殑棰勮鍜岃緭鍏ユ
 		colorPickerPreview.style.backgroundColor = primaryColor;
-		// 鍙湁鍦ㄨ緭鍏ユ褰撳墠鍊间笉绛変簬鏂板€兼椂鎵嶆洿鏂帮紝閬垮厤鍏夋爣璺冲姩
+		// 鍙湁鍦ㄨ緭鍏ユ褰撳墠鍊间笉绛変簬鏂板€兼椂鎵嶆洿鏂帮紝避免鍏夋爣璺冲姩
 		if (hexColorInput.value.toLowerCase() !== primaryColor) {
 			hexColorInput.value = primaryColor;
 		}
-		// 鍚屾闅愯棌鐨?<input type="color">
+		// 鍚屾隐藏鐨?<input type="color">
 		colorPickerInput.value = primaryColor;
 
-		// 4. 淇濆瓨鍒版湰鍦板瓨鍌?
+		// 4. 保存鍒版湰鍦板瓨鍌?
 		localStorage.setItem('memos-theme-color', primaryColor);
 	}
 
@@ -7111,7 +7113,7 @@
 		if (!themeColorPopover.contains(e.target) && !themeColorBtn.contains(e.target)) {
 			themeColorPopover.classList.remove('visible');
 		}
-		// 妫€鏌ヨ彍鍗曟槸鍚﹀彲瑙侊紝浠ュ強鐐瑰嚮鐨勭洰鏍囨槸鍚﹀湪鑿滃崟鍐呴儴鎴栨槸鍚︽槸鈥滄洿澶氣€濇寜閽?
+		// 妫€鏌ヨ彍鍗曟槸鍚﹀彲瑙侊紝浠ュ強点击鐨勭洰鏍囨槸鍚﹀湪鑿滃崟鍐呴儴鎴栨槸鍚︽槸鈥滄洿澶氣€濇寜閽?
 		if (
 			waterfallPopoverMenu.classList.contains('visible') &&
 			!waterfallPopoverMenu.contains(e.target) &&
@@ -7164,7 +7166,7 @@
 		});
 	}
 
-	// 鎵撳紑涓嬫媺妗嗗苟鑾峰彇鏍囩
+	// 鎵撳紑涓嬫媺妗嗗苟获取鏍囩
 	async function openTagDropdown() {
 		if (isTagDropdownOpen) return;
 
@@ -7212,7 +7214,7 @@
 		}
 	}
 
-	// 鎸夐挳鐐瑰嚮浜嬩欢锛氬垏鎹笅鎷夋鐨勬樉绀?闅愯棌
+	// 鎸夐挳点击浜嬩欢锛氬垏鎹笅鎷夋鐨勬樉绀?隐藏
 	insertTagBtn.addEventListener('click', (e) => {
 		e.stopPropagation(); // 闃绘浜嬩欢鍐掓场鍒?document
 		if (isTagDropdownOpen) {
@@ -7227,12 +7229,12 @@
 		renderTagList(tagSearchInput.value);
 	});
 
-	// 鍒楄〃鐐瑰嚮浜嬩欢锛氶€夋嫨鏍囩骞舵彃鍏?
+	// 鍒楄〃点击浜嬩欢锛氶€夋嫨鏍囩骞舵彃鍏?
 	tagDropdownList.addEventListener('click', (e) => {
 		if (e.target && e.target.nodeName === 'LI' && e.target.dataset.tagName) {
 			const tagName = e.target.dataset.tagName;
 
-			// 1. 鑾峰彇褰撳墠鏂囨湰鍐呭
+			// 1. 获取褰撳墠鏂囨湰鍐呭
 			let currentContent = noteInput.value;
 
 			// 2. 妫€鏌ユ湯灏炬槸鍚﹀凡缁忔湁鎹㈣绗?
@@ -7249,7 +7251,7 @@
 			const tagText = `#${tagName} `;
 			noteInput.value = currentContent + tagText;
 
-			// 4. 鏇存柊 UI
+			// 4. 更新 UI
 			noteInput.focus();
 			// 灏嗗厜鏍囩Щ鍔ㄥ埌鏈€鍚?
 			noteInput.selectionStart = noteInput.selectionEnd = noteInput.value.length;
@@ -7275,7 +7277,7 @@
 			// noteFile.value = '';
 			// updateMainFileDisplay();
 
-			// 瑙﹀彂 input 鏇存柊 UI (棰勮鍜岄珮搴?
+			// 瑙﹀彂 input 更新 UI (棰勮鍜岄珮搴?
 			noteInput.dispatchEvent(new Event('input', { bubbles: true }));
 			noteInput.focus();
 		});
@@ -7324,11 +7326,11 @@
 		currentLoader.style.display = isAppending ? 'block' : 'flex';
 		try {
 			const url = new URL(window.location.origin + '/api/notes');
-			// 1. 娣诲姞鍒嗛〉
+			// 1. 添加鍒嗛〉
 			url.searchParams.set('page', page);
-			// 2. 娣诲姞鎵€鏈夊叡瀛樼殑绛涢€夋潯浠?
+			// 2. 添加鎵€鏈夊叡瀛樼殑绛涢€夋潯浠?
 			if (appState.filters.query) {
-				url.pathname = '/api/search'; // 鍒囨崲鍒版悳绱?API
+				url.pathname = '/api/search'; // 切换鍒版悳绱?API
 				url.searchParams.set('q', appState.filters.query);
 			}
 			if (appState.filters.tag) {
@@ -7389,7 +7391,7 @@
 		}
 	}
 
-	// --- 缁熶竴鐨勫叆鍙ｅ嚱鏁帮紝鐢ㄤ簬鍦ㄧ姸鎬佹敼鍙樺悗閲嶆柊鍔犺浇鏁版嵁 ---
+	// --- 缁熶竴鐨勫叆鍙ｅ嚱鏁帮紝鐢ㄤ簬鍦ㄧ姸鎬佹敼鍙樺悗閲嶆柊加载鏁版嵁 ---
 	function reloadNotes(shouldScroll = true) {
 		// 浠讳綍绛涢€夋潯浠剁殑鏀瑰彉閮藉簲璇ヤ粠绗竴椤靛紑濮?
 		appState.pagination.currentPage = 1;
@@ -7636,12 +7638,12 @@
 	noteFile.addEventListener('change', async () => {
 		// 1. 涓婁紶鍥剧墖骞舵彃鍏?Markdown
 		await handleImageUploadAndInsert(noteFile.files, noteInput);
-		// 2. 鏇存柊闄勪欢鍒楄〃锛堝彧鏄剧ず闈炲浘鐗囨枃浠讹級
+		// 2. 更新闄勪欢鍒楄〃锛堝彧显示闈炲浘鐗囨枃浠讹級
 		updateMainFileDisplay();
 	});
 
 	fileListDisplay.addEventListener('click', e => {
-		// 浠呭綋鐐瑰嚮鐨勬槸绉婚櫎鎸夐挳鏃舵墽琛?
+		// 浠呭綋点击鐨勬槸绉婚櫎鎸夐挳鏃舵墽琛?
 		if (e.target.classList.contains('remove-file-main-btn')) {
 			const fileTag = e.target.closest('.file-tag-item');
 			const fileNameToRemove = fileTag.dataset.filename;
@@ -7650,7 +7652,7 @@
 			const dt = new DataTransfer();
 			const currentFiles = Array.from(noteFile.files);
 
-			// 閬嶅巻褰撳墠鏂囦欢锛屽彧娣诲姞閭ｄ簺鎴戜滑涓嶆兂绉婚櫎鐨勬枃浠?
+			// 閬嶅巻褰撳墠鏂囦欢锛屽彧添加閭ｄ簺鎴戜滑涓嶆兂绉婚櫎鐨勬枃浠?
 			for (const file of currentFiles) {
 				if (file.name !== fileNameToRemove) {
 					dt.items.add(file);
@@ -7658,7 +7660,7 @@
 			}
 			// 灏嗘洿鏂板悗鐨勬枃浠跺垪琛ㄨ祴鍊煎洖 input 鍏冪礌
 			noteFile.files = dt.files;
-			// 閲嶆柊娓叉煋鏂囦欢鍒楄〃鏄剧ず
+			// 閲嶆柊娓叉煋鏂囦欢鍒楄〃显示
 			updateMainFileDisplay();
 		}
 	});
@@ -7678,14 +7680,14 @@
 		}
 	});
 
-	// 瀹炴椂鏇存柊涓婚瑙堝尯鍐呭
+	// 瀹炴椂更新涓婚瑙堝尯鍐呭
 	noteInput.addEventListener('input', e => {
 		mainEditPreview.innerHTML = postProcessMarkdownHtml(marked.parse(noteInput.value || ''));
 		// autoResizeTextarea(noteInput);
 		syncMainEditorLayout();
 	});
 
-	// 鐐瑰嚮鎸夐挳鍒囨崲妯″紡
+	// 点击鎸夐挳切换妯″紡
 	mainPreviewToggleBtn.addEventListener('click', () => {
 		noteForm.classList.toggle('preview-mode');
 		const isPreview = noteForm.classList.contains('preview-mode');
@@ -7744,7 +7746,7 @@
 		textarea.focus(); // 纭繚鍛戒护鍦ㄦ纭殑鍏冪礌涓婃墽琛?
 		document.execCommand('insertText', false, text);
 		// execCommand 浼氳嚜鍔ㄥ鐞嗗厜鏍囦綅缃?
-		// 鎵嬪姩瑙﹀彂 input 浜嬩欢锛屼互渚垮疄鏃堕瑙堢瓑渚濊禆 input 浜嬩欢鐨勯€昏緫鑳藉鏇存柊
+		// 鎵嬪姩瑙﹀彂 input 浜嬩欢锛屼互渚垮疄鏃堕瑙堢瓑渚濊禆 input 浜嬩欢鐨勯€昏緫鑳藉更新
 		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
@@ -7753,7 +7755,7 @@
 		const cellEls = tableRowEl.children;
 		// 浣跨敤 Array.from 杩涜鏇寸幇浠ｇ殑閬嶅巻
 		Array.from(cellEls).forEach(cell => {
-			// 娓呯悊鍗曞厓鏍煎唴瀹瑰苟澶勭悊閾炬帴
+			// 娓呯悊鍗曞厓鏍煎唴瀹瑰苟处理閾炬帴
 			let cellContent = cell.innerText.trim();
 			const link = cell.querySelector('a');
 			if (link) {
@@ -7779,7 +7781,7 @@
 	// --- 鏍稿績浠ｇ爜缁撴潫 ---
 	// --- 鏅鸿兘绮樿创閫昏緫 (浣跨敤 Turndown.js) ---
 	// 1. 鍦ㄥ叏灞€浣滅敤鍩熷垵濮嬪寲 Turndown 鏈嶅姟锛屽苟杩涜涓€浜涙帹鑽愰厤缃?
-	//    妫€鏌?TurndownService 鏄惁瀛樺湪锛屼互闃?CDN 鍔犺浇澶辫触
+	//    检查TurndownService 鏄惁瀛樺湪锛屼互闃?CDN 加载澶辫触
 	const turndownService = typeof TurndownService === 'function'
 		? new TurndownService({
 			headingStyle: 'atx',      // 鏍囬鏍峰紡浣跨敤 '#' (e.g., ## My Heading)
@@ -7790,7 +7792,7 @@
 		})
 		: null;
 	if (turndownService) {
-		// 浣跨敤 .addRule() 鏉ユ暀 Turndown 濡備綍澶勭悊 <table> 鏍囩
+		// 浣跨敤 .addRule() 鏉ユ暀 Turndown 濡備綍处理 <table> 鏍囩
 		turndownService.addRule('customTableRule', {
 			// 杩囨护鍣細鍛婅瘔 Turndown 杩欐潯瑙勫垯鍙簲鐢ㄤ簬 'table' 鏍囩
 			filter: 'table',
@@ -7804,14 +7806,14 @@
 					const markdownRow = convertTableRowElementToMarkdown(trEls[i], i);
 					rows.push(markdownRow);
 				}
-				// 鍦ㄧ敓鎴愮殑琛ㄦ牸鍓嶅悗娣诲姞鎹㈣绗︼紝纭繚瀹冧笌鍏朵粬 Markdown 鍐呭姝ｇ‘鍒嗛殧
+				// 鍦ㄧ敓鎴愮殑琛ㄦ牸鍓嶅悗添加鎹㈣绗︼紝纭繚瀹冧笌鍏朵粬 Markdown 鍐呭姝ｇ‘鍒嗛殧
 				return '\n\n' + rows.join('\n') + '\n\n';
 			}
 		});
 		turndownService.addRule('lineBreakRule', {
 			filter: ['div', 'p'],
 			replacement: function (content, node) {
-				// 濡傛灉鍦ㄩ摼鎺ュ唴閮紝涓嶈娣诲姞棰濆鐨勬崲琛岀锛屼絾瑕佷繚鐣欏唴瀹瑰苟鍔犱竴涓┖鏍间互闃茬矘杩?
+				// 濡傛灉鍦ㄩ摼鎺ュ唴閮紝涓嶈添加棰濆鐨勬崲琛岀锛屼絾瑕佷繚鐣欏唴瀹瑰苟鍔犱竴涓┖鏍间互闃茬矘杩?
 				if (node.closest('a')) {
 					return content + ' ';
 				}
@@ -7834,7 +7836,7 @@
 		// 鏂板锛氬鐞嗛€氳繃CSS font-weight瀹炵幇鐨勫姞绮楁枃鏈紙濡俆witter/X锛?
 		turndownService.addRule('cssBoldRule', {
 			filter: function (node) {
-				// 璺宠繃宸茬粡鏄痵trong/b鏍囩鐨勫厓绱狅紝閬垮厤閲嶅澶勭悊
+				// 璺宠繃宸茬粡鏄痵trong/b鏍囩鐨勫厓绱狅紝避免閲嶅处理
 				if (node.nodeName === 'STRONG' || node.nodeName === 'B') {
 					return false;
 				}
@@ -7865,7 +7867,7 @@
 							return hasText && isInline;
 						}
 					} catch (e) {
-						// 濡傛灉鑾峰彇鏍峰紡澶辫触锛屽拷鐣?
+						// 濡傛灉获取鏍峰紡澶辫触锛屽拷鐣?
 					}
 				}
 				return false;
@@ -7906,9 +7908,9 @@
 	}
 
 
-	// 2. 绮樿创浜嬩欢澶勭悊鍑芥暟
+	// 2. 绮樿创浜嬩欢处理鍑芥暟
 	function handleSmartPaste(event) {
-		// 纭繚鍙湪 textarea 鍏冪礌涓敓鏁堬紝骞朵笖 Turndown 搴撳凡鎴愬姛鍔犺浇
+		// 纭繚鍙湪 textarea 鍏冪礌涓敓鏁堬紝骞朵笖 Turndown 搴撳凡鎴愬姛加载
 		const textarea = event.target;
 		if (!textarea.matches('textarea') || !turndownService) {
 			return;
@@ -7919,7 +7921,7 @@
 		const pastedText = clipboardData.getData('text/plain');
 
 		// 鍏抽敭鏉′欢锛?
-		// 1. 濡傛灉鏈?HTML 鍐呭涓斾笌绾枃鏈笉鍚岋紝杩涜 HTML 杞?Markdown 澶勭悊
+		// 1. 濡傛灉鏈?HTML 鍐呭涓斾笌绾枃鏈笉鍚岋紝杩涜 HTML 杞?Markdown 处理
 		// 2. 濡傛灉鍙湁绾枃鏈紝妫€鏌ユ槸鍚﹀寘鍚┖鐧借锛屽鏋滄湁鍒欐墜鍔ㄥ鐞嗕互淇濈暀绌虹櫧琛?
 		const hasHtml = pastedHtml && pastedHtml.length > 0 && pastedHtml !== pastedText;
 		const hasBlankLines = pastedText && /\n\s*\n/.test(pastedText);
@@ -8132,7 +8134,7 @@
 						parent.replaceChild(frag, node);
 					}
 				} else if (node.nodeType === Node.ELEMENT_NODE) {
-					// 閫掑綊澶勭悊锛屼絾璺宠繃 pre/code 绛?
+					// 閫掑綊处理锛屼絾璺宠繃 pre/code 绛?
 					if (!/^(PRE|CODE|STYLE|SCRIPT)$/i.test(node.nodeName)) {
 						// 闇€瑕佸皢瀛愯妭鐐硅浆鎹负鏁扮粍锛屽洜涓洪亶鍘嗚繃绋嬩腑鍙兘浼氫慨鏀?DOM 缁撴瀯
 						Array.from(node.childNodes).forEach(preserveNewlines);
@@ -8149,7 +8151,7 @@
 
 			let markdown = turndownService.turndown(processedHtml);
 
-			// 淇 1: 灏嗚浆涔夌殑涓嬪垝绾?\_ 鏇挎崲鍥?_锛屼互姝ｇ‘鏄剧ず鐢ㄦ埛鍚嶇瓑
+			// 淇 1: 灏嗚浆涔夌殑涓嬪垝绾?\_ 鏇挎崲鍥?_锛屼互姝ｇ‘显示鐢ㄦ埛鍚嶇瓑
 			markdown = markdown.replace(/\\_/g, '_');
 
 			// 淇 2: 绉婚櫎閾炬帴鏂囨湰涓殑鎹㈣绗﹀拰澶氫綑绌烘牸
@@ -8166,7 +8168,7 @@
 			// 灏嗚浆鎹㈠悗鐨?Markdown 鎻掑叆鍒板綋鍓嶅厜鏍囨墍鍦ㄧ殑浣嶇疆
 			insertTextAtCursor(textarea, markdown);
 		} else if (hasBlankLines) {
-			// 澶勭悊绾枃鏈腑鐨勭┖鐧借锛氬皢杩炵画鐨勬崲琛岀杞崲涓?Markdown 纭崲琛岋紙涓や釜绌烘牸 + 鎹㈣锛?
+			// 处理绾枃鏈腑鐨勭┖鐧借锛氬皢杩炵画鐨勬崲琛岀杞崲涓?Markdown 纭崲琛岋紙涓や釜绌烘牸 + 鎹㈣锛?
 			event.preventDefault();
 
 			// 灏嗙┖鐧借锛堣繛缁崲琛岋級杞崲涓?Markdown 鏍煎紡
@@ -8191,18 +8193,18 @@
 		const clipboardData = event.clipboardData || window.clipboardData;
 		if (!clipboardData) return;
 
-		// --- 浼樺厛绾?1: 妫€鏌ュ苟澶勭悊鍥剧墖鏂囦欢 ---
+		// --- 浼樺厛绾?1: 妫€鏌ュ苟处理鍥剧墖鏂囦欢 ---
 		const imageFile = Array.from(clipboardData.files).find(file => file.type.startsWith('image/'));
 		if (imageFile) {
 			event.preventDefault();
 			handlePastedImage(imageFile, textarea);
-			return; // 澶勭悊瀹屾瘯锛岀粨鏉熷嚱鏁?
+			return; // 处理瀹屾瘯锛岀粨鏉熷嚱鏁?
 		}
 
-		// --- 浼樺厛绾?2: 妫€鏌ュ苟澶勭悊鍏朵粬绫诲瀷鐨勬枃浠?(闈炲浘鐗? ---
+		// --- 浼樺厛绾?2: 妫€鏌ュ苟处理鍏朵粬绫诲瀷鐨勬枃浠?(闈炲浘鐗? ---
 		const otherFiles = Array.from(clipboardData.files).filter(file => !file.type.startsWith('image/'));
 		if (otherFiles.length > 0) {
-			// 鎴戜滑鍙湪涓荤紪杈戝尯澶勭悊闈炲浘鐗囨枃浠剁殑绮樿创锛屽皢鍏朵綔涓洪檮浠?
+			// 鎴戜滑鍙湪涓荤紪杈戝尯处理闈炲浘鐗囨枃浠剁殑绮樿创锛屽皢鍏朵綔涓洪檮浠?
 			if (textarea.id === 'note-input') {
 				event.preventDefault();
 				// 浣跨敤 DataTransfer 鏉ュ畨鍏ㄥ湴鍚堝苟鐜版湁鏂囦欢鍜屾柊绮樿创鐨勬枃浠?
@@ -8275,7 +8277,7 @@
 		}
 
 		reloadNotes(shouldScroll);
-		// 閲嶆柊鍔犺浇渚ц竟鏍忔暟鎹?
+		// 閲嶆柊加载渚ц竟鏍忔暟鎹?
 		loadAndRenderTags();
 		loadAndRenderTimeline();
 		loadAndRenderStats();
@@ -8394,7 +8396,7 @@
 				shareBtn.innerHTML = originalIcon;
 				shareBtn.disabled = false;
 			}
-			return; // 澶勭悊瀹屽垎浜偣鍑诲悗锛岀粓姝㈠悗缁簨浠跺鐞?
+			return; // 处理瀹屽垎浜偣鍑诲悗锛岀粓姝㈠悗缁簨浠跺鐞?
 		}
 		const dateHeader = target.closest('.date-group-header');
 		if (dateHeader) {
@@ -8427,7 +8429,7 @@
 		const saveEditBtn = target.closest('.save-edit');
 		const previewToggleBtn = target.closest('.md-preview-toggle-btn');
 		const splitToggleBtn = target.closest('.md-split-toggle-btn');
-		// 妫€鏌ヨ鐐瑰嚮鐨勫厓绱犳垨鍏剁埗鍏冪礌鏄惁鏄?.inline-tag
+		// 妫€鏌ヨ点击鐨勫厓绱犳垨鍏剁埗鍏冪礌鏄惁鏄?.inline-tag
 		const inlineTag = event.target.closest('.inline-tag');
 
 		const unpinBtn = target.closest('.unpin-btn');
@@ -8452,7 +8454,7 @@
 			const tagName = inlineTag.dataset.tagName;
 			if (!tagName) return;
 			appState.filters.tag = tagName;
-			// 鏇存柊UI
+			// 更新UI
 			document.querySelectorAll('.tag-item.active').forEach(i => i.classList.remove('active'));
 			const leftSidebarTag = document.querySelector(`#tags-container .tag-item[data-tag-name="${tagName}"]`);
 			if (leftSidebarTag) leftSidebarTag.classList.add('active');
@@ -8464,7 +8466,7 @@
 		if (fullscreenEditBtn) {
 			// 浠庡綋鍓嶇瑪璁扮殑 DOM 鍏冪礌涓壘鍒版鍦ㄧ紪杈戠殑 textarea
 			const editTextarea = noteElement.querySelector('.edit-textarea');
-			// 鑾峰彇 textarea 涓渶鏂扮殑銆佸彲鑳藉皻鏈繚瀛樼殑鍐呭
+			// 获取 textarea 涓渶鏂扮殑銆佸彲鑳藉皻鏈繚瀛樼殑鍐呭
 			const currentContent = editTextarea.value;
 			// 浣跨敤杩欎釜鏈€鏂扮殑鍐呭鎵撳紑鍏ㄥ睆缂栬緫鍣?
 			openFullscreenEditor(currentContent, noteId);
@@ -8511,7 +8513,7 @@
 			}
 			// 娓呯┖鍦ㄦ湰娆＄紪杈戜腑鏂版殏瀛樼殑鏂囦欢
 			noteElement.newFiles = new DataTransfer().files;
-			// 绉婚櫎鎵€鏈夋枃浠剁殑鈥滃緟鍒犻櫎鈥濇爣璁?
+			// 绉婚櫎鎵€鏈夋枃浠剁殑鈥滃緟删除鈥濇爣璁?
 			noteElement.querySelectorAll('.edit-file-tag.deleted').forEach(tag => {
 				tag.classList.remove('deleted');
 				delete tag.dataset.deleted;
@@ -8545,7 +8547,7 @@
 		} else if (saveEditBtn) {
 			noteEditorResizeObserver.unobserve(noteElement);
 			saveEditBtn.disabled = true;
-			// 鎵惧埌SVG骞舵浛鎹负鍔犺浇涓殑鍔ㄧ敾鎴栨枃鏈?
+			// 鎵惧埌SVG骞舵浛鎹负加载涓殑鍔ㄧ敾鎴栨枃鏈?
 			const originalIcon = saveEditBtn.innerHTML;
 			saveEditBtn.innerHTML = '...';
 
@@ -8745,7 +8747,7 @@
 		}
 	});
 
-	// 鑾峰彇骞舵覆鏌撴椂闂寸嚎鍜岀儹鍔涘浘
+	// 获取骞舵覆鏌撴椂闂寸嚎鍜岀儹鍔涘浘
 	async function loadAndRenderTimeline() {
 		const timelineContainer = document.getElementById('timeline-container');
 		try {
@@ -8769,7 +8771,7 @@
 				monthUl.className = 'timeline-children';
 				yearLi.appendChild(monthUl);
 
-				monthUl.style.display = 'block'; //鐩存帴璁剧疆鏈堜唤鍒楄〃涓哄彲瑙?
+				monthUl.style.display = 'block'; //鐩存帴设置鏈堜唤鍒楄〃涓哄彲瑙?
 				const yearToggle = yearLi.querySelector('.timeline-toggle');
 				if (yearToggle) {
 					yearToggle.classList.add('expanded');
@@ -8850,7 +8852,7 @@
 		reloadNotes();
 	});
 
-	// 澶勭悊鏃堕棿绾跨偣鍑讳簨浠讹紝鐢卞鎴风璁＄畻绮剧‘鏃堕棿鎴?
+	// 处理鏃堕棿绾跨偣鍑讳簨浠讹紝鐢卞鎴风璁＄畻绮剧‘鏃堕棿鎴?
 	document.getElementById('timeline-container').addEventListener('click', (event) => {
 		const item = event.target.closest('.timeline-item');
 		if (!item) return;
@@ -8859,7 +8861,7 @@
 		const level = item.dataset.level;
 
 		const applyFilter = (targetItem) => {
-			// --- 1. 浠?data-* 灞炴€т腑鑾峰彇骞?鏈?鏃?(骞惰浆鎹负鏁板瓧) ---
+			// --- 1. 浠?data-* 灞炴€т腑获取骞?鏈?鏃?(骞惰浆鎹负鏁板瓧) ---
 			const year = parseInt(targetItem.dataset.year);
 			const month = targetItem.dataset.month ? parseInt(targetItem.dataset.month) : null;
 			const day = targetItem.dataset.day ? parseInt(targetItem.dataset.day) : null;
@@ -8949,7 +8951,7 @@
 		const item = event.target.closest('.tag-item');
 		if (!item) return;
 		appState.filters.tag = item.dataset.tagName;
-		// 鏇存柊UI
+		// 更新UI
 		document.querySelectorAll('#tags-container .tag-item.active').forEach(i => i.classList.remove('active'));
 		item.classList.add('active');
 		clearTagsBtn.classList.add('visible');
@@ -9042,7 +9044,7 @@
 
 	function initializeHeatmapDragToScroll() {
 		const scrollContainer = document.getElementById('heatmap-scroll-container');
-		// 濡傛灉鎵句笉鍒板鍣紙渚嬪鍔犺浇澶辫触锛夛紝鍒欎笉鎵ц浠讳綍鎿嶄綔
+		// 濡傛灉鎵句笉鍒板鍣紙渚嬪加载澶辫触锛夛紝鍒欎笉鎵ц浠讳綍鎿嶄綔
 		if (!scrollContainer) return;
 
 		let isDown = false;
