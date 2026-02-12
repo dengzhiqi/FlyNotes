@@ -7873,8 +7873,12 @@
 				return false;
 			},
 			replacement: function (content) {
-				// 灏嗗唴瀹瑰寘瑁瑰湪 ** 涓〃绀哄姞绮?
-				return content ? `**${content}**` : '';
+				if (!content) return '';
+				// 将尾部换行符移到 ** 标记外面
+				const match = content.match(/^([\s\S]*?)([\r\n]*)$/);
+				const text = match[1];
+				const trailing = match[2];
+				return text ? `**${text}**${trailing}` : '';
 			}
 		});
 
@@ -8162,7 +8166,15 @@
 				return `[${cleanText}](${url})`;
 			});
 
-			// 淇 3: 鍘婚櫎棣栧熬绌虹櫧瀛楃
+			// 淇 3: 淇琛屽唴鏍囪涓寘鍚熬閮ㄦ崲琛岀鐨勯棶棰?
+			// 褰?<b><div>text</div></b> 琚浆鎹㈡椂锛屼細浜х敓 **text\n** 鑰屼笉鏄?**text**\n
+			// 灏惧熬鎹㈣绗︿粠鏍囪鍐呭疄鍒版爣璁板
+			markdown = markdown.replace(/\*\*([^\n]+?)([\r\n]+)\*\*/g, '**$1**$2');
+			markdown = markdown.replace(/__([^\n]+?)([\r\n]+)__/g, '__$1__$2');
+			markdown = markdown.replace(/~~([^\n]+?)([\r\n]+)~~/g, '~~$1~~$2');
+			markdown = markdown.replace(/_([^\n_]+?)([\r\n]+)_(?!\w)/g, '_$1_$2');
+
+			// 淇 4: 鍘婚櫎棣栧熬绌虹櫧瀛楃
 			markdown = markdown.trim();
 
 			// 灏嗚浆鎹㈠悗鐨?Markdown 鎻掑叆鍒板綋鍓嶅厜鏍囨墍鍦ㄧ殑浣嶇疆
