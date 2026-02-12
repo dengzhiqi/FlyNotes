@@ -8166,13 +8166,20 @@
 				return `[${cleanText}](${url})`;
 			});
 
-			// 淇 3: 淇琛屽唴鏍囪涓寘鍚熬閮ㄦ崲琛岀鐨勯棶棰?
-			// 褰?<b><div>text</div></b> 琚浆鎹㈡椂锛屼細浜х敓 **text\n** 鑰屼笉鏄?**text**\n
-			// 灏惧熬鎹㈣绗︿粠鏍囪鍐呭疄鍒版爣璁板
+			// 淇 3: 淇琛屽唴鏍囪涓寘鍚熬閮ㄦ崲琛岀鐨勯棶棰?
+			// 褰?<b><div>text</div></b> 琚浆鎹㈡椂锛屼細浜х敓 **text\n** 鎴?**\ntext** 鑰屼笉鏄?**text**\n
+			// 3a: 灏惧熬鎹㈣绗︿粠鏍囪鍐呭疄鍒版爣璁板
 			markdown = markdown.replace(/\*\*([^\n]+?)([\r\n]+)\*\*/g, '**$1**$2');
 			markdown = markdown.replace(/__([^\n]+?)([\r\n]+)__/g, '__$1__$2');
 			markdown = markdown.replace(/~~([^\n]+?)([\r\n]+)~~/g, '~~$1~~$2');
 			markdown = markdown.replace(/_([^\n_]+?)([\r\n]+)_(?!\w)/g, '_$1_$2');
+			// 3b: 棰甯楁崲琛岀鎻愬埌 ** 澶栭潰 (**\ntext** -> \n**text**)
+			markdown = markdown.replace(/\*\*([\r\n]+)([^\n]+?)\*\*/g, '$1**$2**');
+			markdown = markdown.replace(/__([\r\n]+)([^\n]+?)__/g, '$1__$2__');
+			markdown = markdown.replace(/~~([\r\n]+)([^\n]+?)~~/g, '$1~~$2~~');
+			// 3c: 绉婚櫎绌虹殑鏍囪 (****) 鍜?(____)
+			markdown = markdown.replace(/\*{4,}/g, '');
+			markdown = markdown.replace(/_{4,}/g, '');
 
 			// 淇 4: 鍘婚櫎棣栧熬绌虹櫧瀛楃
 			markdown = markdown.trim();
