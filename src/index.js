@@ -1082,6 +1082,11 @@ function telegramEntitiesToMarkdown(text, entities = []) {
 	);
 	result = result.replace(/\*\*(\s+)\*\*/g, '$1');
 	result = result.replace(/\*\*(\s+)(.*?)\*\*/g, '$1**$2**');
+	// 修复：将 **text\n** 转换为 **text**\n
+	// Telegram 实体有时将尾部换行符包含在加粗范围内
+	result = result.replace(/\*\*([^\n]+?)([\r\n]+)\*\*/g, '**$1**$2');
+	result = result.replace(/__([^\n]+?)([\r\n]+)__/g, '__$1__$2');
+	result = result.replace(/~~([^\n]+?)([\r\n]+)~~/g, '~~$1~~$2');
 	return result;
 }
 
